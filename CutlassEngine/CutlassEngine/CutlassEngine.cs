@@ -125,18 +125,10 @@ namespace Cutlass
         #region Initialization
 
         /// <summary>
-        /// Default Construcotr
-        /// </summary>
-        public CutlassEngine()
-            : this("Cutlass Engine") { }
-
-        /// <summary>
         /// The Main PirateyGame constructor
         /// </summary>
-        public CutlassEngine(string windowTitle)
+        public CutlassEngine(string windowTitle = "Cutlass Engine")
         {
-            Content.RootDirectory = "CutlassEngineContent";
-
             _GraphicsDeviceManager = new GraphicsDeviceManager(this);
             _ContentManager = new ContentManager(this.Services);
 

@@ -19,11 +19,11 @@ namespace PirateyGame.Screens
         {
             base.LoadContent();
 
-            //TextureManager.AddTexture(new CutlassTexture("Content/Textures/titleScrollMiddle"), "TitleScrollMiddle");
-            //TextureManager.AddTexture(new CutlassTexture("Content/Textures/titleScrollEdge"), "TitleScrollEdge");
-            //TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuCorner"), "MenuBackgroundCorner");
-            //TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuVerticalEdge"), "MenuBackgroundVerticalEdge");
-            //TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuHorizontalEdge"), "MenuBackgroundHorizontalEdge");
+            TextureManager.AddTexture(new CutlassTexture("Content/Textures/titleScrollMiddle"), "TitleScrollMiddle");
+            TextureManager.AddTexture(new CutlassTexture("Content/Textures/titleScrollEdge"), "TitleScrollEdge");
+            TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuCorner"), "MenuBackgroundCorner");
+            TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuVerticalEdge"), "MenuBackgroundVerticalEdge");
+            TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuHorizontalEdge"), "MenuBackgroundHorizontalEdge");
         }
     }
 }

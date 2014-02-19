@@ -25,10 +25,10 @@ namespace PirateyGame
 
         private static void StartGame()
         {
-            using (CutlassEngine game = new CutlassEngine("Piratey Game"))
+            using (CutlassEngine engine = new CutlassEngine())
             {
                 SetupScene();
-                game.Run();
+                engine.Run();
             }
         }
 

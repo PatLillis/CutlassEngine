@@ -5,11 +5,11 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CutlassEngine", "CutlassEngine\CutlassEngine\CutlassEngine.csproj", "{3BFACE3A-765A-4739-A3A7-4832963C6D28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CutlassEngineContent", "CutlassEngine\CutlassEngineContent\CutlassEngineContent.contentproj", "{81216131-CF18-4400-BD6F-60753BE390C3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PirateyGame", "PirateyGame\PirateyGame\PirateyGame.csproj", "{2C16E4B3-6093-4A59-98E2-5E2D24E463D4}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "PirateyGameContent", "PirateyGameContent\PirateyGameContent.contentproj", "{1D1A3EDF-09CD-4273-A58D-1E60C1A7FF19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CutlassEngineContent", "CutlassEngine\Content\CutlassEngineContent.contentproj", "{81216131-CF18-4400-BD6F-60753BE390C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PirateyGameContent", "PirateyGame\Content\PirateyGameContent.contentproj", "{1D1A3EDF-09CD-4273-A58D-1E60C1A7FF19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,12 +31,6 @@ Global
 		{3BFACE3A-765A-4739-A3A7-4832963C6D28}.Release|Mixed Platforms.Build.0 = Release|x86
 		{3BFACE3A-765A-4739-A3A7-4832963C6D28}.Release|x86.ActiveCfg = Release|x86
 		{3BFACE3A-765A-4739-A3A7-4832963C6D28}.Release|x86.Build.0 = Release|x86
-		{81216131-CF18-4400-BD6F-60753BE390C3}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{81216131-CF18-4400-BD6F-60753BE390C3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{81216131-CF18-4400-BD6F-60753BE390C3}.Debug|x86.ActiveCfg = Debug|x86
-		{81216131-CF18-4400-BD6F-60753BE390C3}.Release|Any CPU.ActiveCfg = Release|x86
-		{81216131-CF18-4400-BD6F-60753BE390C3}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{81216131-CF18-4400-BD6F-60753BE390C3}.Release|x86.ActiveCfg = Release|x86
 		{2C16E4B3-6093-4A59-98E2-5E2D24E463D4}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{2C16E4B3-6093-4A59-98E2-5E2D24E463D4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{2C16E4B3-6093-4A59-98E2-5E2D24E463D4}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -47,6 +41,12 @@ Global
 		{2C16E4B3-6093-4A59-98E2-5E2D24E463D4}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2C16E4B3-6093-4A59-98E2-5E2D24E463D4}.Release|x86.ActiveCfg = Release|x86
 		{2C16E4B3-6093-4A59-98E2-5E2D24E463D4}.Release|x86.Build.0 = Release|x86
+		{81216131-CF18-4400-BD6F-60753BE390C3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{81216131-CF18-4400-BD6F-60753BE390C3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{81216131-CF18-4400-BD6F-60753BE390C3}.Debug|x86.ActiveCfg = Debug|x86
+		{81216131-CF18-4400-BD6F-60753BE390C3}.Release|Any CPU.ActiveCfg = Release|x86
+		{81216131-CF18-4400-BD6F-60753BE390C3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{81216131-CF18-4400-BD6F-60753BE390C3}.Release|x86.ActiveCfg = Release|x86
 		{1D1A3EDF-09CD-4273-A58D-1E60C1A7FF19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D1A3EDF-09CD-4273-A58D-1E60C1A7FF19}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{1D1A3EDF-09CD-4273-A58D-1E60C1A7FF19}.Debug|x86.ActiveCfg = Debug|Any CPU

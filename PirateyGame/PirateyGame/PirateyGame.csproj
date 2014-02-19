@@ -88,7 +88,7 @@
       <Project>{3bface3a-765a-4739-a3a7-4832963c6d28}</Project>
       <Name>CutlassEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\PirateyGameContent\PirateyGameContent.contentproj">
+    <ProjectReference Include="..\Content\PirateyGameContent.contentproj">
       <Project>{1D1A3EDF-09CD-4273-A58D-1E60C1A7FF19}</Project>
       <Name>PirateyGameContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
