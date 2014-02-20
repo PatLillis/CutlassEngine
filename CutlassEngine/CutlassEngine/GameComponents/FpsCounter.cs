@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cutlass.Assets;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,60 +7,67 @@ namespace Cutlass.GameComponents
 {
     public class FpsCounter : DrawableGameComponent
     {
-        private float updateInterval = 0.1f;
-        private float timeSinceLastUpdate = 0.0f;
-        private float frameCount = 0;
+        private float _UpdateInterval = 0.1f;
+        private float _TimeSinceLastUpdate = 0.0f;
+        private float _FrameCount = 0;
 
-        private float fps = 0;
-        /// <summary>
-        /// The frames per second.
-        /// </summary>
-        public float FPS
+        /// <summary>The frames per second.</summary>
+        public float Fps
         {
-            get { return fps; }
+            get { return _Fps; }
         }
+        private float _Fps = 0;
 
+        /// <summary>
+        /// Set up the FPS Counter Game Component
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="screenManager"></param>
         public FpsCounter(Game game, ScreenManager screenManager)
             :base (game)
         {
             Enabled = true;
         }
 
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-        }
-
+        /// <summary>
+        /// Draw FPS string on screen
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
 
-            SpriteBatch spriteBatch = new SpriteBatch(CutlassEngine.Device);
+            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
+            //Change color, depending on how dire the situation is.
             Color fpsColor = Color.Green;
-            if (FPS <= 60)
+            if (Fps <= 60)
                 fpsColor = Color.White;
-            if (FPS <= 30)
+            if (Fps <= 30)
                 fpsColor = Color.Red;
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(FontManager.DefaultFont, FPS.ToString(), new Vector2(10, 10), fpsColor);
+            spriteBatch.DrawString(FontManager.DefaultFont, Fps.ToString(), new Vector2(10, 10), fpsColor);
             spriteBatch.End();
         }
 
+        /// <summary>
+        /// Update the FPS readings.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            frameCount++;
-            timeSinceLastUpdate += elapsed;
+            _FrameCount++;
+            _TimeSinceLastUpdate += elapsed;
 
-            if (timeSinceLastUpdate > updateInterval)
+            if (_TimeSinceLastUpdate > _UpdateInterval)
             {
-                fps = frameCount / timeSinceLastUpdate; //mean fps over updateIntrval
-                frameCount = 0;
-                timeSinceLastUpdate -= updateInterval;
+                _Fps = _FrameCount / _TimeSinceLastUpdate; //mean _Fps over updateIntrval
+                _FrameCount = 0;
+                _TimeSinceLastUpdate -= _UpdateInterval;
 
                 if (Updated != null)
                     Updated(this, new EventArgs());

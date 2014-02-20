@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Cutlass.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,14 +9,13 @@ namespace Cutlass.Managers
     {
         private static Dictionary<string, ICutlassTexture> _Textures = new Dictionary<string, ICutlassTexture>();
 
-        private static bool _Initialized = false;
         /// <summary>Is the TextureManagers Initialized, used for test cases and setup of Effects.</summary>
         public static bool Initialized
         {
             get { return _Initialized; }
         }
+        private static bool _Initialized = false;
 
-        private static int _TexturesLoaded = 0;
         /// <summary>
         /// The number of textures that are currently loaded.
         /// Use this for user loading bar feedback.
@@ -28,6 +24,7 @@ namespace Cutlass.Managers
         {
             get { return _TexturesLoaded; }
         }
+        private static int _TexturesLoaded = 0;
 
         /// <summary>
         /// Create the texture Manager.
@@ -78,6 +75,7 @@ namespace Cutlass.Managers
             {
                 return _Textures[textureName];
             }
+
             return null;
         }
 

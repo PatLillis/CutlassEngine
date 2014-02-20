@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Cutlass.GameComponents
 {
@@ -19,11 +17,11 @@ namespace Cutlass.GameComponents
 
         private Point _LastMouseLocation;
 
-        private Vector2 _MouseMoved;
         public Vector2 MouseMoved
         {
             get { return _MouseMoved; }
         }
+        private Vector2 _MouseMoved;
 
         public bool GamePadWasConnected;
 

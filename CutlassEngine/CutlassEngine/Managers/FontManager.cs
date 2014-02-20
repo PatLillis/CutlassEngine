@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cutlass.Assets;
+﻿using System.Collections.Generic;
 using Cutlass.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,20 +9,19 @@ namespace Cutlass.Managers
     {
         private static Dictionary<string, ICutlassFont> _Fonts = new Dictionary<string, ICutlassFont>();
 
-        private static SpriteFont _DefaultFont = null;
         public static SpriteFont DefaultFont
         {
             get { return _DefaultFont; }
         }
+        private static SpriteFont _DefaultFont = null;
 
-        private static bool _Initialized = false;
         /// <summary>Is the FontManager Initialized.</summary>
         public static bool Initialized
         {
             get { return _Initialized; }
         }
+        private static bool _Initialized = false;
 
-        private static int _FontsLoaded = 0;
         /// <summary>
         /// The number of fonts that are currently loaded.
         /// Use this for user loading bar feedback.
@@ -35,6 +30,7 @@ namespace Cutlass.Managers
         {
             get { return _FontsLoaded; }
         }
+        private static int _FontsLoaded = 0;
 
         /// <summary>
         /// Create the font Manager.

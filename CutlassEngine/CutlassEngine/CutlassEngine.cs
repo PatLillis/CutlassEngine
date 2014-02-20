@@ -1,11 +1,10 @@
 using System;
+using Cutlass.GameComponents;
+using Cutlass.Managers;
+using Cutlass.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Cutlass.GameComponents;
-//using Cutlass.Screens;
-using Cutlass.Utilities;
-using Cutlass.Managers;
 
 namespace Cutlass
 {
@@ -16,17 +15,12 @@ namespace Cutlass
     {
         #region Properties
 
-        private static Game _Game;
         public static Game Game
         {
             get { return _Game; }
             set { _Game = value; }
         }
-
-        /// <summary>
-        /// Width and Height of visible render area.
-        /// </summary>
-        protected static int _Width, _Height;
+        private static Game _Game;
 
         /// <summary>
         /// Width of visible render area.
@@ -35,6 +29,7 @@ namespace Cutlass
         {
             get { return _Width; }
         }
+        protected static int _Width;
 
         /// <summary>
         /// Height of visible render area.
@@ -43,11 +38,8 @@ namespace Cutlass
         {
             get { return _Height; }
         }
+        protected static int _Height;
 
-        /// <summary>
-        /// Aspect ratio of render area.
-        /// </summary>
-        private static float _AspectRatio = 1.0f;
         /// <summary>
         /// Aspect ratio of render area.
         /// </summary>
@@ -55,8 +47,8 @@ namespace Cutlass
         {
             get { return _AspectRatio; }
         }
+        private static float _AspectRatio = 1.0f;
 
-        private static Color _BackgroundColor = Color.LightBlue;
         /// <summary>
         /// Color used to redraw the background scene.
         /// </summary>
@@ -65,10 +57,10 @@ namespace Cutlass
             get { return _BackgroundColor; }
             set { _BackgroundColor = value; }
         }
+        private static Color _BackgroundColor = Color.LightBlue;
 
         public static PlatformID CurrentPlatform = Environment.OSVersion.Platform;
 
-        private static string _WindowTitle = "";
         /// <summary>
         /// Window title for test cases.
         /// </summary>
@@ -76,8 +68,8 @@ namespace Cutlass
         {
             get { return _WindowTitle; }
         }
+        private static string _WindowTitle = "";
 
-        private bool _IsAppActive = false;
         /// <summary>
         /// Is the application active.
         /// </summary>
@@ -86,8 +78,8 @@ namespace Cutlass
             get { return _IsAppActive; }
             set { _IsAppActive = value; }
         }
+        private bool _IsAppActive = false;
 
-        protected static GraphicsDeviceManager _GraphicsDeviceManager = null;
         /// <summary>
         /// The graphics device, used to render.
         /// </summary>
@@ -95,8 +87,8 @@ namespace Cutlass
         {
             get { return _GraphicsDeviceManager.GraphicsDevice; }
         }
+        protected static GraphicsDeviceManager _GraphicsDeviceManager = null;
 
-        protected static ContentManager _ContentManager = null;
         /// <summary>
         /// Content Manager
         /// </summary>
@@ -104,9 +96,10 @@ namespace Cutlass
         {
             get { return _ContentManager; }
         }
+        protected static ContentManager _ContentManager = null;
 
-        private static bool _checkedGraphicsOptions = false;
-        private static bool _applyDeviceChanges = false;
+        private static bool _CheckedGraphicsOptions = false;
+        private static bool _ApplyDeviceChanges = false;
 
         #endregion
 
@@ -213,7 +206,7 @@ namespace Cutlass
                 throw new InvalidOperationException("Graphics Device is not created yet!");
             }
 
-            _checkedGraphicsOptions = true;
+            _CheckedGraphicsOptions = true;
         }
 
         /// <summary>
@@ -269,11 +262,11 @@ namespace Cutlass
             base.Draw(gameTime);
 
             // Apply device changes
-            if (_applyDeviceChanges)
+            if (_ApplyDeviceChanges)
             {
                 _GraphicsDeviceManager.ApplyChanges();
                 ResetElapsedTime();
-                _applyDeviceChanges = false;
+                _ApplyDeviceChanges = false;
             }
         }
 
@@ -305,7 +298,7 @@ namespace Cutlass
 
             GameSettings.Save();
 
-            _applyDeviceChanges = true;
+            _ApplyDeviceChanges = true;
 #endif
         }
 

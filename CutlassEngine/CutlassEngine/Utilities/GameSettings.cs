@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -18,234 +17,234 @@ namespace Cutlass.Utilities
     {
         #region Properties
 
-        private string _playerName = "Player";
         /// <summary>
         /// Player name.
         /// </summary>
         public string PlayerName
         {
-            get { return _playerName; }
+            get { return _PlayerName; }
             set
             {
-                if (_playerName != value)
-                    _needSave = true;
-                _playerName = value;
+                if (_PlayerName != value)
+                    _NeedSave = true;
+                _PlayerName = value;
             }
         }
+        private string _PlayerName = "Player";
 
         public const int MinimumResolutionWidth = 1024;
 
-        private int _resolutionWidth = 0;
         /// <summary>
         /// Resolution width.
         /// </summary>
         public int ResolutionWidth
         {
-            get { return _resolutionWidth; }
+            get { return _ResolutionWidth; }
             set
             {
-                if (_resolutionWidth != value)
-                    _needSave = true;
-                _resolutionWidth = value;
+                if (_ResolutionWidth != value)
+                    _NeedSave = true;
+                _ResolutionWidth = value;
             }
         }
+        private int _ResolutionWidth = 0;
 
         public const int MinimumResolutionHeight = 768;
 
-        private int _resolutionHeight = 0;
         /// <summary>
         /// Resolution height.
         /// </summary>
         public int ResolutionHeight
         {
-            get { return _resolutionHeight; }
+            get { return _ResolutionHeight; }
             set
             {
-                if (_resolutionHeight != value)
-                    _needSave = true;
-                _resolutionHeight = value;
+                if (_ResolutionHeight != value)
+                    _NeedSave = true;
+                _ResolutionHeight = value;
             }
         }
+        private int _ResolutionHeight = 0;
 
-        private bool _fullscreen = false;
         /// <summary>
         /// Fullscreen.
         /// </summary>
         public bool Fullscreen
         {
-            get { return _fullscreen; }
+            get { return _Fullscreen; }
             set
             {
-                if (_fullscreen != value)
-                    _needSave = true;
-                _fullscreen = value;
+                if (_Fullscreen != value)
+                    _NeedSave = true;
+                _Fullscreen = value;
             }
         }
+        private bool _Fullscreen = false;
 
-        private string _locale = "en-US";
         /// <summary>
         /// Locale
         /// </summary>
         public string Locale
         {
-            get { return _locale; }
+            get { return _Locale; }
             set
             {
-                if (_locale != value)
-                    _needSave = true;
-                _locale = value;
+                if (_Locale != value)
+                    _NeedSave = true;
+                _Locale = value;
             }
         }
+        private string _Locale = "en-US";
 
-        private bool _insults = false;
         /// <summary>
         /// Devastating Insults.
         /// </summary>
         public bool Insults
         {
-            get { return _insults; }
+            get { return _Insults; }
             set
             {
-                if (_insults != value)
-                    _needSave = true;
-                _insults = value;
+                if (_Insults != value)
+                    _NeedSave = true;
+                _Insults = value;
             }
         }
+        private bool _Insults = false;
 
-        private int _oceanColor = 0;
         /// <summary>
         /// Ocean Color
         /// </summary>
         public int OceanColor
         {
-            get { return _oceanColor; }
+            get { return _OceanColor; }
             set
             {
-                if (_oceanColor != value)
-                    _needSave = true;
-                _oceanColor = value;
+                if (_OceanColor != value)
+                    _NeedSave = true;
+                _OceanColor = value;
             }
         }
+        private int _OceanColor = 0;
 
-        private bool _postScreenEffects = true;
         /// <summary>
         /// All the shiney stuff after rendering is done.
         /// </summary>
         public bool PostScreenEffects
         {
-            get { return _postScreenEffects; }
+            get { return _PostScreenEffects; }
             set
             {
-                if (_postScreenEffects != value)
-                    _needSave = true;
-                _postScreenEffects = value;
+                if (_PostScreenEffects != value)
+                    _NeedSave = true;
+                _PostScreenEffects = value;
             }
         }
+        private bool _PostScreenEffects = true;
 
-        private bool _reflections = true;
         /// <summary>
         /// Show reflections off reflective surfaces.
         /// </summary>
         public bool Reflections
         {
-            get { return _reflections; }
+            get { return _Reflections; }
             set
             {
-                if (_reflections != value)
-                    _needSave = true;
-                _reflections = value;
+                if (_Reflections != value)
+                    _NeedSave = true;
+                _Reflections = value;
             }
         }
+        private bool _Reflections = true;
 
-        private bool _refractions = true;
         /// <summary>
         /// Show refractions on see through surfaces.
         /// </summary>
         public bool Refractions
         {
-            get { return _refractions; }
+            get { return _Refractions; }
             set
             {
-                if (_refractions != value)
-                    _needSave = true;
-                _refractions = value;
+                if (_Refractions != value)
+                    _NeedSave = true;
+                _Refractions = value;
             }
         }
+        private bool _Refractions = true;
 
-        private bool _shadowMapping = true;
         /// <summary>
         /// Cast shadows in the environment.
         /// </summary>
         public bool ShadowMapping
         {
-            get { return _shadowMapping; }
+            get { return _ShadowMapping; }
             set
             {
-                if (_shadowMapping != value)
-                    _needSave = true;
-                _shadowMapping = value;
+                if (_ShadowMapping != value)
+                    _NeedSave = true;
+                _ShadowMapping = value;
             }
         }
+        private bool _ShadowMapping = true;
 
-        private bool _highDetail = true;
         /// <summary>
         /// Use high detail rendering, textures and lighting.
         /// </summary>
         public bool HighDetail
         {
-            get { return _highDetail; }
+            get { return _HighDetail; }
             set
             {
-                if (_highDetail != value)
-                    _needSave = true;
-                _highDetail = value;
+                if (_HighDetail != value)
+                    _NeedSave = true;
+                _HighDetail = value;
             }
         }
+        private bool _HighDetail = true;
 
-        private float _soundVolume = 0.8f;
         /// <summary>
         /// Sound volume.
         /// </summary>
         public float SoundVolume
         {
-            get { return _soundVolume; }
+            get { return _SoundVolume; }
             set
             {
-                if (_soundVolume != value)
-                    _needSave = true;
-                _soundVolume = value;
+                if (_SoundVolume != value)
+                    _NeedSave = true;
+                _SoundVolume = value;
             }
         }
+        private float _SoundVolume = 0.8f;
 
-        private float _musicVolume = 0.6f;
         /// <summary>
         /// Music volume.
         /// </summary>
         public float MusicVolume
         {
-            get { return _musicVolume; }
+            get { return _MusicVolume; }
             set
             {
-                if (_musicVolume != value)
-                    _needSave = true;
-                _musicVolume = value;
+                if (_MusicVolume != value)
+                    _NeedSave = true;
+                _MusicVolume = value;
             }
         }
+        private float _MusicVolume = 0.6f;
 
-        private float _controllerSensitivity = 0.5f;
         /// <summary>
         /// Controller sensitivity.
         /// </summary>
         public float ControllerSensitivity
         {
-            get { return _controllerSensitivity; }
+            get { return _ControllerSensitivity; }
             set
             {
-                if (_controllerSensitivity != value)
-                    _needSave = true;
-                _controllerSensitivity = value;
+                if (_ControllerSensitivity != value)
+                    _NeedSave = true;
+                _ControllerSensitivity = value;
             }
         }
+        private float _ControllerSensitivity = 0.5f;
 
         #endregion
 
@@ -254,21 +253,21 @@ namespace Cutlass.Utilities
         /// <summary>
         /// Filename used to store the game settings.
         /// </summary>
-        const string SettingsFilename = "config.xml";
+        private const string _SettingsFilename = "config.xml";
 
-        private static GameSettings _defaultInstance = null;
         /// <summary>
         /// Default instance of the game settings.
         /// </summary>
         public static GameSettings Default
         {
-            get { return _defaultInstance; }
+            get { return _DefaultInstance; }
         }
+        private static GameSettings _DefaultInstance = null;
 
         /// <summary>
         /// Need to save the game settings file only if true.
         /// </summary>
-        private static bool _needSave = false;
+        private static bool _NeedSave = false;
 
         #endregion
 
@@ -277,7 +276,8 @@ namespace Cutlass.Utilities
         /// <summary>
         /// No public constructor! Create the game settings.
         /// </summary>
-        private GameSettings() { }
+        private GameSettings()
+        { }
 
         /// <summary>
         /// Create game settings.  This constructor helps us to only load the
@@ -286,7 +286,7 @@ namespace Cutlass.Utilities
         /// </summary>
         public static void Initialize()
         {
-            _defaultInstance = new GameSettings();
+            _DefaultInstance = new GameSettings();
             Load();
         }
 
@@ -298,15 +298,15 @@ namespace Cutlass.Utilities
         /// </summary>
         public static void Load()
         {
-            _needSave = false;
+            _NeedSave = false;
 
             FileStream file = FileHelper.LoadGameContentFile(
-                SettingsFilename);
+                _SettingsFilename);
 
             if (file == null)
             {
                 // We need a save, but wait to create the file after quitting.
-                _needSave = true;
+                _NeedSave = true;
                 return;
             }
 
@@ -319,21 +319,21 @@ namespace Cutlass.Utilities
 
                 // Check if there is a file in the game directory
                 // to load the default game settings.
-                file = FileHelper.LoadGameContentFile(SettingsFilename);
+                file = FileHelper.LoadGameContentFile(_SettingsFilename);
                 if (file != null)
                 {
                     // Load everything into this class.
                     GameSettings loadedGameSetting =
                         (GameSettings)new XmlSerializer(typeof(GameSettings)).Deserialize(file);
                     if (loadedGameSetting != null)
-                        _defaultInstance = loadedGameSetting;
+                        _DefaultInstance = loadedGameSetting;
 
                     // Close the file.
                     file.Close();
                 }
 
                 // Save the user settings.
-                _needSave = true;
+                _NeedSave = true;
                 Save();
             }
             else
@@ -343,7 +343,7 @@ namespace Cutlass.Utilities
                 GameSettings loadedGameSetting =
                     (GameSettings)new XmlSerializer(typeof(GameSettings)).Deserialize(file);
                 if (loadedGameSetting != null)
-                    _defaultInstance = loadedGameSetting;
+                    _DefaultInstance = loadedGameSetting;
 
                 // Close the file.
                 file.Close();
@@ -360,16 +360,16 @@ namespace Cutlass.Utilities
         public static void Save()
         {
             // No need to save if everything is up to date.
-            if (!_needSave)
+            if (!_NeedSave)
                 return;
 
-            _needSave = false;
+            _NeedSave = false;
 
             FileStream file = FileHelper.SaveGameContentFile(
-                SettingsFilename);
+                _SettingsFilename);
 
             // Save everything in this class with help from the XmlSerializer.
-            new XmlSerializer(typeof(GameSettings)).Serialize(file, _defaultInstance);
+            new XmlSerializer(typeof(GameSettings)).Serialize(file, _DefaultInstance);
 
             // Close the file.
             file.Close();

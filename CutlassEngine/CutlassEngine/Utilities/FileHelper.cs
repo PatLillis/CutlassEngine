@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework;
 
 namespace Cutlass.Utilities
 {
     public static class FileHelper
     {
-        #region Create Game Content File
         /// <summary>
         /// Create game content file, will create file if it does not exist.
         /// Else the existing file should be loaded.
@@ -25,9 +22,7 @@ namespace Cutlass.Utilities
                 createNew ? FileMode.Create : FileMode.OpenOrCreate,
                 FileAccess.Write, FileShare.ReadWrite);
         }
-        #endregion
 
-        #region LoadGameContentFile
         /// <summary>
         /// Load game content file, returns null if file was not found.
         /// </summary>
@@ -43,9 +38,7 @@ namespace Cutlass.Utilities
                 return File.Open(fullPath,
                     FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         }
-        #endregion
 
-        #region SaveGameContentFile
         /// <summary>
         /// Save game content file, returns the open file.
         /// </summary>
@@ -58,9 +51,6 @@ namespace Cutlass.Utilities
             return File.Open(fullPath,
                 FileMode.Create, FileAccess.Write);
         }
-        #endregion
-
-        #region OpenOrCreateFileForCurrentPlayer
 
         /// <summary>
         /// Open or create file for current player.  Basically just creates a
@@ -81,9 +71,7 @@ namespace Cutlass.Utilities
             return new FileStream(
                 fullFileName, mode, access, FileShare.ReadWrite);
         }
-        #endregion
 
-        #region Get text lines
         /// <summary>
         /// Returns the number of text lines we have in the file.
         /// </summary>
@@ -121,9 +109,9 @@ namespace Cutlass.Utilities
                 return null;
             }
         }
-        #endregion
 
         #region Write Helpers
+
         /// <summary>
         /// Write Vector3 to stream.
         /// </summary>
@@ -181,9 +169,11 @@ namespace Cutlass.Utilities
             writer.Write(matrix.M43);
             writer.Write(matrix.M44);
         }
+
         #endregion
 
         #region Read Helpers
+
         /// <summary>
         /// Read Vector3 from stream.
         /// </summary>
@@ -245,6 +235,7 @@ namespace Cutlass.Utilities
                 reader.ReadSingle(),
                 reader.ReadSingle());
         }
+
         #endregion
     }
 }

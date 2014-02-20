@@ -1,8 +1,6 @@
 ﻿using System;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Cutlass.GameComponents
 {
@@ -11,9 +9,13 @@ namespace Cutlass.GameComponents
     /// </summary>
     public enum ScreenState
     {
+        /// <summary>Transition On</summary>
         TransitionOn,
+        /// <summary>Active</summary>
         Active,
+        /// <summary>Transition Off</summary>
         TransitionOff,
+        /// <summary>Hidden</summary>
         Hidden,
     }
 
@@ -62,7 +64,7 @@ namespace Cutlass.GameComponents
             get { return _TransitionOffTime; }
             protected set { _TransitionOffTime = value; }
         }
-        TimeSpan _TransitionOffTime = TimeSpan.Zero;
+        private TimeSpan _TransitionOffTime = TimeSpan.Zero;
 
         /// <summary>
         /// Gets the current position of the screen transition, ranging
@@ -86,9 +88,7 @@ namespace Cutlass.GameComponents
             get { return 1f - TransitionPosition; }
         }
 
-        /// <summary>
-        /// Gets the current screen transition state.
-        /// </summary>
+        /// <summary>Gets the current screen transition state.</summary>
         public ScreenState ScreenState
         {
             get { return _ScreenState; }
@@ -112,9 +112,7 @@ namespace Cutlass.GameComponents
         private bool _IsExiting = false;
 
 
-        /// <summary>
-        /// Checks whether this screen is active and can respond to user input.
-        /// </summary>
+        /// <summary>Checks whether this screen is active and can respond to user input.</summary>
         public bool IsActive
         {
             get
@@ -232,18 +230,21 @@ namespace Cutlass.GameComponents
         /// is only called when the screen is active, and not when some other
         /// screen has taken the focus.
         /// </summary>
-        public virtual void HandleInput(Input input) { }
+        public virtual void HandleInput(Input input)
+        { }
 
         /// <summary>
         /// This is called when the screen should draw itself.
         /// </summary>
-        public virtual void Draw(GameTime gameTime) { }
+        public virtual void Draw(GameTime gameTime)
+        { }
 
         /// <summary>
         /// This is called when the screen should draw after the UI has drawn.
         /// </summary>
         /// <param name="gameTime"></param>
-        public virtual void PostUIDraw(GameTime gameTime) { }
+        public virtual void PostUIDraw(GameTime gameTime)
+        { }
 
         #endregion
 

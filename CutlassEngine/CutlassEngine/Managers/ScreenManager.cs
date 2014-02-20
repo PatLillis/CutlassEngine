@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using Cutlass.Assets;
+using Cutlass.GameComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input.Touch;
-using Cutlass.Utilities;
-using Cutlass.Assets;
-using Cutlass.GameComponents;
 
 namespace Cutlass.Managers
 {
@@ -40,16 +38,16 @@ namespace Cutlass.Managers
             get { return _TraceEnabled; }
             set { _TraceEnabled = value; }
         }
-        bool _TraceEnabled;
+        private bool _TraceEnabled;
 
         private static List<GameScreen> _Screens = new List<GameScreen>();
         private static List<GameScreen> _ScreensToUpdate = new List<GameScreen>();
 
-        private static bool _IsInitialized;
         public static bool IsInitialized
         {
             get { return _IsInitialized; }
         }
+        private static bool _IsInitialized;
 
         #endregion
 
@@ -59,7 +57,8 @@ namespace Cutlass.Managers
         /// Constructs a new screen manager component.
         /// </summary>
         public ScreenManager(CutlassEngine engine)
-            : base(engine) { }
+            : base(engine)
+        { }
 
         /// <summary>
         /// Initializes the screen manager component.
@@ -67,7 +66,6 @@ namespace Cutlass.Managers
         public override void Initialize()
         {
             base.Initialize();
-
             _IsInitialized = true;
         }
 
@@ -76,9 +74,6 @@ namespace Cutlass.Managers
         /// </summary>
         protected override void LoadContent()
         {
-            // Load content belonging to the screen manager.
-            ContentManager content = Game.Content;
-
             _SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"), "blank");
@@ -204,13 +199,13 @@ namespace Cutlass.Managers
         public static void AddScreen(GameScreen screen)
         {
             _Screens.Add(screen);
+
             // If we have a graphics device, tell the screen to load content.
             if (_IsInitialized)
             {
                 screen.LoadContent();
             }
         }
-
 
         /// <summary>
         /// Removes a screen from the screen manager. You should normally
@@ -230,7 +225,6 @@ namespace Cutlass.Managers
             _ScreensToUpdate.Remove(screen);
         }
 
-
         /// <summary>
         /// Expose an array holding all the screens. We return a copy rather
         /// than the real master list, because screens should only ever be added
@@ -240,7 +234,6 @@ namespace Cutlass.Managers
         {
             return _Screens.ToArray();
         }
-
 
         /// <summary>
         /// Helper draws a translucent black fullscreen sprite, used for fading
