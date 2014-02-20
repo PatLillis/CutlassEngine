@@ -289,7 +289,7 @@ namespace Cutlass
             if (resolutionWidth <= 0 || resolutionWidth <= 0)
             {
                 resolutionWidth = GameSettings.MinimumResolutionWidth;
-                resolutionHeight = GameSettings.MinimumResolutionWidth;
+                resolutionHeight = GameSettings.MinimumResolutionHeight;
             }
 #if XBOX360
             // Xbox 360 graphics settings are fixed

@@ -42,7 +42,7 @@ namespace PirateyGame.Screens
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, EventArgs e)
         {
-            //LoadingScreen.Load(true, new GameplayScreen());
+            LoadingScreen.Load(true, new GameplayScreen());
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace PirateyGame.Screens
         /// </summary>
         void OptionsMenuEntrySelected(object sende, EventArgs e)
         {
-            //ScreenManager.AddScreen(new OptionsMenuScreen());
+            ScreenManager.AddScreen(new OptionsMenuScreen());
         }
         
         /// <summary>

@@ -33,7 +33,7 @@ namespace Cutlass.Utilities
             }
         }
 
-        public const int MinimumResolutionWidth = 640;
+        public const int MinimumResolutionWidth = 1024;
 
         private int _resolutionWidth = 0;
         /// <summary>
@@ -50,7 +50,7 @@ namespace Cutlass.Utilities
             }
         }
 
-        public const int MinimumResolutionHeight = 480;
+        public const int MinimumResolutionHeight = 768;
 
         private int _resolutionHeight = 0;
         /// <summary>
@@ -79,6 +79,51 @@ namespace Cutlass.Utilities
                 if (_fullscreen != value)
                     _needSave = true;
                 _fullscreen = value;
+            }
+        }
+
+        private string _locale = "en-US";
+        /// <summary>
+        /// Locale
+        /// </summary>
+        public string Locale
+        {
+            get { return _locale; }
+            set
+            {
+                if (_locale != value)
+                    _needSave = true;
+                _locale = value;
+            }
+        }
+
+        private bool _insults = false;
+        /// <summary>
+        /// Devastating Insults.
+        /// </summary>
+        public bool Insults
+        {
+            get { return _insults; }
+            set
+            {
+                if (_insults != value)
+                    _needSave = true;
+                _insults = value;
+            }
+        }
+
+        private int _oceanColor = 0;
+        /// <summary>
+        /// Ocean Color
+        /// </summary>
+        public int OceanColor
+        {
+            get { return _oceanColor; }
+            set
+            {
+                if (_oceanColor != value)
+                    _needSave = true;
+                _oceanColor = value;
             }
         }
 

@@ -52,6 +52,31 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Fonts\bilboSwashCaps.spritefont">
+      <Name>bilboSwashCaps</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+    <Compile Include="Fonts\frederickaTheGreat.spritefont">
+      <Name>frederickaTheGreat</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+    <Compile Include="Fonts\harrington.spritefont">
+      <Name>harrington</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+    <Compile Include="Fonts\segoeUIMonoBold.spritefont">
+      <Name>segoeUIMonoBold</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+    <Compile Include="Fonts\segoeUIMono.spritefont">
+      <Name>segoeUIMono</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="palette.png">
       <Name>palette</Name>
       <Importer>TextureImporter</Importer>

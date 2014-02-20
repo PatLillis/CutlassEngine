@@ -35,9 +35,8 @@ namespace PirateyGame
 
         private static void SetupScene()
         {
+            ScreenManager.AddScreen(new BackgroundScreen());
             ScreenManager.AddScreen(new MainMenuScreen());
-            //ScreenManager.AddScreen(new BackgroundScreen());
-            //ScreenManager.AddScreen(new MainMenuScreen());
         }
     }
 }

@@ -10,14 +10,17 @@ namespace PirateyGame.Screens
 {
     abstract class MenuScreen : GameScreen
     {
-        #region Fields
-
-        int selectedEntry = 0;
-        string menuTitle;
-
-        #endregion
-
         #region Properties
+
+        private int _SelectedEntry = 0;
+
+        protected string _MenuTitle = String.Empty;
+        public string MenuTitle
+        {
+            get { return _MenuTitle; }
+        }
+
+        protected string _TitleFontKey = String.Empty;
 
         protected Color _TitleColor = Color.White;
         /// <summary>Title Color</summary>
@@ -45,7 +48,7 @@ namespace PirateyGame.Screens
         /// </summary>
         public MenuScreen(string menuTitle, string menuFontIndex = null)
         {
-            this.menuTitle = menuTitle;
+            this._MenuTitle = menuTitle;
 
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -64,34 +67,34 @@ namespace PirateyGame.Screens
             // Move to the previous menu entry?
             if (input.MenuUp)
             {
-                selectedEntry--;
+                _SelectedEntry--;
 
-                if (selectedEntry < 0)
-                    selectedEntry = _MenuEntries.Count - 1;
+                if (_SelectedEntry < 0)
+                    _SelectedEntry = _MenuEntries.Count - 1;
             }
 
             // Move to the next menu entry?
             if (input.MenuDown)
             {
-                selectedEntry++;
+                _SelectedEntry++;
 
-                if (selectedEntry >= _MenuEntries.Count)
-                    selectedEntry = 0;
+                if (_SelectedEntry >= _MenuEntries.Count)
+                    _SelectedEntry = 0;
             }
 
             if (input.MenuRight)
             {
-                OnRightEntry(selectedEntry);
+                OnRightEntry(_SelectedEntry);
             }
             
             if (input.MenuLeft)
             {
-                OnLeftEntry(selectedEntry);
+                OnLeftEntry(_SelectedEntry);
             }
 
             if (input.MenuSelect)
             {
-                OnSelectEntry(selectedEntry);
+                OnSelectEntry(_SelectedEntry);
             }
             else if (input.MenuCancel)
             {
@@ -171,7 +174,6 @@ namespace PirateyGame.Screens
             foreach(MenuEntry menuEntry in _MenuEntries)
             {
                 // each entry is to be centered horizontally
-                //position.X = ScreenManager.GraphicsDevice.Viewport.Width / 2 - menuEntry.GetWidth(this) / 2;
                 position.X = CutlassEngine.Device.Viewport.Width / 2;
 
                 if (ScreenState == ScreenState.TransitionOn)
@@ -198,7 +200,7 @@ namespace PirateyGame.Screens
             // Update each nested MenuEntry object.
             for (int i = 0; i < _MenuEntries.Count; i++)
             {
-                bool isSelected = IsActive && (i == selectedEntry);
+                bool isSelected = IsActive && (i == _SelectedEntry);
 
                 _MenuEntries[i].Update(this, isSelected, gameTime);
             }
@@ -214,114 +216,18 @@ namespace PirateyGame.Screens
 
             GraphicsDevice graphics = CutlassEngine.Device;
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            SpriteFont font = FontManager.DefaultFont;
+            SpriteFont font = FontManager.GetSpriteFontOrDefault(_TitleFontKey);
 
             spriteBatch.Begin();
 
             #region Draw Menu Options
-
-            //Rectangle menuOptionsBackground = new Rectangle();
-
-            //The 1.1 is for the "pulsating effect of the menu options.
-            //menuOptionsBackground.Width = (int)(MaxEntryWidth() * 1.1) - 64;
-            //menuOptionsBackground.Height = -64;
-            //for (int i = 0; i < menuEntries.Count; i++)
-            //    menuOptionsBackground.Height += menuEntries[i].GetHeight(this);
-            //menuOptionsBackground.X = (int)menuEntries[0].Position.X - menuOptionsBackground.Width / 2;
-            //menuOptionsBackground.Y = (int)menuEntries[0].Position.Y - ScreenManager.SpriteFonts[Fonts.PirateyMenuMedium].LineSpacing / 2 + 32;
-
-            ////UR corner
-            //spriteBatch.Draw(MenuBackgroundCorner,
-            //                 new Vector2(menuOptionsBackground.Right, menuOptionsBackground.Top - 64),
-            //                 null,
-            //                 Color.White,
-            //                 0.0f,
-            //                 Vector2.Zero,
-            //                 1.0f,
-            //                 SpriteEffects.None,
-            //                 1.0f);
-            ////BR corner
-            //spriteBatch.Draw(MenuBackgroundCorner,
-            //                 new Vector2(menuOptionsBackground.Right, menuOptionsBackground.Bottom),
-            //                 null,
-            //                 Color.White,
-            //                 0.0f,
-            //                 Vector2.Zero,
-            //                 1.0f,
-            //                 SpriteEffects.FlipVertically,
-            //                 1.0f);
-            ////BL corner
-            //spriteBatch.Draw(MenuBackgroundCorner,
-            //                 new Vector2(menuOptionsBackground.Left - 64, menuOptionsBackground.Bottom),
-            //                 null,
-            //                 Color.White,
-            //                 0.0f,
-            //                 Vector2.Zero,
-            //                 1.0f,
-            //                 SpriteEffects.FlipVertically | SpriteEffects.FlipHorizontally,
-            //                 1.0f);
-            ////UL corner
-            //spriteBatch.Draw(MenuBackgroundCorner,
-            //                 new Vector2(menuOptionsBackground.Left - 64, menuOptionsBackground.Top - 64),
-            //                 null,
-            //                 Color.White,
-            //                 0.0f,
-            //                 Vector2.Zero,
-            //                 1.0f,
-            //                 SpriteEffects.FlipHorizontally,
-            //                 1.0f);
-            ////Top edge
-            //spriteBatch.Draw(MenuBackgroundVerticalEdge,
-            //                 new Vector2(menuOptionsBackground.Left, menuOptionsBackground.Top - 64),
-            //                 null,
-            //                 Color.White,
-            //                 0.0f,
-            //                 Vector2.Zero,
-            //                 new Vector2(menuOptionsBackground.Width / 64.0f, 1.0f),
-            //                 SpriteEffects.None,
-            //                 1.0f);
-            ////Right edge
-            //spriteBatch.Draw(MenuBackgroundHorizontalEdge,
-            //                 new Vector2(menuOptionsBackground.Right, menuOptionsBackground.Top),
-            //                 null,
-            //                 Color.White,
-            //                 0.0f,
-            //                 Vector2.Zero,
-            //                 new Vector2(1.0f, menuOptionsBackground.Height / 64.0f),
-            //                 SpriteEffects.None,
-            //                 1.0f);
-            ////Bottom edge
-            //spriteBatch.Draw(MenuBackgroundVerticalEdge,
-            //                 new Vector2(menuOptionsBackground.Left, menuOptionsBackground.Bottom),
-            //                 null,
-            //                 Color.White,
-            //                 0.0f,
-            //                 Vector2.Zero,
-            //                 new Vector2(menuOptionsBackground.Width / 64.0f, 1.0f),
-            //                 SpriteEffects.FlipVertically,
-            //                 1.0f);
-            ////Left edge
-            //spriteBatch.Draw(MenuBackgroundHorizontalEdge,
-            //                 new Vector2(menuOptionsBackground.Left - 64, menuOptionsBackground.Top),
-            //                 null,
-            //                 Color.White,
-            //                 0.0f,
-            //                 Vector2.Zero,
-            //                 new Vector2(1.0f, menuOptionsBackground.Height / 64.0f),
-            //                 SpriteEffects.FlipHorizontally,
-            //                 1.0f);
-            ////Fill
-            //spriteBatch.Draw(MenuBackgroundHorizontalEdge,
-            //    menuOptionsBackground,
-            //    new Rectangle(0, 0, 1, 1),
-            //    Color.White);
 
             // Draw each menu entry in turn.
             for (int i = 0; i < _MenuEntries.Count; i++)
             {
                 MenuEntry menuEntry = _MenuEntries[i];
 
-                bool isSelected = IsActive && (i == selectedEntry);
+                bool isSelected = IsActive && (i == _SelectedEntry);
 
                 menuEntry.Draw(this, isSelected, gameTime);
             }
@@ -337,50 +243,17 @@ namespace PirateyGame.Screens
 
             // Draw the menu title centered on the screen
             Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, 80);
-            Vector2 titleSize = font.MeasureString(menuTitle);
+            Vector2 titleSize = font.MeasureString(_MenuTitle);
             Color titleColor = TitleColor * TransitionAlpha;
             float titleScale = 1.25f;
 
             titlePosition.Y -= transitionOffset * 100;
 
-            //Draw Scroll behind menu title (properly sized)
-            //80 = 40px drawable space on each scroll end image * 2
-            //int middleScrollCount = ((int)(titleSize.X * 1.25f) - 80) / TitleScrollMiddle.Width;
-            ////If there is leftover, add one.
-            //if (((int)(titleSize.X * 1.25f) - 80) % TitleScrollMiddle.Width > 0)
-            //{
-            //    middleScrollCount += 1;
-            //}
-            //int totalMiddleScrollWidth = middleScrollCount * TitleScrollMiddle.Width;
-
-            //Vector2 leftScrollPosition = new Vector2((graphics.Viewport.Width / 2) - (totalMiddleScrollWidth / 2),
-            //    titlePosition.Y);
-            //Vector2 leftScrollOrigin = new Vector2(TitleScrollEdge.Width, TitleScrollEdge.Height / 2);
-
-            //Vector2 rightScrollPosition = new Vector2((graphics.Viewport.Width / 2) + (totalMiddleScrollWidth / 2),
-            //    titlePosition.Y);
-            //Vector2 rightScrollOrigin = new Vector2(0, TitleScrollEdge.Height / 2);
-
-            //Vector2 middleScrollPosition = new Vector2((graphics.Viewport.Width / 2) - (totalMiddleScrollWidth / 2) + (TitleScrollMiddle.Width / 2), titlePosition.Y);
-            //Vector2 middleScrollOrigin = new Vector2(TitleScrollMiddle.Width / 2, TitleScrollMiddle.Height / 2);
-
+            //Draw title text
+            spriteBatch.DrawString(font, _MenuTitle, titlePosition, titleColor, 0,
+                                    titleSize / 2, titleScale, SpriteEffects.None, 0);
 
             #endregion
-
-            //Draw Left Scroll Handle
-            //spriteBatch.Draw(TitleScrollEdge, leftScrollPosition, null, Color.White, 0.0f, leftScrollOrigin, 1.0f, SpriteEffects.FlipHorizontally, 1.0f);
-            //Draw Right Scroll Handle
-            //spriteBatch.Draw(TitleScrollEdge, rightScrollPosition, null, Color.White, 0.0f, rightScrollOrigin, 1.0f, SpriteEffects.None, 1.0f);
-            //Draw Middle of Scroll
-            //for (int i = 0; i < middleScrollCount; i++)
-            //{
-            //    spriteBatch.Draw(TitleScrollMiddle, middleScrollPosition, null, Color.White, 0.0f, middleScrollOrigin, 1.0f, SpriteEffects.None, 1.0f);
-            //    middleScrollPosition.X += TitleScrollMiddle.Width;
-            //}
-
-            //Draw title text
-            spriteBatch.DrawString(font, menuTitle, titlePosition, titleColor, 0,
-                                    titleSize / 2, titleScale, SpriteEffects.None, 0);
 
             spriteBatch.End();
         }
@@ -424,6 +297,12 @@ namespace PirateyGame.Screens
         {
             foreach (MenuEntry entry in MenuEntries)
                 entry.SelectedTextColor = selectedTextColor;
+        }
+
+        public void SetMenuEntryFont(string fontKey)
+        {
+            foreach (MenuEntry entry in MenuEntries)
+                entry.EntryFontKey = fontKey;
         }
 
         #endregion

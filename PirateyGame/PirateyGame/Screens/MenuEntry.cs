@@ -53,6 +53,14 @@ namespace PirateyGame.Screens
         /// <summary>Selected Text Color</summary>
         public Color SelectedTextColor = Color.Yellow;
 
+        private string _EntryFontKey = String.Empty;
+
+        public string EntryFontKey
+        {
+            get { return _EntryFontKey; }
+            set { _EntryFontKey = value; }
+        }
+
         /// <summary>
         /// Gets or sets the position at which to draw this menu entry.
         /// </summary>
@@ -166,7 +174,7 @@ namespace PirateyGame.Screens
 
             // Draw text, centered on the middle of each line.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            SpriteFont font = FontManager.DefaultFont;
+            SpriteFont font = FontManager.GetSpriteFontOrDefault(_EntryFontKey);
 
             Vector2 origin = new Vector2(font.MeasureString(text).X / 2, font.LineSpacing / 2);
 
@@ -179,7 +187,7 @@ namespace PirateyGame.Screens
         /// </summary>
         public virtual int GetHeight(MenuScreen screen)
         {
-            return FontManager.DefaultFont.LineSpacing;
+            return FontManager.GetSpriteFontOrDefault(EntryFontKey).LineSpacing;
         }
 
         /// <summary>
@@ -187,7 +195,7 @@ namespace PirateyGame.Screens
         /// </summary>
         public virtual int GetWidth(MenuScreen screen)
         {
-            return (int)FontManager.DefaultFont.MeasureString(Text).X;
+            return (int)FontManager.GetSpriteFontOrDefault(EntryFontKey).MeasureString(Text).X;
         }
 
         #endregion
