@@ -81,9 +81,9 @@ namespace Cutlass.GameComponents
         /// from 1 (fully active, no transition) to 0 (transitioned
         /// fully off to nothing).
         /// </summary>
-        public byte TransitionAlpha
+        public float TransitionAlpha
         {
-            get { return (byte)(255 - TransitionPosition * 255); }
+            get { return 1f - TransitionPosition; }
         }
 
         /// <summary>

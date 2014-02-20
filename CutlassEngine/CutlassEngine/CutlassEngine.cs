@@ -14,7 +14,14 @@ namespace Cutlass
     /// </summary>
     public class CutlassEngine : Microsoft.Xna.Framework.Game
     {
-        #region Fields
+        #region Properties
+
+        private static Game _Game;
+        public static Game Game
+        {
+            get { return _Game; }
+            set { _Game = value; }
+        }
 
         /// <summary>
         /// Width and Height of visible render area.

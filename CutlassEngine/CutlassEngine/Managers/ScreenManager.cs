@@ -143,6 +143,8 @@ namespace Cutlass.Managers
                     // give it a chance to handle input.
                     if (!otherScreenHasFocus)
                     {
+                        screen.HandleInput(CutlassEngine.Input);
+
                         otherScreenHasFocus = true;
                     }
 
@@ -158,7 +160,6 @@ namespace Cutlass.Managers
                 TraceScreens();
         }
 
-
         /// <summary>
         /// Prints a list of all the screens, for debugging.
         /// </summary>
@@ -171,7 +172,6 @@ namespace Cutlass.Managers
 
             Debug.WriteLine(string.Join(", ", screenNames.ToArray()));
         }
-
 
         /// <summary>
         /// Tells each screen to draw itself.

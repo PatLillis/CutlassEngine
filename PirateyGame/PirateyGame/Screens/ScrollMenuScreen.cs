@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cutlass;
 using Cutlass.Assets;
 using Cutlass.Managers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace PirateyGame.Screens
@@ -13,7 +15,12 @@ namespace PirateyGame.Screens
     {
         public ScrollMenuScreen(string menuTitle)
             : base(menuTitle)
-        { }
+        {
+            _TitleColor = Palette.MediumBrown;
+            //CutlassEngine.BackgroundColor = Color.Black;
+            SetMenuEntryTextColor(Palette.CharcoalGrey);
+            SetMenuEntrySelectedTextColor(Palette.LightBlue);
+        }
 
         public override void LoadContent()
         {

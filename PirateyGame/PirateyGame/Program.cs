@@ -27,6 +27,7 @@ namespace PirateyGame
         {
             using (CutlassEngine engine = new CutlassEngine())
             {
+                CutlassEngine.Game = engine;
                 SetupScene();
                 engine.Run();
             }
@@ -34,7 +35,7 @@ namespace PirateyGame
 
         private static void SetupScene()
         {
-            ScreenManager.AddScreen(new ScrollMenuScreen("Main Menu"));
+            ScreenManager.AddScreen(new MainMenuScreen());
             //ScreenManager.AddScreen(new BackgroundScreen());
             //ScreenManager.AddScreen(new MainMenuScreen());
         }

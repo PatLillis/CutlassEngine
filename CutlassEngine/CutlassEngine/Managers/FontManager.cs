@@ -109,8 +109,7 @@ namespace Cutlass.Managers
         /// <returns></returns>
         public static SpriteFont GetSpriteFontOrDefault(string fontName)
         {
-            SpriteFont font = GetSpriteFont(fontName);
-            return font ?? DefaultFont;
+            return GetSpriteFont(fontName) ?? DefaultFont;
         }
 
         public static void SetDefaultFont(ICutlassFont defaultFont)

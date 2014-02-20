@@ -151,8 +151,7 @@ namespace PirateyGame.Screens
             isSelected = false;
 #endif
 
-            // Draw the selected entry in light blue, otherwise grey.
-            //Color color = isSelected ? Palette.LightBlue : Palette.CharcoalGrey;
+            // Draw the selected entry
             Color color = isSelected ? SelectedTextColor : TextColor;
 
             // Pulsate the size of the selected menu entry.

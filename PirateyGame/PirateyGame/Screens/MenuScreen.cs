@@ -338,7 +338,6 @@ namespace PirateyGame.Screens
             // Draw the menu title centered on the screen
             Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, 80);
             Vector2 titleSize = font.MeasureString(menuTitle);
-            //Color titleColor = Palette.MediumBrown * TransitionAlpha;
             Color titleColor = TitleColor * TransitionAlpha;
             float titleScale = 1.25f;
 
