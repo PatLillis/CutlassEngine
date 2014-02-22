@@ -14,74 +14,68 @@ namespace PirateyGame.Screens
     /// </summary>
     class MenuEntry
     {
-        #region Fields
-
-        /// <summary>
-        /// The text rendered for this entry.
-        /// </summary>
-        string text;
+        #region Properties
 
         /// <summary>
         /// Tracks a fading selection effect on the entry.
         /// </summary>
-        /// <remarks>
-        /// The entries transition out of the selection effect when they are deselected.
-        /// </remarks>
-        float selectionFade;
+        private float _SelectionFade;
 
         /// <summary>
-        /// The position at which the entry is drawn. This is set by the MenuScreen
-        /// each frame in Update.
-        /// </summary>
-        Vector2 position;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the text of this menu entry.
+        /// The text rendered for this entry.
         /// </summary>
         public string Text
         {
-            get { return text; }
-            set { text = value; }
+            get { return _Text; }
+            set { _Text = value; }
         }
+        private string _Text;
 
         /// <summary>Normal Text Color</summary>
         public Color TextColor = Color.LightSlateGray;
         /// <summary>Selected Text Color</summary>
         public Color SelectedTextColor = Color.Yellow;
 
-        private string _EntryFontKey = String.Empty;
-
+        /// <summary>Which font this menu entry should use</summary>
         public string EntryFontKey
         {
             get { return _EntryFontKey; }
             set { _EntryFontKey = value; }
         }
+        private string _EntryFontKey = String.Empty;
 
-        /// <summary>
-        /// Gets or sets the position at which to draw this menu entry.
-        /// </summary>
+        /// <summary>The position at which the entry is drawn</summary>
         public Vector2 Position
         {
-            get { return position; }
-            set { position = value; }
+            get { return _Position; }
+            set { _Position = value; }
         }
+        private Vector2 _Position;
 
         #endregion
 
         #region Events
 
-        /// <summary>
-        /// Event raised when the menu entry is selected.
-        /// </summary>
+        /// <summary>Event raised when the menu entry is selected</summary>
         public event EventHandler<EventArgs> Selected;
 
+        /// <summary>Event raised when the menu entry should go to the right</summary>
         public event EventHandler<EventArgs> Right;
 
+        /// <summary>Event raised when the right action is still being fired</summary>
+        public event EventHandler<EventArgs> StillRight;
+
+        /// <summary>Event raised when the right action is released.</summary>
+        public event EventHandler<EventArgs> RightReleased;
+
+        /// <summary>Event raised when the menu entry should go to the left</summary>
         public event EventHandler<EventArgs> Left;
+
+        /// <summary>Event raised when the left action is still being fired</summary>
+        public event EventHandler<EventArgs> StillLeft;
+
+        /// <summary>Event raised when the left action is released.</summary>
+        public event EventHandler<EventArgs> LeftReleased;
 
         /// <summary>
         /// Method for raising the Selected event.
@@ -102,6 +96,24 @@ namespace PirateyGame.Screens
         }
 
         /// <summary>
+        /// Method for raising the StillRight event
+        /// </summary>
+        protected internal virtual void OnStillRight()
+        {
+            if (StillRight != null)
+                StillRight(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Method for raising the RightReleased event
+        /// </summary>
+        protected internal virtual void OnRightReleased()
+        {
+            if (RightReleased != null)
+                RightReleased(this, new EventArgs());
+        }
+
+        /// <summary>
         /// Method for raising the Left event.
         /// </summary>
         protected internal virtual void OnLeftEntry()
@@ -110,16 +122,34 @@ namespace PirateyGame.Screens
                 Left(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Method for raising the StillLeft event
+        /// </summary>
+        protected internal virtual void OnStillLeft()
+        {
+            if (StillLeft != null)
+                StillLeft(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Method for raising the LeftReleased event
+        /// </summary>
+        protected internal virtual void OnLeftReleased()
+        {
+            if (LeftReleased != null)
+                LeftReleased(this, new EventArgs());
+        }
+
         #endregion
 
         #region Initialization
 
         /// <summary>
-        /// Constructs a new menu entry with the specified text.
+        /// Constructs a new menu entry with the specified _Text.
         /// </summary>
         public MenuEntry(string text)
         {
-            this.text = text;
+            this._Text = text;
         }
 
         #endregion
@@ -129,7 +159,7 @@ namespace PirateyGame.Screens
         /// <summary>
         /// Updates the menu entry.
         /// </summary>
-        public virtual void Update(MenuScreen screen, bool isSelected, GameTime gameTime)
+        public virtual void Update(bool isSelected, GameTime gameTime)
         {
             // there is no such thing as a selected item on Windows Phone, so we always
             // force isSelected to be false
@@ -143,9 +173,9 @@ namespace PirateyGame.Screens
             float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
 
             if (isSelected)
-                selectionFade = Math.Min(selectionFade + fadeSpeed, 1);
+                _SelectionFade = Math.Min(_SelectionFade + fadeSpeed, 1);
             else
-                selectionFade = Math.Max(selectionFade - fadeSpeed, 0);
+                _SelectionFade = Math.Max(_SelectionFade - fadeSpeed, 0);
         }
 
         /// <summary>
@@ -167,25 +197,25 @@ namespace PirateyGame.Screens
 
             float pulsate = (float)Math.Sin(time * 6) + 1;
 
-            float scale = 1 + pulsate * 0.05f * selectionFade;
+            float scale = 1 + pulsate * 0.05f * _SelectionFade;
 
-            // Modify the alpha to fade text out during transitions.
+            // Modify the alpha to fade _Text out during transitions.
             color *= screen.TransitionAlpha;
 
-            // Draw text, centered on the middle of each line.
+            // Draw _Text, centered on the middle of each line.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             SpriteFont font = FontManager.GetSpriteFontOrDefault(_EntryFontKey);
 
-            Vector2 origin = new Vector2(font.MeasureString(text).X / 2, font.LineSpacing / 2);
+            Vector2 origin = new Vector2(font.MeasureString(_Text).X / 2, font.LineSpacing / 2);
 
-            spriteBatch.DrawString(font, text, position, color, 0,
+            spriteBatch.DrawString(font, _Text, _Position, color, 0,
                                    origin, scale, SpriteEffects.None, 0);
         }
 
         /// <summary>
         /// Queries how much space this menu entry requires.
         /// </summary>
-        public virtual int GetHeight(MenuScreen screen)
+        public virtual int GetHeight()
         {
             return FontManager.GetSpriteFontOrDefault(EntryFontKey).LineSpacing;
         }
@@ -193,7 +223,7 @@ namespace PirateyGame.Screens
         /// <summary>
         /// Queries how wide the entry is, used for centering on the screen.
         /// </summary>
-        public virtual int GetWidth(MenuScreen screen)
+        public virtual int GetWidth()
         {
             return (int)FontManager.GetSpriteFontOrDefault(EntryFontKey).MeasureString(Text).X;
         }

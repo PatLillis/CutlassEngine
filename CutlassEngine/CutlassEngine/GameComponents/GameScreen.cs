@@ -123,6 +123,7 @@ namespace Cutlass.GameComponents
             }
         }
 
+        /// <summary>Whether another screen has focus</summary>
         private bool _OtherScreenHasFocus;
 
         #endregion

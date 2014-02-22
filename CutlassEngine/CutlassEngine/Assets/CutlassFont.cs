@@ -4,8 +4,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cutlass.Assets
 {
+    /// <summary>
+    /// "Default" implementation of ICutlassFont interface.
+    /// </summary>
     public class CutlassFont : ICutlassFont
     {
+        #region Properties
+
         /// <summary>The file name of the asset.</summary>
         public string FileName
         {
@@ -27,6 +32,10 @@ namespace Cutlass.Assets
             get { return _ReadyToRender; }
         }
         private bool _ReadyToRender = false;
+
+        #endregion Properties
+
+        #region Initialization
 
         /// <summary>
         /// Construct a new CutlassFont.
@@ -60,5 +69,7 @@ namespace Cutlass.Assets
         /// </summary>
         public void UnloadContent()
         { }
+
+        #endregion Initialization
     }
 }

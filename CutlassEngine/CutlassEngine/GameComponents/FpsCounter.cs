@@ -1,14 +1,23 @@
 ﻿using System;
+using Cutlass.Assets;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Cutlass.GameComponents
 {
+    /// <summary>
+    /// FPS Counter component
+    /// </summary>
     public class FpsCounter : DrawableGameComponent
     {
+        #region Properties
+
+        /// <summary>How often to update frame count.</summary>
         private float _UpdateInterval = 0.1f;
+        /// <summary>Seconds since last update</summary>
         private float _TimeSinceLastUpdate = 0.0f;
+        /// <summary>Number of frames in the current measurement</summary>
         private float _FrameCount = 0;
 
         /// <summary>The frames per second.</summary>
@@ -17,6 +26,13 @@ namespace Cutlass.GameComponents
             get { return _Fps; }
         }
         private float _Fps = 0;
+
+        /// <summary>FpsCounter Updated Event</summary>
+        public event EventHandler<EventArgs> Updated;
+
+        #endregion Properties
+
+        #region Initialization
 
         /// <summary>
         /// Set up the FPS Counter Game Component
@@ -28,6 +44,20 @@ namespace Cutlass.GameComponents
         {
             Enabled = true;
         }
+
+        /// <summary>
+        /// Load Content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"), "blank");
+
+            base.LoadContent();
+        }
+
+        #endregion Initialization
+
+        #region Update and Draw
 
         /// <summary>
         /// Draw FPS string on screen
@@ -46,8 +76,21 @@ namespace Cutlass.GameComponents
             if (Fps <= 30)
                 fpsColor = Color.Red;
 
+            Vector2 backroundSize = FontManager.DefaultFont.MeasureString(Fps.ToString("0.00"));
+            Rectangle backgroundRect = new Rectangle(10, 10, (int)backroundSize.X + 20, (int)backroundSize.Y + 20);
+
             spriteBatch.Begin();
-            spriteBatch.DrawString(FontManager.DefaultFont, Fps.ToString(), new Vector2(10, 10), fpsColor);
+
+            //Draw background
+            spriteBatch.Draw(TextureManager.GetTexture2D("blank"), backgroundRect, Color.Black * 0.5f);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X, backgroundRect.Y, 1, backgroundRect.Height + 1), fpsColor);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X, backgroundRect.Y, backgroundRect.Width + 1, 1), fpsColor);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X + backgroundRect.Width, backgroundRect.Y, 1, backgroundRect.Height + 1), fpsColor);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X, backgroundRect.Y + backgroundRect.Height, backgroundRect.Width + 1, 1), fpsColor);
+
+            //Draw text
+            spriteBatch.DrawString(FontManager.DefaultFont, Fps.ToString("0.00"), new Vector2(20, 20), fpsColor);
+
             spriteBatch.End();
         }
 
@@ -74,9 +117,6 @@ namespace Cutlass.GameComponents
             }
         }
 
-        /// <summary>
-        /// FpsCounter Updated Event.
-        /// </summary>
-        public event EventHandler<EventArgs> Updated;
+        #endregion Update and Draw
     }
 }

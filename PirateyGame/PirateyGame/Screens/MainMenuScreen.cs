@@ -7,6 +7,9 @@ using Cutlass.Managers;
 
 namespace PirateyGame.Screens
 {
+    /// <summary>
+    /// Main Menu Screen
+    /// </summary>
     class MainMenuScreen : ScrollMenuScreen
     {
         #region Initialization

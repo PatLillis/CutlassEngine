@@ -2,26 +2,28 @@
 
 namespace Cutlass.Interfaces
 {
+    /// <summary>
+    /// Interface for textures used in the engine.
+    /// </summary>
     public interface ICutlassTexture
     {
-        string FileName
-        {
-            get;
-            set;
-        }
+        /// <summary>Filename of asset</summary>
+        string FileName { get; set; }
 
-        Texture2D BaseTexture
-        {
-            get;
-        }
+        /// <summary>Underlying texture</summary>
+        Texture2D BaseTexture { get; }
 
-        bool ReadyToRender
-        {
-            get;
-        }
+        /// <summary>Has this asset been loaded</summary>
+        bool ReadyToRender { get; }
 
+        /// <summary>
+        /// Load the asset
+        /// </summary>
         void LoadContent();
 
+        /// <summary>
+        /// Unload the asset
+        /// </summary>
         void UnloadContent();
     }
 }

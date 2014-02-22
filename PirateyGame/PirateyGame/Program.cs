@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cutlass;
 using Cutlass.Managers;
 using PirateyGame.Screens;
-//using Cutlass.Managers;
 
 namespace PirateyGame
 {
+    /// <summary>
+    /// Main Program/Entry Point
+    /// </summary>
     static class Program
     {
         /// <summary>
@@ -18,11 +16,14 @@ namespace PirateyGame
 #if !XBOX360
         [STAThread]
 #endif
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             StartGame();
         }
 
+        /// <summary>
+        /// Start up the game/engine
+        /// </summary>
         private static void StartGame()
         {
             using (CutlassEngine engine = new CutlassEngine())
@@ -33,6 +34,9 @@ namespace PirateyGame
             }
         }
 
+        /// <summary>
+        /// Add initial screens
+        /// </summary>
         private static void SetupScene()
         {
             ScreenManager.AddScreen(new BackgroundScreen());

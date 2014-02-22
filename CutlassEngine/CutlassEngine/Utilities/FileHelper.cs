@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 
 namespace Cutlass.Utilities
 {
+    /// <summary>
+    /// Used to save/load files to/from disk.
+    /// </summary>
     public static class FileHelper
     {
         /// <summary>

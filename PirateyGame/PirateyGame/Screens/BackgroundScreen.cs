@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PirateyGame.Screens
 {
+    /// <summary>
+    /// Default background screen
+    /// </summary>
     class BackgroundScreen : GameScreen
     {
         #region Initialization

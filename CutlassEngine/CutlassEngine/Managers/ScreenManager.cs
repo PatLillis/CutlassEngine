@@ -40,9 +40,12 @@ namespace Cutlass.Managers
         }
         private bool _TraceEnabled;
 
+        /// <summary>"Stack" of screens</summary>
         private static List<GameScreen> _Screens = new List<GameScreen>();
+        /// <summary>"Stack" of screens that need to be updated.</summary>
         private static List<GameScreen> _ScreensToUpdate = new List<GameScreen>();
 
+        /// <summary>Has the ScreenManager been initialized</summary>
         public static bool IsInitialized
         {
             get { return _IsInitialized; }
@@ -70,7 +73,7 @@ namespace Cutlass.Managers
         }
 
         /// <summary>
-        /// Load your graphics content.
+        /// Load graphics content.
         /// </summary>
         protected override void LoadContent()
         {
@@ -87,7 +90,7 @@ namespace Cutlass.Managers
 
 
         /// <summary>
-        /// Unload your graphics content.
+        /// Unload graphics content.
         /// </summary>
         protected override void UnloadContent()
         {
@@ -173,6 +176,7 @@ namespace Cutlass.Managers
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
+            //Normal draws
             foreach (GameScreen screen in _Screens)
             {
                 if (screen.ScreenState == ScreenState.Hidden)
@@ -181,6 +185,7 @@ namespace Cutlass.Managers
                 screen.Draw(gameTime);
             }
 
+            //Post-UI draws
             foreach (GameScreen screen in _Screens)
             {
                 if (screen.ScreenState == ScreenState.Hidden)

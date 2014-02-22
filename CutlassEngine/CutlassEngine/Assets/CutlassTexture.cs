@@ -4,8 +4,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cutlass.Assets
 {
+    /// <summary>
+    /// "Default" implementation of ICutlassTexture interface.
+    /// </summary>
     public class CutlassTexture : ICutlassTexture
     {
+        #region Properties
+
         /// <summary>The file name of the asset.</summary>
         public string FileName
         {
@@ -27,6 +32,10 @@ namespace Cutlass.Assets
             get { return _ReadyToRender; }
         }
         private bool _ReadyToRender = false;
+
+        #endregion Properties
+
+        #region Initialization
 
         /// <summary>
         /// Construct a new CutlassTexture.
@@ -62,5 +71,7 @@ namespace Cutlass.Assets
         {
             _BaseTexture.Dispose();
         }
+
+        #endregion Initialization
     }
 }

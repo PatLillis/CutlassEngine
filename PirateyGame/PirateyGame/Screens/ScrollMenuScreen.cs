@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cutlass;
 using Cutlass.Assets;
 using Cutlass.Managers;
@@ -11,8 +8,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PirateyGame.Screens
 {
+    /// <summary>
+    /// Menu with "Scroll" title theme
+    /// </summary>
     class ScrollMenuScreen : MenuScreen
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="menuTitle"></param>
         public ScrollMenuScreen(string menuTitle)
             : base(menuTitle)
         {
@@ -20,6 +24,9 @@ namespace PirateyGame.Screens
             _TitleFontKey = "bilbo";
         }
 
+        /// <summary>
+        /// Load Content
+        /// </summary>
         public override void LoadContent()
         {
             base.LoadContent();
@@ -38,6 +45,27 @@ namespace PirateyGame.Screens
             SetMenuEntrySelectedTextColor(Palette.LightBlue);
         }
 
+        protected override void UpdateMenuEntryLocations()
+        {
+            base.UpdateMenuEntryLocations();
+
+            //MenuEntry last = MenuEntries.LastOrDefault();
+            //int bottomPosition = (int)last.Position.Y + (last.GetHeight() / 2);
+            //int difference = CutlassEngine.Device.Viewport.Height - bottomPosition - 32;
+
+            //if (difference < 0)
+            //{
+            //    foreach(MenuEntry m in MenuEntries)
+            //    {
+            //        m.Position = new Vector2(m.Position.X, m.Position.Y + difference);
+            //    }
+            //}
+        }
+
+        /// <summary>
+        /// Draw
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice graphics = CutlassEngine.Device;
@@ -105,12 +133,10 @@ namespace PirateyGame.Screens
             Rectangle menuOptionsBackground = new Rectangle();
 
             //The 1.1 is for the "pulsating effect of the menu options.
-            menuOptionsBackground.Width = (int)(MaxEntryWidth() * 1.1) - 64;
-            menuOptionsBackground.Height = -64;
-            for (int i = 0; i < _MenuEntries.Count; i++)
-                menuOptionsBackground.Height += _MenuEntries[i].GetHeight(this);
+            menuOptionsBackground.Width = (int)(MenuEntryWidth() * 1.1) - 64;
+            menuOptionsBackground.Height = MenuEntryHeight() - 64;
             menuOptionsBackground.X = (int)_MenuEntries[0].Position.X - menuOptionsBackground.Width / 2;
-            menuOptionsBackground.Y = (int)_MenuEntries[0].Position.Y - FontManager.GetSpriteFontOrDefault(_MenuEntries[0].EntryFontKey).LineSpacing / 2 + 32;
+            menuOptionsBackground.Y = (int)_MenuEntries[0].Position.Y - _MenuEntries[0].GetHeight() / 2 + 32;
 
             spriteBatch.Begin();
 

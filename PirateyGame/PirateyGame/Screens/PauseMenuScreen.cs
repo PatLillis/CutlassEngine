@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Cutlass.Managers;
 
 namespace PirateyGame.Screens
 {
+    /// <summary>
+    /// Pause Screen
+    /// </summary>
     class PauseMenuScreen : ScrollMenuScreen
     {
         #region Initialization

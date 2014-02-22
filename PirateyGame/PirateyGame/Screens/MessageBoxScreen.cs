@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Cutlass;
 using Cutlass.Assets;
 using Cutlass.GameComponents;
@@ -11,17 +8,24 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PirateyGame.Screens
 {
+    /// <summary>
+    /// Message Box Screen
+    /// </summary>
     class MessageBoxScreen : GameScreen
     {
-        #region Fields
+        #region Properties
 
-        string message;
+        /// <summary>Message for this box</summary>
+        private string _Message;
 
         #endregion
 
         #region Events
 
+        /// <summary>Fired when message is "Accepted"</summary>
         public event EventHandler<EventArgs> Accepted;
+
+        /// <summary>Fired when message is "Cancelled"</summary>
         public event EventHandler<EventArgs> Cancelled;
 
         #endregion
@@ -29,7 +33,7 @@ namespace PirateyGame.Screens
         #region Initialization
 
         /// <summary>
-        /// Constructor automatically includes the standard "A=ok, B=cancel"
+        /// Constructor automatically excludes the standard "A=ok, B=cancel"
         /// usage text prompt.
         /// </summary>
         public MessageBoxScreen(string message)
@@ -69,9 +73,9 @@ namespace PirateyGame.Screens
             }
 
             if (includeUsageText)
-                this.message = message + usageText;
+                this._Message = message + usageText;
             else
-                this.message = message;
+                this._Message = message;
 
             IsPopup = true;
 
@@ -125,12 +129,12 @@ namespace PirateyGame.Screens
 
             SpriteFont font = FontManager.GetSpriteFontOrDefault(String.Empty);
 
-            // Center the message text in the viewport.
+            // Center the message _Text in the viewport.
             Vector2 viewportSize = new Vector2(CutlassEngine.Device.Viewport.Width, CutlassEngine.Device.Viewport.Height);
-            Vector2 textSize = font.MeasureString(message);
+            Vector2 textSize = font.MeasureString(_Message);
             Vector2 textPosition = (viewportSize - textSize) / 2;
 
-            // The background includes a border somewhat larger than the text itself.
+            // The background includes a border somewhat larger than the _Text itself.
             const int hPad = 32;
             const int vPad = 16;
 
@@ -147,8 +151,8 @@ namespace PirateyGame.Screens
             // Draw the background rectangle.
             ScreenManager.SpriteBatch.Draw(TextureManager.GetTexture2D("gradient"), backgroundRectangle, color);
 
-            // Draw the message box text.
-            ScreenManager.SpriteBatch.DrawString(font, message, textPosition, color);
+            // Draw the message box _Text.
+            ScreenManager.SpriteBatch.DrawString(font, _Message, textPosition, color);
 
             ScreenManager.SpriteBatch.End();
         }

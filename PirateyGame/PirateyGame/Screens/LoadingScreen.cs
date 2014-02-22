@@ -26,14 +26,18 @@ namespace PirateyGame.Screens
     /// </summary>
     class LoadingScreen : GameScreen
     {
-        #region Fields
+        #region Properties
 
-        bool loadingIsSlow;
-        bool otherScreensAreGone;
+        /// <summary>Is the loading taking a long time</summary>
+        private bool _LoadingIsSlow;
 
-        GameScreen[] screensToLoad;
+        /// <summary>Keeps track of when all screens have transitioned off, and we can start the load</summary>
+        private bool _OtherScreensAreGone;
 
-        #endregion
+        /// <summary>Screens that need to be loaded.</summary>
+        private GameScreen[] _ScreensToLoad;
+
+        #endregion Properties
 
         #region Initialization
 
@@ -43,8 +47,8 @@ namespace PirateyGame.Screens
         /// </summary>
         private LoadingScreen(bool loadingIsSlow, GameScreen[] screensToLoad)
         {
-            this.loadingIsSlow = loadingIsSlow;
-            this.screensToLoad = screensToLoad;
+            this._LoadingIsSlow = loadingIsSlow;
+            this._ScreensToLoad = screensToLoad;
 
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
         }
@@ -78,11 +82,11 @@ namespace PirateyGame.Screens
 
             // If all the previous screens have finished transitioning
             // off, it is time to actually perform the load.
-            if (otherScreensAreGone)
+            if (_OtherScreensAreGone)
             {
                 ScreenManager.RemoveScreen(this);
 
-                foreach (GameScreen screen in screensToLoad)
+                foreach (GameScreen screen in _ScreensToLoad)
                 {
                     if (screen != null)
                     {
@@ -110,7 +114,7 @@ namespace PirateyGame.Screens
             if ((ScreenState == ScreenState.Active) &&
                 (ScreenManager.GetScreens().Length == 1))
             {
-                otherScreensAreGone = true;
+                _OtherScreensAreGone = true;
             }
 
             // The gameplay screen takes a while to load, so we display a loading
@@ -119,14 +123,14 @@ namespace PirateyGame.Screens
             // second while returning from the game to the menus. This parameter
             // tells us how long the loading is going to take, so we know whether
             // to bother drawing the message.
-            if (loadingIsSlow)
+            if (_LoadingIsSlow)
             {
                 SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
                 SpriteFont font = FontManager.GetSpriteFontOrDefault(String.Empty);
 
                 const string message = "Loading...";
 
-                // Center the text in the viewport.
+                // Center the _Text in the viewport.
                 Viewport viewport = CutlassEngine.Device.Viewport;
                 Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
                 Vector2 textSize = font.MeasureString(message);
@@ -134,7 +138,7 @@ namespace PirateyGame.Screens
 
                 Color color = Color.White * TransitionAlpha;
 
-                // Draw the text.
+                // Draw the _Text.
                 spriteBatch.Begin();
                 spriteBatch.DrawString(font, message, textPosition, color);
                 spriteBatch.End();

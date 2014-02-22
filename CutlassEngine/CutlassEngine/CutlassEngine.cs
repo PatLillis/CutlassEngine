@@ -15,6 +15,7 @@ namespace Cutlass
     {
         #region Properties
 
+        /// <summary>XNA Game, used to call non-static methods</summary>
         public static Game Game
         {
             get { return _Game; }
@@ -22,36 +23,28 @@ namespace Cutlass
         }
         private static Game _Game;
 
-        /// <summary>
-        /// Width of visible render area.
-        /// </summary>
+        /// <summary>Width of visible render area.</summary>
         public static int Width
         {
             get { return _Width; }
         }
-        protected static int _Width;
+        private static int _Width;
 
-        /// <summary>
-        /// Height of visible render area.
-        /// </summary>
+        /// <summary>Height of visible render area.</summary>
         public static int Height
         {
             get { return _Height; }
         }
-        protected static int _Height;
+        private static int _Height;
 
-        /// <summary>
-        /// Aspect ratio of render area.
-        /// </summary>
+        /// <summary>Aspect ratio of render area.</summary>
         public static float AspectRatio
         {
             get { return _AspectRatio; }
         }
         private static float _AspectRatio = 1.0f;
 
-        /// <summary>
-        /// Color used to redraw the background scene.
-        /// </summary>
+        /// <summary>Color used to redraw the background scene.</summary>
         public static Color BackgroundColor
         {
             get { return _BackgroundColor; }
@@ -59,20 +52,17 @@ namespace Cutlass
         }
         private static Color _BackgroundColor = Color.LightBlue;
 
+        /// <summary>The platform the engine is currently running on</summary>
         public static PlatformID CurrentPlatform = Environment.OSVersion.Platform;
 
-        /// <summary>
-        /// Window title for test cases.
-        /// </summary>
+        /// <summary>Window title</summary>
         public static string WindowTitle
         {
             get { return _WindowTitle; }
         }
         private static string _WindowTitle = "";
 
-        /// <summary>
-        /// Is the application active.
-        /// </summary>
+        /// <summary>Is the application active.</summary>
         public bool IsAppActive
         {
             get { return _IsAppActive; }
@@ -80,44 +70,47 @@ namespace Cutlass
         }
         private bool _IsAppActive = false;
 
-        /// <summary>
-        /// The graphics device, used to render.
-        /// </summary>
+        /// <summary>The graphics device, used to render.</summary>
         public static GraphicsDevice Device
         {
             get { return _GraphicsDeviceManager.GraphicsDevice; }
         }
-        protected static GraphicsDeviceManager _GraphicsDeviceManager = null;
+        private static GraphicsDeviceManager _GraphicsDeviceManager = null;
 
-        /// <summary>
-        /// Content Manager
-        /// </summary>
+        /// <summary>Content Manager</summary>
         public static ContentManager ContentManager
         {
             get { return _ContentManager; }
         }
-        protected static ContentManager _ContentManager = null;
+        private static ContentManager _ContentManager = null;
 
+        /// <summary>Whether the Graphics Options have been checked yet</summary>
         private static bool _CheckedGraphicsOptions = false;
+
+        /// <summary>Whether device changes need to be applied</summary>
         private static bool _ApplyDeviceChanges = false;
 
         #endregion
 
         #region Game Components
 
+        /// <summary>Input component</summary>
         public static Input Input
         {
             get { return _Input; }
         }
-
-        private static FpsCounter _FpsCounter = null;
-
-        private static ScreenManager _ScreenManager = null;
-
         private static Input _Input = null;
 
+        /// <summary>FPS Counter component, only displayed in #DEBUG</summary>
+        private static FpsCounter _FpsCounter = null;
+
+        /// <summary>Screen Manager component</summary>
+        private static ScreenManager _ScreenManager = null;
+
+        /// <summary>Font Manager component</summary>
         private static FontManager _FontManager = null;
 
+        /// <summary>Texture Manager component</summary>
         private static TextureManager _TextureManager = null;
 
         #endregion
@@ -125,7 +118,7 @@ namespace Cutlass
         #region Initialization
 
         /// <summary>
-        /// The Main PirateyGame constructor
+        /// The Main CutlassEngine constructor
         /// </summary>
         public CutlassEngine(string windowTitle = "Cutlass Engine")
         {
@@ -140,34 +133,33 @@ namespace Cutlass
             ApplyResolutionChange();
 
 #if DEBUG
-            // Disable vertical retrace to get highest framerates possible for
-            // testing performance.
+            //Disable vertical retrace to get highest framerates possible for
+            //testing performance.
             _GraphicsDeviceManager.SynchronizeWithVerticalRetrace = false;
 #endif
-            // Demand to update as fast as possible, do not use fixed time steps.
-            // The whole game is designed this way, if you remove this line
-            // the game will not behave normal any longer!
+            //Demand to update as fast as possible, do not use fixed time steps.
             this.IsFixedTimeStep = false;
 
-            // Init the screen manager component.
+            //Init the screen manager component.
             _ScreenManager = new ScreenManager(this);
             Components.Add(_ScreenManager);
 
+            //Init the Input component
             _Input = new Input(this);
             Components.Add(_Input);
 
+            //Init the Font Manager component
             _FontManager = new FontManager(this);
             Components.Add(_FontManager);
 
+            //Init the Texture Manager component
             _TextureManager = new TextureManager(this);
             Components.Add(_TextureManager);
 #if DEBUG
-            // Init the FpsCounter
+            //Init the FpsCounter
             _FpsCounter = new FpsCounter(this, _ScreenManager);
             Components.Add(_FpsCounter);
 #endif
-
-            //TODO include other inits here!
         }
 
         /// <summary>
@@ -199,6 +191,9 @@ namespace Cutlass
             }
         }
 
+        /// <summary>
+        /// Check Graphics Options
+        /// </summary>
         public static void CheckOptionsAndPSVersion()
         {
             if (Device == null)
@@ -217,33 +212,31 @@ namespace Cutlass
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
 
             _GraphicsDeviceManager.DeviceReset += new EventHandler<System.EventArgs>(GraphicsDeviceManager_DeviceReset);
             GraphicsDeviceManager_DeviceReset(null, EventArgs.Empty);
         }
 
-        void GraphicsDeviceManager_DeviceReset(object sender, EventArgs e) { }
+        /// <summary>
+        /// Used to handle a device reset
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void GraphicsDeviceManager_DeviceReset(object sender, EventArgs e)
+        { }
 
         /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
+        /// LoadContent will be called once per game
         /// </summary>
         protected override void LoadContent()
-        {
-            // TODO: use this.Content to load your game content here
-        }
+        { }
 
         /// <summary>
-        /// UnloadContent will be called once per game and is the place to load
-        /// all of your content.
+        /// UnloadContent will be called once per game
         /// </summary>
         protected override void UnloadContent()
-        {
-            // TODO: use this.Content to unload your game content here
-        }
+        { }
 
         #endregion
 
@@ -255,8 +248,6 @@ namespace Cutlass
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(BackgroundColor);
-
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             // The real drawing happens inside the screen manager component.
             base.Draw(gameTime);
@@ -274,11 +265,16 @@ namespace Cutlass
 
         #region Public Methods
 
+        /// <summary>
+        /// Apply any changes made (most likely via the "Options" screen)
+        /// </summary>
         public static void ApplyResolutionChange()
         {
+            //Set width/height
             int resolutionWidth = GameSettings.Default.ResolutionWidth;
             int resolutionHeight = GameSettings.Default.ResolutionHeight;
 
+            //Make sure width/height is at least minimum
             if (resolutionWidth <= 0 || resolutionWidth <= 0)
             {
                 resolutionWidth = GameSettings.MinimumResolutionWidth;
@@ -296,18 +292,29 @@ namespace Cutlass
             _GraphicsDeviceManager.PreferredBackBufferHeight = resolutionHeight;
             _GraphicsDeviceManager.IsFullScreen = GameSettings.Default.Fullscreen;
 
+            //Save new settings out to disk.
             GameSettings.Save();
 
             _ApplyDeviceChanges = true;
 #endif
         }
 
+        /// <summary>
+        /// Handle when this app is activated.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         protected override void OnActivated(object sender, EventArgs args)
         {
             base.OnActivated(sender, args);
             IsAppActive = true;
         }
 
+        /// <summary>
+        /// Handle when this app is deactivated.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         protected override void OnDeactivated(object sender, EventArgs args)
         {
             base.OnDeactivated(sender, args);

@@ -17,9 +17,7 @@ namespace Cutlass.Utilities
     {
         #region Properties
 
-        /// <summary>
-        /// Player name.
-        /// </summary>
+        /// <summary>Player name</summary>
         public string PlayerName
         {
             get { return _PlayerName; }
@@ -32,11 +30,10 @@ namespace Cutlass.Utilities
         }
         private string _PlayerName = "Player";
 
+        /// <summary>Minimum resolution width (if none is set)</summary>
         public const int MinimumResolutionWidth = 1024;
 
-        /// <summary>
-        /// Resolution width.
-        /// </summary>
+        /// <summary>Resolution width</summary>
         public int ResolutionWidth
         {
             get { return _ResolutionWidth; }
@@ -49,11 +46,10 @@ namespace Cutlass.Utilities
         }
         private int _ResolutionWidth = 0;
 
+        /// <summary>Minimum resolution height (if none is set)</summary>
         public const int MinimumResolutionHeight = 768;
 
-        /// <summary>
-        /// Resolution height.
-        /// </summary>
+        /// <summary>Resolution height</summary>
         public int ResolutionHeight
         {
             get { return _ResolutionHeight; }
@@ -66,9 +62,7 @@ namespace Cutlass.Utilities
         }
         private int _ResolutionHeight = 0;
 
-        /// <summary>
-        /// Fullscreen.
-        /// </summary>
+        /// <summary>Fullscreen</summary>
         public bool Fullscreen
         {
             get { return _Fullscreen; }
@@ -81,9 +75,7 @@ namespace Cutlass.Utilities
         }
         private bool _Fullscreen = false;
 
-        /// <summary>
-        /// Locale
-        /// </summary>
+        /// <summary>Locale</summary>
         public string Locale
         {
             get { return _Locale; }
@@ -96,9 +88,7 @@ namespace Cutlass.Utilities
         }
         private string _Locale = "en-US";
 
-        /// <summary>
-        /// Devastating Insults.
-        /// </summary>
+        /// <summary>Devastating Insults</summary>
         public bool Insults
         {
             get { return _Insults; }
@@ -111,9 +101,7 @@ namespace Cutlass.Utilities
         }
         private bool _Insults = false;
 
-        /// <summary>
-        /// Ocean Color
-        /// </summary>
+        /// <summary>Ocean Color</summary>
         public int OceanColor
         {
             get { return _OceanColor; }
@@ -126,100 +114,21 @@ namespace Cutlass.Utilities
         }
         private int _OceanColor = 0;
 
-        /// <summary>
-        /// All the shiney stuff after rendering is done.
-        /// </summary>
-        public bool PostScreenEffects
+        /// <summary>Sound volume</summary>
+        public int SfxVolume
         {
-            get { return _PostScreenEffects; }
+            get { return _SfxVolume; }
             set
             {
-                if (_PostScreenEffects != value)
+                if (_SfxVolume != value)
                     _NeedSave = true;
-                _PostScreenEffects = value;
+                _SfxVolume = value;
             }
         }
-        private bool _PostScreenEffects = true;
+        private int _SfxVolume = 80;
 
-        /// <summary>
-        /// Show reflections off reflective surfaces.
-        /// </summary>
-        public bool Reflections
-        {
-            get { return _Reflections; }
-            set
-            {
-                if (_Reflections != value)
-                    _NeedSave = true;
-                _Reflections = value;
-            }
-        }
-        private bool _Reflections = true;
-
-        /// <summary>
-        /// Show refractions on see through surfaces.
-        /// </summary>
-        public bool Refractions
-        {
-            get { return _Refractions; }
-            set
-            {
-                if (_Refractions != value)
-                    _NeedSave = true;
-                _Refractions = value;
-            }
-        }
-        private bool _Refractions = true;
-
-        /// <summary>
-        /// Cast shadows in the environment.
-        /// </summary>
-        public bool ShadowMapping
-        {
-            get { return _ShadowMapping; }
-            set
-            {
-                if (_ShadowMapping != value)
-                    _NeedSave = true;
-                _ShadowMapping = value;
-            }
-        }
-        private bool _ShadowMapping = true;
-
-        /// <summary>
-        /// Use high detail rendering, textures and lighting.
-        /// </summary>
-        public bool HighDetail
-        {
-            get { return _HighDetail; }
-            set
-            {
-                if (_HighDetail != value)
-                    _NeedSave = true;
-                _HighDetail = value;
-            }
-        }
-        private bool _HighDetail = true;
-
-        /// <summary>
-        /// Sound volume.
-        /// </summary>
-        public float SoundVolume
-        {
-            get { return _SoundVolume; }
-            set
-            {
-                if (_SoundVolume != value)
-                    _NeedSave = true;
-                _SoundVolume = value;
-            }
-        }
-        private float _SoundVolume = 0.8f;
-
-        /// <summary>
-        /// Music volume.
-        /// </summary>
-        public float MusicVolume
+        /// <summary>Music volume</summary>
+        public int MusicVolume
         {
             get { return _MusicVolume; }
             set
@@ -229,11 +138,9 @@ namespace Cutlass.Utilities
                 _MusicVolume = value;
             }
         }
-        private float _MusicVolume = 0.6f;
+        private int _MusicVolume = 60;
 
-        /// <summary>
-        /// Controller sensitivity.
-        /// </summary>
+        /// <summary>Controller sensitivity</summary>
         public float ControllerSensitivity
         {
             get { return _ControllerSensitivity; }
@@ -248,30 +155,24 @@ namespace Cutlass.Utilities
 
         #endregion
 
-        #region Default
+        #region Default Settings
 
-        /// <summary>
-        /// Filename used to store the game settings.
-        /// </summary>
+        /// <summary>Filename used to store the game settings</summary>
         private const string _SettingsFilename = "config.xml";
 
-        /// <summary>
-        /// Default instance of the game settings.
-        /// </summary>
+        /// <summary>Default instance of the game settings</summary>
         public static GameSettings Default
         {
             get { return _DefaultInstance; }
         }
         private static GameSettings _DefaultInstance = null;
 
-        /// <summary>
-        /// Need to save the game settings file only if true.
-        /// </summary>
+        /// <summary>Need to save the game settings file only if true</summary>
         private static bool _NeedSave = false;
 
         #endregion
 
-        #region Constructor
+        #region Initialization
 
         /// <summary>
         /// No public constructor! Create the game settings.
@@ -290,9 +191,10 @@ namespace Cutlass.Utilities
             Load();
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Load
+
         /// <summary>
         /// Load
         /// </summary>
@@ -340,13 +242,24 @@ namespace Cutlass.Utilities
             {
                 // Else load everything into this class with help of the
                 // XmlSerializer.
-                GameSettings loadedGameSetting =
-                    (GameSettings)new XmlSerializer(typeof(GameSettings)).Deserialize(file);
-                if (loadedGameSetting != null)
-                    _DefaultInstance = loadedGameSetting;
+                try
+                {
+                    GameSettings loadedGameSetting =
+                        (GameSettings)new XmlSerializer(typeof(GameSettings)).Deserialize(file);
+                    if (loadedGameSetting != null)
+                        _DefaultInstance = loadedGameSetting;
 
-                // Close the file.
-                file.Close();
+                    // Close the file.
+                    file.Close();
+                }
+                catch (System.InvalidOperationException)
+                {
+                    file.Close();
+
+                    // Save the user settings.
+                    _NeedSave = true;
+                    Save();
+                }
             }
         }
 
@@ -382,11 +295,6 @@ namespace Cutlass.Utilities
         {
             GameSettings.Default.ResolutionWidth = GameSettings.MinimumResolutionWidth;
             GameSettings.Default.ResolutionHeight = GameSettings.MinimumResolutionHeight;
-            GameSettings.Default.Reflections = false;
-            GameSettings.Default.Refractions = false;
-            GameSettings.Default.ShadowMapping = false;
-            GameSettings.Default.HighDetail = false;
-            GameSettings.Default.PostScreenEffects = false;
             GameSettings.Save();
         }
 

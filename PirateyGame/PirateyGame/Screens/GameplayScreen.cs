@@ -161,7 +161,7 @@ namespace PirateyGame.Screens
             // This game has a blue background. Why? Because!
             CutlassEngine.Device.Clear(ClearOptions.Target, Palette.OffWhite, 0, 0);
 
-            // Our player and enemy are both actually just text strings.
+            // Our player and enemy are both actually just _Text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
