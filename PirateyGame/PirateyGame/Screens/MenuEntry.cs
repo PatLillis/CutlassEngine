@@ -16,10 +16,11 @@ namespace PirateyGame.Screens
     {
         #region Properties
 
-        /// <summary>
-        /// Tracks a fading selection effect on the entry.
-        /// </summary>
+        /// <summary>Tracks a fading selection effect on the entry.</summary>
         private float _SelectionFade;
+
+        /// <summary>Tracks the pulsating effect on the entry.</summary>
+        private float _Pulsate = 0.0f;
 
         /// <summary>
         /// The text rendered for this entry.
@@ -170,12 +171,17 @@ namespace PirateyGame.Screens
             // When the menu selection changes, entries gradually fade between
             // their selected and deselected appearance, rather than instantly
             // popping to the new state.
-            float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
+            float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (isSelected)
-                _SelectionFade = Math.Min(_SelectionFade + fadeSpeed, 1);
+                _SelectionFade = Math.Min(_SelectionFade + (fadeSpeed * 4f), 1);
             else
-                _SelectionFade = Math.Max(_SelectionFade - fadeSpeed, 0);
+                _SelectionFade = Math.Max(_SelectionFade - (fadeSpeed * 4f), 0);
+
+            if (isSelected && _Pulsate - 0.001 < Math.PI)
+                _Pulsate += fadeSpeed;
+            else
+                _Pulsate = 0.0f;
         }
 
         /// <summary>
@@ -183,11 +189,10 @@ namespace PirateyGame.Screens
         /// </summary>
         public virtual void Draw(MenuScreen screen, bool isSelected, GameTime gameTime)
         {
-            // there is no such thing as a selected item on Windows Phone, so we always
-            // force isSelected to be false
-#if WINDOWS_PHONE
-            isSelected = false;
-#endif
+            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+
+            // Draw _Text, centered on the middle of each line.
+            SpriteFont font = FontManager.GetSpriteFontOrDefault(_EntryFontKey);
 
             // Draw the selected entry
             Color color = isSelected ? SelectedTextColor : TextColor;
@@ -195,16 +200,12 @@ namespace PirateyGame.Screens
             // Pulsate the size of the selected menu entry.
             double time = gameTime.TotalGameTime.TotalSeconds;
 
-            float pulsate = (float)Math.Sin(time * 6) + 1;
+            float pulsate = (float)Math.Sin(_Pulsate * 6) + 1;
 
             float scale = 1 + pulsate * 0.05f * _SelectionFade;
 
             // Modify the alpha to fade _Text out during transitions.
             color *= screen.TransitionAlpha;
-
-            // Draw _Text, centered on the middle of each line.
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            SpriteFont font = FontManager.GetSpriteFontOrDefault(_EntryFontKey);
 
             Vector2 origin = new Vector2(font.MeasureString(_Text).X / 2, font.LineSpacing / 2);
 
