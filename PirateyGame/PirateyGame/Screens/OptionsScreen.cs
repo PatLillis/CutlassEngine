@@ -90,8 +90,8 @@ namespace PirateyGame.Screens
         public OptionsMenuScreen()
             : base("Options")
         {
-            int resolutionIndex = AvailableResolutions.FindIndex(d => d.Width == GameSettings.Default.ResolutionWidth &&
-                                                              d.Height == GameSettings.Default.ResolutionHeight);
+            int resolutionIndex = AvailableResolutions.FindIndex(d => d.Width == GameSettingsManager.Default.ResolutionWidth &&
+                                                              d.Height == GameSettingsManager.Default.ResolutionHeight);
 
             if (resolutionIndex != -1)
             {
@@ -99,7 +99,7 @@ namespace PirateyGame.Screens
                 _TemporaryResolution = resolutionIndex;
             }
 
-            int localeIndex = _AvailableLocales.FindIndex(l => l == GameSettings.Default.Locale);
+            int localeIndex = _AvailableLocales.FindIndex(l => l == GameSettingsManager.Default.Locale);
 
             if (localeIndex != -1)
             {
@@ -165,12 +165,12 @@ namespace PirateyGame.Screens
         void SetMenuEntryText()
         {
             _ResolutionMenuEntry.Text = "Screen Resolution: " + AvailableResolutions[_TemporaryResolution].Width + " x " + AvailableResolutions[_TemporaryResolution].Height;
-            _FullScreenEntry.Text = "Fullscreen: " + (GameSettings.Default.Fullscreen ? "Yes" : "No");
-            _MusicMenuEntry.Text = "Music Level: " + GameSettings.Default.MusicVolume;
-            _SfxMenuEntry.Text = "SFX Level: " + GameSettings.Default.SfxVolume;
+            _FullScreenEntry.Text = "Fullscreen: " + (GameSettingsManager.Default.Fullscreen ? "Yes" : "No");
+            _MusicMenuEntry.Text = "Music Level: " + GameSettingsManager.Default.MusicVolume;
+            _SfxMenuEntry.Text = "SFX Level: " + GameSettingsManager.Default.SfxVolume;
             _LanguageMenuEntry.Text = "Language: " + _CurrentLanguage;
-            _InsultsMenuEntry.Text = "Devastating Insults: " + (GameSettings.Default.Insults ? "On" : "Off");
-            _OceanColorMenuEntry.Text = "Ocean Color: " + _AvailableOceanColors[GameSettings.Default.OceanColor];
+            _InsultsMenuEntry.Text = "Devastating Insults: " + (GameSettingsManager.Default.Insults ? "On" : "Off");
+            _OceanColorMenuEntry.Text = "Ocean Color: " + _AvailableOceanColors[GameSettingsManager.Default.OceanColor];
         }
 
         #endregion
@@ -183,8 +183,8 @@ namespace PirateyGame.Screens
             {
                 _CurrentResolution = _TemporaryResolution;
 
-                GameSettings.Default.ResolutionWidth = AvailableResolutions[_CurrentResolution].Width;
-                GameSettings.Default.ResolutionHeight = AvailableResolutions[_CurrentResolution].Height;
+                GameSettingsManager.Default.ResolutionWidth = AvailableResolutions[_CurrentResolution].Width;
+                GameSettingsManager.Default.ResolutionHeight = AvailableResolutions[_CurrentResolution].Height;
 
                 CutlassEngine.ApplyResolutionChange();
 
@@ -210,7 +210,7 @@ namespace PirateyGame.Screens
 
         void FullscreenMenuEntrySelected(object sender, EventArgs e)
         {
-            GameSettings.Default.Fullscreen = !GameSettings.Default.Fullscreen;
+            GameSettingsManager.Default.Fullscreen = !GameSettingsManager.Default.Fullscreen;
             CutlassEngine.ApplyResolutionChange();
 
             SetMenuEntryText();
@@ -223,10 +223,10 @@ namespace PirateyGame.Screens
 
             if (_MusicUpdateTimer == 0)
             {
-                int tempVal = (GameSettings.Default.MusicVolume + 1);
+                int tempVal = (GameSettingsManager.Default.MusicVolume + 1);
                 if (tempVal >= 0 && tempVal <= 100)
                 {
-                    GameSettings.Default.MusicVolume = tempVal;
+                    GameSettingsManager.Default.MusicVolume = tempVal;
 
                     SetMenuEntryText();
                 }
@@ -239,10 +239,10 @@ namespace PirateyGame.Screens
 
             if (_MusicUpdateTimer == 0)
             {
-                int tempVal = (GameSettings.Default.MusicVolume - 1);
+                int tempVal = (GameSettingsManager.Default.MusicVolume - 1);
                 if (tempVal >= 0 && tempVal <= 100)
                 {
-                    GameSettings.Default.MusicVolume = tempVal;
+                    GameSettingsManager.Default.MusicVolume = tempVal;
 
                     SetMenuEntryText();
                 }
@@ -253,7 +253,7 @@ namespace PirateyGame.Screens
         {
             _MusicUpdateTimer = -1;
 
-            GameSettings.Save();
+            GameSettingsManager.Save();
         }
 
         void SfxMenuEntryRight(object sender, EventArgs e)
@@ -262,10 +262,10 @@ namespace PirateyGame.Screens
 
             if (_SfxUpdateTimer == 0)
             {
-                int tempVal = (GameSettings.Default.SfxVolume + 1);
+                int tempVal = (GameSettingsManager.Default.SfxVolume + 1);
                 if (tempVal >= 0 && tempVal <= 100)
                 {
-                    GameSettings.Default.SfxVolume = tempVal;
+                    GameSettingsManager.Default.SfxVolume = tempVal;
 
                     SetMenuEntryText();
                 }
@@ -278,10 +278,10 @@ namespace PirateyGame.Screens
 
             if (_SfxUpdateTimer == 0)
             {
-                int tempVal = (GameSettings.Default.SfxVolume - 1);
+                int tempVal = (GameSettingsManager.Default.SfxVolume - 1);
                 if (tempVal >= 0 && tempVal <= 100)
                 {
-                    GameSettings.Default.SfxVolume = tempVal;
+                    GameSettingsManager.Default.SfxVolume = tempVal;
 
                     SetMenuEntryText();
                 }
@@ -292,14 +292,14 @@ namespace PirateyGame.Screens
         {
             _SfxUpdateTimer = -1;
 
-            GameSettings.Save();
+            GameSettingsManager.Save();
         }
 
         void LanguageMenuEntrySelected(object sender, EventArgs e)
         {
             _CurrentLocale = (_CurrentLocale + 1) % _AvailableLocales.Count;
-            GameSettings.Default.Locale = _AvailableLocales[_CurrentLocale];
-            GameSettings.Save();
+            GameSettingsManager.Default.Locale = _AvailableLocales[_CurrentLocale];
+            GameSettingsManager.Save();
 
             SetMenuEntryText();
         }
@@ -307,8 +307,8 @@ namespace PirateyGame.Screens
 
         void InsultsMenuEntrySelected(object sender, EventArgs e)
         {
-            GameSettings.Default.Insults = !GameSettings.Default.Insults;
-            GameSettings.Save();
+            GameSettingsManager.Default.Insults = !GameSettingsManager.Default.Insults;
+            GameSettingsManager.Save();
 
             SetMenuEntryText();
         }
@@ -316,8 +316,8 @@ namespace PirateyGame.Screens
 
         void OceanColorMenuEntrySelected(object sender, EventArgs e)
         {
-            GameSettings.Default.OceanColor = (GameSettings.Default.OceanColor + 1) % _AvailableOceanColors.Length;
-            GameSettings.Save();
+            GameSettingsManager.Default.OceanColor = (GameSettingsManager.Default.OceanColor + 1) % _AvailableOceanColors.Length;
+            GameSettingsManager.Save();
 
             SetMenuEntryText();
         }

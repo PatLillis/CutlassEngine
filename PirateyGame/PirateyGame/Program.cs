@@ -39,6 +39,7 @@ namespace PirateyGame
         /// </summary>
         private static void SetupScene()
         {
+            CutlassEngine.BackgroundColor = Palette.Black;
             ScreenManager.AddScreen(new BackgroundScreen());
             ScreenManager.AddScreen(new MainMenuScreen());
         }

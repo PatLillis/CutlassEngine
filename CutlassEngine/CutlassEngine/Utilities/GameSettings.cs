@@ -12,148 +12,154 @@ namespace Cutlass.Utilities
     /// Note: The default instance for the game settings is in this class,
     /// this way we get the same behaviour as for normal Settings files!
     /// </summary>
-    [Serializable]
-    public class GameSettings
+    public class GameSettingsManager
     {
-        #region Properties
-
-        /// <summary>Player name</summary>
-        public string PlayerName
+        [Serializable]
+        public class GameSettings
         {
-            get { return _PlayerName; }
-            set
+            /// <summary>Player name</summary>
+            public string PlayerName
             {
-                if (_PlayerName != value)
-                    _NeedSave = true;
-                _PlayerName = value;
+                get { return _PlayerName; }
+                set
+                {
+                    if (_PlayerName != value)
+                        _NeedSave = true;
+                    _PlayerName = value;
+                }
             }
+            private string _PlayerName = "Player";
+
+            /// <summary>Minimum resolution width (if none is set)</summary>
+            public const int MinimumResolutionWidth = 1024;
+
+            /// <summary>Resolution width</summary>
+            public int ResolutionWidth
+            {
+                get { return _ResolutionWidth; }
+                set
+                {
+                    if (_ResolutionWidth != value)
+                        _NeedSave = true;
+                    _ResolutionWidth = value;
+                }
+            }
+            private int _ResolutionWidth = 0;
+
+            /// <summary>Minimum resolution height (if none is set)</summary>
+            public const int MinimumResolutionHeight = 768;
+
+            /// <summary>Resolution height</summary>
+            public int ResolutionHeight
+            {
+                get { return _ResolutionHeight; }
+                set
+                {
+                    if (_ResolutionHeight != value)
+                        _NeedSave = true;
+                    _ResolutionHeight = value;
+                }
+            }
+            private int _ResolutionHeight = 0;
+
+            /// <summary>Fullscreen</summary>
+            public bool Fullscreen
+            {
+                get { return _Fullscreen; }
+                set
+                {
+                    if (_Fullscreen != value)
+                        _NeedSave = true;
+                    _Fullscreen = value;
+                }
+            }
+            private bool _Fullscreen = false;
+
+            /// <summary>Locale</summary>
+            public string Locale
+            {
+                get { return _Locale; }
+                set
+                {
+                    if (_Locale != value)
+                        _NeedSave = true;
+                    _Locale = value;
+                }
+            }
+            private string _Locale = "en-US";
+
+            /// <summary>Devastating Insults</summary>
+            public bool Insults
+            {
+                get { return _Insults; }
+                set
+                {
+                    if (_Insults != value)
+                        _NeedSave = true;
+                    _Insults = value;
+                }
+            }
+            private bool _Insults = false;
+
+            /// <summary>Ocean Color</summary>
+            public int OceanColor
+            {
+                get { return _OceanColor; }
+                set
+                {
+                    if (_OceanColor != value)
+                        _NeedSave = true;
+                    _OceanColor = value;
+                }
+            }
+            private int _OceanColor = 0;
+
+            /// <summary>Sound volume</summary>
+            public int SfxVolume
+            {
+                get { return _SfxVolume; }
+                set
+                {
+                    if (_SfxVolume != value)
+                        _NeedSave = true;
+                    _SfxVolume = value;
+                }
+            }
+            private int _SfxVolume = 80;
+
+            /// <summary>Music volume</summary>
+            public int MusicVolume
+            {
+                get { return _MusicVolume; }
+                set
+                {
+                    if (_MusicVolume != value)
+                        _NeedSave = true;
+                    _MusicVolume = value;
+                }
+            }
+            private int _MusicVolume = 60;
+
+            /// <summary>Controller sensitivity</summary>
+            public float ControllerSensitivity
+            {
+                get { return _ControllerSensitivity; }
+                set
+                {
+                    if (_ControllerSensitivity != value)
+                        _NeedSave = true;
+                    _ControllerSensitivity = value;
+                }
+            }
+            private float _ControllerSensitivity = 0.5f;
+
         }
-        private string _PlayerName = "Player";
 
         /// <summary>Minimum resolution width (if none is set)</summary>
         public const int MinimumResolutionWidth = 1024;
 
-        /// <summary>Resolution width</summary>
-        public int ResolutionWidth
-        {
-            get { return _ResolutionWidth; }
-            set
-            {
-                if (_ResolutionWidth != value)
-                    _NeedSave = true;
-                _ResolutionWidth = value;
-            }
-        }
-        private int _ResolutionWidth = 0;
-
         /// <summary>Minimum resolution height (if none is set)</summary>
         public const int MinimumResolutionHeight = 768;
-
-        /// <summary>Resolution height</summary>
-        public int ResolutionHeight
-        {
-            get { return _ResolutionHeight; }
-            set
-            {
-                if (_ResolutionHeight != value)
-                    _NeedSave = true;
-                _ResolutionHeight = value;
-            }
-        }
-        private int _ResolutionHeight = 0;
-
-        /// <summary>Fullscreen</summary>
-        public bool Fullscreen
-        {
-            get { return _Fullscreen; }
-            set
-            {
-                if (_Fullscreen != value)
-                    _NeedSave = true;
-                _Fullscreen = value;
-            }
-        }
-        private bool _Fullscreen = false;
-
-        /// <summary>Locale</summary>
-        public string Locale
-        {
-            get { return _Locale; }
-            set
-            {
-                if (_Locale != value)
-                    _NeedSave = true;
-                _Locale = value;
-            }
-        }
-        private string _Locale = "en-US";
-
-        /// <summary>Devastating Insults</summary>
-        public bool Insults
-        {
-            get { return _Insults; }
-            set
-            {
-                if (_Insults != value)
-                    _NeedSave = true;
-                _Insults = value;
-            }
-        }
-        private bool _Insults = false;
-
-        /// <summary>Ocean Color</summary>
-        public int OceanColor
-        {
-            get { return _OceanColor; }
-            set
-            {
-                if (_OceanColor != value)
-                    _NeedSave = true;
-                _OceanColor = value;
-            }
-        }
-        private int _OceanColor = 0;
-
-        /// <summary>Sound volume</summary>
-        public int SfxVolume
-        {
-            get { return _SfxVolume; }
-            set
-            {
-                if (_SfxVolume != value)
-                    _NeedSave = true;
-                _SfxVolume = value;
-            }
-        }
-        private int _SfxVolume = 80;
-
-        /// <summary>Music volume</summary>
-        public int MusicVolume
-        {
-            get { return _MusicVolume; }
-            set
-            {
-                if (_MusicVolume != value)
-                    _NeedSave = true;
-                _MusicVolume = value;
-            }
-        }
-        private int _MusicVolume = 60;
-
-        /// <summary>Controller sensitivity</summary>
-        public float ControllerSensitivity
-        {
-            get { return _ControllerSensitivity; }
-            set
-            {
-                if (_ControllerSensitivity != value)
-                    _NeedSave = true;
-                _ControllerSensitivity = value;
-            }
-        }
-        private float _ControllerSensitivity = 0.5f;
-
-        #endregion
 
         #region Default Settings
 
@@ -165,7 +171,7 @@ namespace Cutlass.Utilities
         {
             get { return _DefaultInstance; }
         }
-        private static GameSettings _DefaultInstance = null;
+        private static GameSettings _DefaultInstance;
 
         /// <summary>Need to save the game settings file only if true</summary>
         private static bool _NeedSave = false;
@@ -177,7 +183,7 @@ namespace Cutlass.Utilities
         /// <summary>
         /// No public constructor! Create the game settings.
         /// </summary>
-        private GameSettings()
+        private GameSettingsManager()
         { }
 
         /// <summary>
@@ -227,6 +233,7 @@ namespace Cutlass.Utilities
                     // Load everything into this class.
                     GameSettings loadedGameSetting =
                         (GameSettings)new XmlSerializer(typeof(GameSettings)).Deserialize(file);
+
                     if (loadedGameSetting != null)
                         _DefaultInstance = loadedGameSetting;
 
@@ -246,6 +253,7 @@ namespace Cutlass.Utilities
                 {
                     GameSettings loadedGameSetting =
                         (GameSettings)new XmlSerializer(typeof(GameSettings)).Deserialize(file);
+
                     if (loadedGameSetting != null)
                         _DefaultInstance = loadedGameSetting;
 
@@ -293,9 +301,9 @@ namespace Cutlass.Utilities
         /// </summary>
         public static void SetMinimumGraphics()
         {
-            GameSettings.Default.ResolutionWidth = GameSettings.MinimumResolutionWidth;
-            GameSettings.Default.ResolutionHeight = GameSettings.MinimumResolutionHeight;
-            GameSettings.Save();
+            _DefaultInstance.ResolutionWidth = GameSettingsManager.MinimumResolutionWidth;
+            _DefaultInstance.ResolutionHeight = GameSettingsManager.MinimumResolutionHeight;
+            GameSettingsManager.Save();
         }
 
         #endregion

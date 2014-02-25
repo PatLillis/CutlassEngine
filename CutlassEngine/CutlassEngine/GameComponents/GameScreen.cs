@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Cutlass.Interfaces;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 
@@ -111,6 +113,37 @@ namespace Cutlass.GameComponents
         }
         private bool _IsExiting = false;
 
+        #region Objects
+
+        public List<ICutlassObject> Objects
+        {
+            get { return _Objects; }
+            set { _Objects = value; }
+        }
+        private List<ICutlassObject> _Objects = new List<ICutlassObject>();
+
+        public List<ICutlassDrawable> DrawableObjects
+        {
+            get { return _DrawableObjects; }
+            set { _DrawableObjects = value; }
+        }
+        private List<ICutlassDrawable> _DrawableObjects = new List<ICutlassDrawable>();
+
+        public List<ICutlassDrawable> PostUIDrawableObjects
+        {
+            get { return _PostUIDrawableObjects; }
+            set { _PostUIDrawableObjects = value; }
+        }
+        private List<ICutlassDrawable> _PostUIDrawableObjects = new List<ICutlassDrawable>();
+
+        public List<ICutlassUpdateable> UpdateableObjects
+        {
+            get { return _UpdateableObjects; }
+            set { _UpdateableObjects = value; }
+        }
+        private List<ICutlassUpdateable> _UpdateableObjects = new List<ICutlassUpdateable>();
+
+        #endregion Objects
 
         /// <summary>Checks whether this screen is active and can respond to user input.</summary>
         public bool IsActive
@@ -194,6 +227,11 @@ namespace Cutlass.GameComponents
                     // Transition finished!
                     _ScreenState = ScreenState.Active;
                 }
+
+                foreach (ICutlassUpdateable updateableObject in UpdateableObjects)
+                {
+                    updateableObject.Update(gameTime);
+                }
             }
         }
         
@@ -238,14 +276,23 @@ namespace Cutlass.GameComponents
         /// This is called when the screen should draw itself.
         /// </summary>
         public virtual void Draw(GameTime gameTime)
-        { }
+        {
+            foreach(ICutlassDrawable drawableObject in DrawableObjects)
+            {
+                drawableObject.Draw(gameTime);
+            }
+        }
 
         /// <summary>
         /// This is called when the screen should draw after the UI has drawn.
         /// </summary>
-        /// <param name="gameTime"></param>
         public virtual void PostUIDraw(GameTime gameTime)
-        { }
+        {
+            foreach (ICutlassDrawable postUIDrawableObject in PostUIDrawableObjects)
+            {
+                postUIDrawableObject.Draw(gameTime);
+            }
+        }
 
         #endregion
 

@@ -128,7 +128,7 @@ namespace Cutlass
             _GraphicsDeviceManager.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(GraphicsDeviceManager_PreparingDeviceSettings);
             Window.Title = _WindowTitle = windowTitle;
 
-            GameSettings.Initialize();
+            GameSettingsManager.Initialize();
 
             ApplyResolutionChange();
 
@@ -157,7 +157,7 @@ namespace Cutlass
             Components.Add(_TextureManager);
 #if DEBUG
             //Init the FpsCounter
-            _FpsCounter = new FpsCounter(this, _ScreenManager);
+            _FpsCounter = new FpsCounter(this);
             Components.Add(_FpsCounter);
 #endif
         }
@@ -271,14 +271,14 @@ namespace Cutlass
         public static void ApplyResolutionChange()
         {
             //Set width/height
-            int resolutionWidth = GameSettings.Default.ResolutionWidth;
-            int resolutionHeight = GameSettings.Default.ResolutionHeight;
+            int resolutionWidth = GameSettingsManager.Default.ResolutionWidth;
+            int resolutionHeight = GameSettingsManager.Default.ResolutionHeight;
 
             //Make sure width/height is at least minimum
             if (resolutionWidth <= 0 || resolutionWidth <= 0)
             {
-                resolutionWidth = GameSettings.MinimumResolutionWidth;
-                resolutionHeight = GameSettings.MinimumResolutionHeight;
+                resolutionWidth = GameSettingsManager.MinimumResolutionWidth;
+                resolutionHeight = GameSettingsManager.MinimumResolutionHeight;
             }
 #if XBOX360
             // Xbox 360 graphics settings are fixed
@@ -290,10 +290,10 @@ namespace Cutlass
 #else
             _GraphicsDeviceManager.PreferredBackBufferWidth = resolutionWidth;
             _GraphicsDeviceManager.PreferredBackBufferHeight = resolutionHeight;
-            _GraphicsDeviceManager.IsFullScreen = GameSettings.Default.Fullscreen;
+            _GraphicsDeviceManager.IsFullScreen = GameSettingsManager.Default.Fullscreen;
 
             //Save new settings out to disk.
-            GameSettings.Save();
+            GameSettingsManager.Save();
 
             _ApplyDeviceChanges = true;
 #endif

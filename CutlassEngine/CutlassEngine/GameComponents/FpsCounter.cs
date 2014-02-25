@@ -39,7 +39,7 @@ namespace Cutlass.GameComponents
         /// </summary>
         /// <param name="game"></param>
         /// <param name="screenManager"></param>
-        public FpsCounter(Game game, ScreenManager screenManager)
+        public FpsCounter(Game game)
             :base (game)
         {
             Enabled = true;
