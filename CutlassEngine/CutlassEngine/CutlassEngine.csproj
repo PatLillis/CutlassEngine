@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CutlassFont.cs" />
+    <Compile Include="Assets\CutlassSceneObject.cs" />
     <Compile Include="GameComponents\FpsCounter.cs" />
     <Compile Include="GameComponents\GameScreen.cs" />
     <Compile Include="GameComponents\Input.cs" />

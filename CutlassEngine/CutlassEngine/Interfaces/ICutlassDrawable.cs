@@ -6,8 +6,10 @@ using Microsoft.Xna.Framework;
 
 namespace Cutlass.Interfaces
 {
-    public interface ICutlassDrawable : ICutlassObject, IDrawable
+    public interface ICutlassDrawable : ICutlassObject
     {
         bool PostUIDraw { get; set; }
+
+        void Draw(GameTime gameTime);
     }
 }
