@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Cutlass.Interfaces;
 using Microsoft.Xna.Framework;
+using BoundingRect;
 
 namespace Cutlass.Assets
 {
@@ -23,12 +24,12 @@ namespace Cutlass.Assets
         }
         private bool _ReadyToRender = false;
 
-        //public BoundingRectangle BoundingRect
-        //{
-        //    get { return _BoundingRect; }
-        //    set { _BoundingRect = value; }
-        //}
-        //private BoundingRectangle _BoundingRect;
+        public BoundingRectangle BoundingRect
+        {
+            get { return _BoundingRect; }
+            set { _BoundingRect = value; }
+        }
+        private BoundingRectangle _BoundingRect;
 
         public Vector2 Position
         {
