@@ -8,7 +8,7 @@ using BoundingRect;
 
 namespace Cutlass.Assets
 {
-    public class CutlassSceneObject : ICutlassDrawable, ICutlassUpdateable
+    public class CutlassSceneObject : ICutlassSceneObject
     {
         public bool PostUIDraw
         {
@@ -54,12 +54,18 @@ namespace Cutlass.Assets
 
         public void Draw(GameTime gameTime)
         {
-            //TODO: Draw
+            if (this is ICutlassDrawable)
+            {
+                //Draw object
+            }
         }
 
         public void Update(GameTime gameTime)
         {
-            //TODO: Update
+            if (this is ICutlassUpdateable)
+            {
+                //Update object
+            }
         }
     }
 }

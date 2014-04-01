@@ -32,6 +32,17 @@ namespace Cutlass.GameComponents
     {
         #region Properties
 
+        public SceneObjectManager ObjectManager
+        {
+            get
+            {
+                if (_ObjectManager == null)
+                    _ObjectManager = new SceneObjectManager();
+                return _ObjectManager;
+            }
+        }
+        private SceneObjectManager _ObjectManager;
+
         /// <summary>
         /// Normally when one screen is brought up over the top of another,
         /// the first screen will transition off to make room for the new
@@ -113,38 +124,6 @@ namespace Cutlass.GameComponents
         }
         private bool _IsExiting = false;
 
-        #region Objects
-
-        public List<ICutlassObject> Objects
-        {
-            get { return _Objects; }
-            set { _Objects = value; }
-        }
-        private List<ICutlassObject> _Objects = new List<ICutlassObject>();
-
-        public List<ICutlassDrawable> DrawableObjects
-        {
-            get { return _DrawableObjects; }
-            set { _DrawableObjects = value; }
-        }
-        private List<ICutlassDrawable> _DrawableObjects = new List<ICutlassDrawable>();
-
-        public List<ICutlassDrawable> PostUIDrawableObjects
-        {
-            get { return _PostUIDrawableObjects; }
-            set { _PostUIDrawableObjects = value; }
-        }
-        private List<ICutlassDrawable> _PostUIDrawableObjects = new List<ICutlassDrawable>();
-
-        public List<ICutlassUpdateable> UpdateableObjects
-        {
-            get { return _UpdateableObjects; }
-            set { _UpdateableObjects = value; }
-        }
-        private List<ICutlassUpdateable> _UpdateableObjects = new List<ICutlassUpdateable>();
-
-        #endregion Objects
-
         /// <summary>Checks whether this screen is active and can respond to user input.</summary>
         public bool IsActive
         {
@@ -167,13 +146,17 @@ namespace Cutlass.GameComponents
         /// Load graphics content for the screen.
         /// </summary>
         public virtual void LoadContent()
-        { }
+        {
+            ObjectManager.LoadContent();
+        }
 
         /// <summary>
         /// Unload content for the screen.
         /// </summary>
         public virtual void UnloadContent()
-        { }
+        {
+            ObjectManager.UnloadContent();
+        }
 
         #endregion
 
@@ -228,10 +211,7 @@ namespace Cutlass.GameComponents
                     _ScreenState = ScreenState.Active;
                 }
 
-                foreach (ICutlassUpdateable updateableObject in UpdateableObjects)
-                {
-                    updateableObject.Update(gameTime);
-                }
+                ObjectManager.Update(gameTime);
             }
         }
         
@@ -277,10 +257,7 @@ namespace Cutlass.GameComponents
         /// </summary>
         public virtual void Draw(GameTime gameTime)
         {
-            foreach(ICutlassDrawable drawableObject in DrawableObjects)
-            {
-                drawableObject.Draw(gameTime);
-            }
+            ObjectManager.Draw(gameTime);
         }
 
         /// <summary>
@@ -288,10 +265,7 @@ namespace Cutlass.GameComponents
         /// </summary>
         public virtual void PostUIDraw(GameTime gameTime)
         {
-            foreach (ICutlassDrawable postUIDrawableObject in PostUIDrawableObjects)
-            {
-                postUIDrawableObject.Draw(gameTime);
-            }
+            ObjectManager.PostUIDraw(gameTime);
         }
 
         #endregion

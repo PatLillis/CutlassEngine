@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
 
 namespace Cutlass.Interfaces
 {
-    public interface ICutlassUpdateable : ICutlassSceneObject
+    public interface ICutlassLoadable
     {
-        void Update(GameTime gameTime);
+        bool IsLoaded { get; set; }
+
+        void LoadContent();
+
+        void UnloadContent();
     }
 }

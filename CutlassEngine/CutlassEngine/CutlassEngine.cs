@@ -95,10 +95,7 @@ namespace Cutlass
         #region Game Components
 
         /// <summary>Input component</summary>
-        public static Input Input
-        {
-            get { return _Input; }
-        }
+        public static Input Input { get { return _Input; } }
         private static Input _Input = null;
 
         /// <summary>FPS Counter component, only displayed in #DEBUG</summary>

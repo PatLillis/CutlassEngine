@@ -1,6 +1,6 @@
 ﻿namespace Cutlass.Interfaces
 {
-    public interface ICutlassObject
+    public interface ICutlassSceneObject
     {
     }
 }
