@@ -211,7 +211,10 @@ namespace Cutlass.GameComponents
                     _ScreenState = ScreenState.Active;
                 }
 
-                ObjectManager.Update(gameTime);
+                if (IsActive)
+                {
+                    ObjectManager.Update(gameTime);
+                }
             }
         }
         
@@ -258,14 +261,6 @@ namespace Cutlass.GameComponents
         public virtual void Draw(GameTime gameTime)
         {
             ObjectManager.Draw(gameTime);
-        }
-
-        /// <summary>
-        /// This is called when the screen should draw after the UI has drawn.
-        /// </summary>
-        public virtual void PostUIDraw(GameTime gameTime)
-        {
-            ObjectManager.PostUIDraw(gameTime);
         }
 
         #endregion

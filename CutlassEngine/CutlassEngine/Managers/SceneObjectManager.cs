@@ -65,8 +65,10 @@ namespace Cutlass.Managers
         {
             foreach (ICutlassSceneObject o in Objects)
             {
-                if (o is ICutlassLoadable)
-                    ((ICutlassLoadable)o).UnloadContent();
+                ICutlassLoadable oLoadable = o as ICutlassLoadable;
+
+                if (oLoadable != null)
+                    oLoadable.UnloadContent();
             }
         }
 
@@ -78,36 +80,32 @@ namespace Cutlass.Managers
         {
             foreach (ICutlassSceneObject o in Objects)
             {
-                if (o is ICutlassUpdateable)
-                    ((ICutlassUpdateable)o).Update(gameTime);
+                ICutlassUpdateable oUpdateable = o as ICutlassUpdateable;
+                if (oUpdateable != null)
+                    oUpdateable.Update(gameTime);
             }
         }
 
         public void Draw(GameTime gameTime)
         {
-            foreach (ICutlassSceneObject o in Objects)
-            {
-                if (o is ICutlassDrawable)
-                    ((ICutlassDrawable)o).Draw(gameTime);
-            }
-        }
+            List<ICutlassDrawable> objectsToDraw = new List<ICutlassDrawable>();
 
-        /// <summary>
-        /// This is called when the screen should draw after the UI has drawn.
-        /// </summary>
-        public void PostUIDraw(GameTime gameTime)
-        {
             foreach (ICutlassSceneObject o in Objects)
             {
-                if (o is ICutlassDrawable)
+                ICutlassDrawable oDrawable = o as ICutlassDrawable;
+                if (oDrawable != null && oDrawable.IsVisible)
                 {
-                    ICutlassDrawable oDrawable = o as ICutlassDrawable;
-                    if (oDrawable.PostUIDraw)
-                        oDrawable.Draw(gameTime);
+                    objectsToDraw.Add(oDrawable);
                 }
             }
-        }
 
+            objectsToDraw.Sort((x, y) => x.DrawOrder.CompareTo(y.DrawOrder));
+
+            foreach (ICutlassDrawable oDrawable in objectsToDraw)
+            {
+                oDrawable.Draw(gameTime);
+            }
+        }
 
         #endregion Update and Draw
 
@@ -117,11 +115,15 @@ namespace Cutlass.Managers
         {
             Objects.Add(o);
 
-            if (o is ICutlassLoadable && _Initialized)
+
+            if (_Initialized)
             {
                 ICutlassLoadable oLoadable = o as ICutlassLoadable;
-                oLoadable.LoadContent();
-                oLoadable.IsLoaded = true;
+                if (oLoadable != null)
+                {
+                    oLoadable.LoadContent();
+                    oLoadable.IsLoaded = true;
+                }
             }
         }
 

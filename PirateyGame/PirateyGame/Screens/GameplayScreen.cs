@@ -9,6 +9,7 @@ using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PirateyGame.SceneObjects;
 
 namespace PirateyGame.Screens
 {
@@ -21,16 +22,17 @@ namespace PirateyGame.Screens
     {
         #region Fields
 
-        Vector2 playerPosition = new Vector2(100, 100);
-        Vector2 enemyPosition = new Vector2(100, 100);
-
-        Random random = new Random();
-
         float pauseAlpha;
 
         #endregion
 
         #region Properties
+
+        public Player Player
+        {
+            get { return _Player; }
+        }
+        private Player _Player;
 
         #endregion
 
@@ -43,6 +45,9 @@ namespace PirateyGame.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+
+            _Player = new Player("Wuuuuut");
+            ObjectManager.AddObject(Player);
         }
 
         /// <summary>
@@ -82,23 +87,6 @@ namespace PirateyGame.Screens
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
             else
                 pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
-
-            if (IsActive)
-            {
-                // Apply some random jitter to make the enemy move around.
-                const float randomization = 10;
-
-                enemyPosition.X += (float)(random.NextDouble() - 0.5) * randomization;
-                enemyPosition.Y += (float)(random.NextDouble() - 0.5) * randomization;
-
-                // Apply a stabilizing force to stop the enemy moving off the screen.
-                Vector2 targetPosition = new Vector2(
-                    CutlassEngine.Device.Viewport.Width / 2 - FontManager.DefaultFont.MeasureString("Insert Gameplay Here").X / 2,
-                    200);
-
-                enemyPosition = Vector2.Lerp(enemyPosition, targetPosition, 0.05f);
-
-            }
         }
 
         /// <summary>
@@ -149,29 +137,19 @@ namespace PirateyGame.Screens
                 if (movement.Length() > 1)
                     movement.Normalize();
 
-                playerPosition += movement * 2;
+                Player.Position += movement * 2;
             }
         }
 
-        /// <summary>
-        /// Draws the gameplay screen.
-        /// </summary>
+         ///<summary>
+         ///Draws the gameplay screen.
+         ///</summary>
         public override void Draw(GameTime gameTime)
         {
             // This game has a blue background. Why? Because!
             CutlassEngine.Device.Clear(ClearOptions.Target, Palette.OffWhite, 0, 0);
 
-            // Our player and enemy are both actually just _Text strings.
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-
-            spriteBatch.Begin();
-
-            spriteBatch.DrawString(FontManager.DefaultFont, "// TODO", playerPosition, Color.Green);
-
-            spriteBatch.DrawString(FontManager.DefaultFont, "Insert Gameplay Here",
-                                   enemyPosition, Color.DarkRed);
-
-            spriteBatch.End();
+            base.Draw(gameTime);
 
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0 || pauseAlpha > 0)

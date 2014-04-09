@@ -184,14 +184,6 @@ namespace Cutlass.Managers
 
                 screen.Draw(gameTime);
             }
-
-            //Post-UI draws
-            foreach (GameScreen screen in _Screens)
-            {
-                if (screen.ScreenState == ScreenState.Hidden)
-                    continue;
-                screen.PostUIDraw(gameTime);
-            }
         }
 
         #endregion
