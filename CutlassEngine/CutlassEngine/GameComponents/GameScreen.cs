@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cutlass.Interfaces;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
+using Cutlass.Utilities;
 
 namespace Cutlass.GameComponents
 {
@@ -41,7 +42,14 @@ namespace Cutlass.GameComponents
                 return _ObjectManager;
             }
         }
-        private SceneObjectManager _ObjectManager;
+        protected SceneObjectManager _ObjectManager;
+
+        public Matrix OffsetTransform
+        {
+            get { return _OffsetTransform; }
+            set { _OffsetTransform = value; }
+        }
+        protected Matrix _OffsetTransform = Matrix.Identity;
 
         /// <summary>
         /// Normally when one screen is brought up over the top of another,
@@ -55,7 +63,7 @@ namespace Cutlass.GameComponents
             get { return _IsPopup; }
             protected set { _IsPopup = value; }
         }
-        private bool _IsPopup = false;
+        protected bool _IsPopup = false;
 
         /// <summary>
         /// Indicates how long the screen takes to
@@ -66,7 +74,7 @@ namespace Cutlass.GameComponents
             get { return _TransitionOnTime; }
             protected set { _TransitionOnTime = value; }
         }
-        private TimeSpan _TransitionOnTime = TimeSpan.Zero;
+        protected TimeSpan _TransitionOnTime = TimeSpan.Zero;
 
         /// <summary>
         /// Indicates how long the screen takes to
@@ -77,7 +85,7 @@ namespace Cutlass.GameComponents
             get { return _TransitionOffTime; }
             protected set { _TransitionOffTime = value; }
         }
-        private TimeSpan _TransitionOffTime = TimeSpan.Zero;
+        protected TimeSpan _TransitionOffTime = TimeSpan.Zero;
 
         /// <summary>
         /// Gets the current position of the screen transition, ranging
@@ -89,7 +97,7 @@ namespace Cutlass.GameComponents
             get { return _TransitionPosition; }
             protected set { _TransitionPosition = value; }
         }
-        private float _TransitionPosition = 1;
+        protected float _TransitionPosition = 1;
 
         /// <summary>
         /// Gets the current alpha of the screen transition, ranging
@@ -107,7 +115,7 @@ namespace Cutlass.GameComponents
             get { return _ScreenState; }
             protected set { _ScreenState = value; }
         }
-        private ScreenState _ScreenState = ScreenState.TransitionOn;
+        protected ScreenState _ScreenState = ScreenState.TransitionOn;
 
         /// <summary>
         /// There are two possible reasons why a screen might be transitioning
@@ -122,7 +130,7 @@ namespace Cutlass.GameComponents
             get { return _IsExiting; }
             protected internal set { _IsExiting = value; }
         }
-        private bool _IsExiting = false;
+        protected bool _IsExiting = false;
 
         /// <summary>Checks whether this screen is active and can respond to user input.</summary>
         public bool IsActive
@@ -136,7 +144,7 @@ namespace Cutlass.GameComponents
         }
 
         /// <summary>Whether another screen has focus</summary>
-        private bool _OtherScreenHasFocus;
+        protected bool _OtherScreenHasFocus;
 
         #endregion
 
@@ -260,12 +268,20 @@ namespace Cutlass.GameComponents
         /// </summary>
         public virtual void Draw(GameTime gameTime)
         {
-            ObjectManager.Draw(gameTime);
+            ObjectManager.Draw(gameTime, OffsetTransform);
         }
 
         #endregion
 
         #region Public Methods
+
+        public event EventHandler<RectangleEventArgs> ViewSettingsChanged;
+
+        public void ChangeViewSettings(int newResolutionWidth, int newResolutionHeight)
+        {
+            if (ViewSettingsChanged != null)
+                ViewSettingsChanged(this, new RectangleEventArgs(new Rectangle() { Width = newResolutionWidth, Height = newResolutionHeight }));
+        }
 
         /// <summary>
         /// Tells the screen to go away. Unlike ScreenManager.RemoveScreen, which

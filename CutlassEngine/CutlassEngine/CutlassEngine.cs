@@ -253,6 +253,7 @@ namespace Cutlass
             if (_ApplyDeviceChanges)
             {
                 _GraphicsDeviceManager.ApplyChanges();
+                ScreenManager.ChangeViewSettings(GameSettingsManager.Default.ResolutionWidth, GameSettingsManager.Default.ResolutionHeight);
                 ResetElapsedTime();
                 _ApplyDeviceChanges = false;
             }

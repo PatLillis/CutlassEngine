@@ -5,6 +5,7 @@ using Cutlass.GameComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace Cutlass.Managers
 {
@@ -247,6 +248,14 @@ namespace Cutlass.Managers
                              Color.Black * alpha);
 
             _SpriteBatch.End();
+        }
+
+        public static void ChangeViewSettings(int newResolutionWidth, int newResolutionHeight)
+        {
+            foreach (GameScreen screen in _Screens)
+            {
+                screen.ChangeViewSettings(newResolutionWidth, newResolutionHeight);
+            }
         }
 
         #endregion

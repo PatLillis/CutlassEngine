@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PirateyGame.SceneObjects;
+using Cutlass.Utilities;
 
 namespace PirateyGame.Screens
 {
@@ -34,6 +35,12 @@ namespace PirateyGame.Screens
         }
         private Player _Player;
 
+        public Camera Camera
+        {
+            get { return _Camera; }
+        }
+        private Camera _Camera;
+
         #endregion
 
         #region Initialization
@@ -47,7 +54,12 @@ namespace PirateyGame.Screens
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             _Player = new Player("Wuuuuut");
-            ObjectManager.AddObject(Player);
+            _Camera = new Camera(this, GameSettingsManager.Default.ResolutionWidth, GameSettingsManager.Default.ResolutionHeight);
+
+            _Player.PlayerMoved += _Camera.UpdateCameraPosition;
+            ViewSettingsChanged += _Camera.UpdateVisibleArea;
+
+            ObjectManager.AddObjects(Player, Camera);
         }
 
         /// <summary>
@@ -67,6 +79,10 @@ namespace PirateyGame.Screens
             // it should not try to catch up.
             CutlassEngine.Game.ResetElapsedTime();
         }
+
+        #endregion
+
+        #region Public Methods
 
         #endregion
 
@@ -98,7 +114,6 @@ namespace PirateyGame.Screens
             if (input == null)
                 throw new ArgumentNullException("input");
 
-            KeyboardState keyboardState = input.CurrentKeyboardState;
             GamePadState gamePadState = input.CurrentGamePadState;
 
             // The game pauses either if the user presses the pause button, or if
@@ -114,30 +129,7 @@ namespace PirateyGame.Screens
             }
             else
             {
-                // Otherwise move the player position.
-                Vector2 movement = Vector2.Zero;
-
-                if (keyboardState.IsKeyDown(Keys.Left))
-                    movement.X--;
-
-                if (keyboardState.IsKeyDown(Keys.Right))
-                    movement.X++;
-
-                if (keyboardState.IsKeyDown(Keys.Up))
-                    movement.Y--;
-
-                if (keyboardState.IsKeyDown(Keys.Down))
-                    movement.Y++;
-
-                Vector2 thumbstick = gamePadState.ThumbSticks.Left;
-
-                movement.X += thumbstick.X;
-                movement.Y -= thumbstick.Y;
-
-                if (movement.Length() > 1)
-                    movement.Normalize();
-
-                Player.Position += movement * 2;
+                Player.HandleInput(input);
             }
         }
 

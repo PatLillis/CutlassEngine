@@ -1,6 +1,7 @@
 ﻿using Cutlass.Assets;
 using Cutlass.Interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,7 +87,7 @@ namespace Cutlass.Managers
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, Matrix offsetTransform)
         {
             List<ICutlassDrawable> objectsToDraw = new List<ICutlassDrawable>();
 
@@ -103,7 +104,12 @@ namespace Cutlass.Managers
 
             foreach (ICutlassDrawable oDrawable in objectsToDraw)
             {
+                //If object should move wrt player, pass in screen's offsetTransform.
+                ScreenManager.SpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, oDrawable.ScreenPositionFixed ? Matrix.Identity : offsetTransform);
+
                 oDrawable.Draw(gameTime);
+
+                ScreenManager.SpriteBatch.End();
             }
         }
 
@@ -115,7 +121,6 @@ namespace Cutlass.Managers
         {
             Objects.Add(o);
 
-
             if (_Initialized)
             {
                 ICutlassLoadable oLoadable = o as ICutlassLoadable;
@@ -124,6 +129,16 @@ namespace Cutlass.Managers
                     oLoadable.LoadContent();
                     oLoadable.IsLoaded = true;
                 }
+            }
+        }
+
+        public void AddObjects(ICutlassSceneObject o, params ICutlassSceneObject[] list)
+        {
+            AddObject(o);
+
+            for (int i = 0; i < list.Length; i++)
+            {
+                AddObject(list[i]);
             }
         }
 
