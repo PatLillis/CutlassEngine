@@ -28,28 +28,21 @@ namespace PirateyGame.SceneObjects
         }
         private GameScreen _ViewScreen;
 
-        public Rectangle VisibleArea
+        public BoundingRectangle VisibleArea
         {
             get { return _VisibleArea; }
             set { _VisibleArea = value; }
         }
-        private Rectangle _VisibleArea;
-
-        public Vector2 CurrentOffset
-        {
-            get { return _CurrentOffset; }
-            set { _CurrentOffset = value; }
-        }
-        private Vector2 _CurrentOffset = Vector2.Zero;
+        private BoundingRectangle _VisibleArea;
 
         #endregion Properties
 
         #region Initialization
 
-        public Camera(GameScreen viewScreen, int screenWidth, int screenHeight)
+        public Camera(GameScreen viewScreen, float screenWidth, float screenHeight, float startingX = 0.0f, float startingY = 0.0f)
         {
             _ViewScreen = viewScreen;
-            _VisibleArea = new Rectangle() { Width = screenWidth, Height = screenHeight };
+            _VisibleArea = new BoundingRectangle(startingX, startingY, screenWidth, screenHeight);
         }
 
         #endregion Initialization
@@ -57,26 +50,25 @@ namespace PirateyGame.SceneObjects
         #region Public Methods
 
         /// <summary>
-        /// Make sure camera follow player around.
+        /// Make sure camera follows player around.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
         public void UpdateCameraPosition(object sender, BoundingRectangleEventArgs args)
         {
             BoundingRectangle playerPosition = args.Rectangle;
-            Vector2 offset = Vector2.Zero;
+            Vector2 currentOffset = _VisibleArea.Min;
+            Vector2 newOffset = Vector2.Zero;
 
-            if (playerPosition.Top < _VisibleArea.Top + PLAYER_VERTICAL_BUFFER)
-                offset.Y = -playerPosition.Top + _VisibleArea.Top + PLAYER_VERTICAL_BUFFER;
-            else if (playerPosition.Bottom > _VisibleArea.Bottom - PLAYER_VERTICAL_BUFFER)
-                offset.Y = -playerPosition.Bottom + _VisibleArea.Bottom - PLAYER_VERTICAL_BUFFER;
+            //Calculate offset
+            newOffset.X = Math.Max(0, PLAYER_HORIZONTAL_BUFFER - (playerPosition.Left - _VisibleArea.Left));
+            newOffset.X = Math.Min(newOffset.X, -PLAYER_HORIZONTAL_BUFFER - (playerPosition.Right - _VisibleArea.Right));
+            newOffset.Y = Math.Max(0, PLAYER_VERTICAL_BUFFER - (playerPosition.Top - _VisibleArea.Top));
+            newOffset.Y = Math.Min(newOffset.Y, -PLAYER_VERTICAL_BUFFER - (playerPosition.Bottom - _VisibleArea.Bottom));
 
-            if (playerPosition.Left < _VisibleArea.Left + PLAYER_HORIZONTAL_BUFFER)
-                offset.X = -playerPosition.Left + _VisibleArea.Left + PLAYER_HORIZONTAL_BUFFER;
-            else if (playerPosition.Right > _VisibleArea.Right - PLAYER_HORIZONTAL_BUFFER)
-                offset.X = -playerPosition.Right + _VisibleArea.Right - PLAYER_HORIZONTAL_BUFFER;
-
-            _ViewScreen.OffsetTransform = Matrix.CreateTranslation(new Vector3(offset, 0.0f));
+            //Apply offset
+            _VisibleArea.Translate(-newOffset);
+            _ViewScreen.OffsetTransform = Matrix.CreateTranslation(new Vector3(newOffset - currentOffset, 0.0f));
         }
 
         /// <summary>
@@ -86,7 +78,7 @@ namespace PirateyGame.SceneObjects
         /// <param name="args"></param>
         public void UpdateVisibleArea(object sender, RectangleEventArgs args)
         {
-            _VisibleArea = args.Rectangle;
+            _VisibleArea = new BoundingRectangle(args.Rectangle);
         }
 
         #endregion Public Methods
