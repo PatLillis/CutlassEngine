@@ -20,8 +20,6 @@ namespace Cutlass.Interfaces
 
         int Height { get; }
 
-        ICutlassTexture Texture { get; }
-
         BoundingRectangle BoundingRect { get; }
 
         Vector2 Position { get; set; }

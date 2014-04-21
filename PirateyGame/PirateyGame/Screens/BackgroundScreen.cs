@@ -8,6 +8,7 @@ using Cutlass.GameComponents;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace PirateyGame.Screens
 {
@@ -16,6 +17,12 @@ namespace PirateyGame.Screens
     /// </summary>
     class BackgroundScreen : GameScreen
     {
+        #region Fields
+
+        TexId _OceanClouds_Id;
+
+        #endregion Fields
+
         #region Initialization
 
         /// <summary>
@@ -36,7 +43,7 @@ namespace PirateyGame.Screens
         /// </summary>
         public override void LoadContent()
         {
-            TextureManager.AddTexture(new CutlassTexture("Content/Textures/oceanClouds"), "oceanClouds");
+            _OceanClouds_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/oceanClouds"));
         }
 
         #endregion
@@ -67,7 +74,7 @@ namespace PirateyGame.Screens
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(TextureManager.GetTexture2D("oceanClouds"), fullscreen, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            spriteBatch.Draw(TextureManager.GetTexture2D(_OceanClouds_Id), fullscreen, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
 
             spriteBatch.End();
         }

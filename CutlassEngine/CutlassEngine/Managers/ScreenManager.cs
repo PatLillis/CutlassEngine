@@ -17,6 +17,12 @@ namespace Cutlass.Managers
     /// </summary>
     public class ScreenManager : DrawableGameComponent
     {
+        #region Fields
+
+        private static TexId _Blank_Id;
+
+        #endregion Fields
+
         #region Properties
 
         /// <summary>
@@ -80,7 +86,7 @@ namespace Cutlass.Managers
         {
             _SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"), "blank");
+            _Blank_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"));
 
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in _Screens)
@@ -243,7 +249,7 @@ namespace Cutlass.Managers
 
             _SpriteBatch.Begin();
 
-            _SpriteBatch.Draw(TextureManager.GetTexture2D("blank"),
+            _SpriteBatch.Draw(TextureManager.GetTexture2D(_Blank_Id),
                              new Rectangle(0, 0, viewport.Width, viewport.Height),
                              Color.Black * alpha);
 

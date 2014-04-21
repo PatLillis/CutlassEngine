@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Cutlass.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace Cutlass.Managers
 {
@@ -11,7 +13,7 @@ namespace Cutlass.Managers
     public class TextureManager : GameComponent
     {
         /// <summary>Where the actual textures are stored, accessed by a string key</summary>
-        private static Dictionary<string, ICutlassTexture> _Textures = new Dictionary<string, ICutlassTexture>();
+        private static Dictionary<int, ICutlassTexture> _Textures = new Dictionary<int, ICutlassTexture>();
 
         /// <summary>The default texture to use</summary>
         public static Texture2D PointTexture
@@ -28,11 +30,7 @@ namespace Cutlass.Managers
         private static bool _Initialized = false;
 
         /// <summary>The number of textures that are currently loaded.</summary>
-        public static int TexturesLoaded
-        {
-            get { return _TexturesLoaded; }
-        }
-        private static int _TexturesLoaded = 0;
+        private static int _NextId = 0;
 
         /// <summary>
         /// Create the texture Manager.
@@ -43,36 +41,35 @@ namespace Cutlass.Managers
         { }
 
         /// <summary>
-        /// Add a texture of type CutlassTexture.
+        /// Add a texture of type CutlassTexture. Returns the id of the new texture
         /// </summary>
         /// <param name="newTexture"></param>
         /// <param name="textureName"></param>
-        public static void AddTexture(ICutlassTexture newTexture, string textureName)
+        public static TexId AddTexture(ICutlassTexture newTexture)
         {
-            if (textureName != null && !_Textures.ContainsKey(textureName))
-            {
-                _Textures.Add(textureName, newTexture);
-                if (_Initialized)
-                {
-                    newTexture.LoadContent();
-                }
-            }
+            _Textures.Add(_NextId, newTexture);
+
+            if (_Initialized)
+                newTexture.LoadContent();
+
+            return _NextId++;
         }
 
         /// <summary>
         /// Remove a texture from the dictionary.
         /// </summary>
         /// <param name="textureName"></param>
-        public static void RemoveTexture(string textureName)
+        public static void RemoveTexture(TexId textureId)
         {
-            if (textureName != null && _Textures.ContainsKey(textureName))
+            ICutlassTexture textureToRemove;
+            _Textures.TryGetValue(textureId, out textureToRemove);
+
+            if (textureToRemove != null)
             {
                 if (_Initialized)
-                {
-                    _Textures[textureName].UnloadContent();
-                    _Textures.Remove(textureName);
-                    _TexturesLoaded--;
-                }
+                    _Textures[textureId].UnloadContent();
+
+                _Textures.Remove(textureId);
             }
         }
 
@@ -81,14 +78,9 @@ namespace Cutlass.Managers
         /// </summary>
         /// <param name="textureId"></param>
         /// <returns></returns>
-        public static ICutlassTexture GetTexture(string textureName)
+        public static ICutlassTexture GetTexture(TexId textureId)
         {
-            if (textureName != null && _Textures.ContainsKey(textureName))
-            {
-                return _Textures[textureName];
-            }
-
-            return null;
+            return _Textures.ElementAtOrDefault(textureId).Value;
         }
 
         /// <summary>
@@ -96,9 +88,10 @@ namespace Cutlass.Managers
         /// </summary>
         /// <param name="textureName"></param>
         /// <returns></returns>
-        public static Texture2D GetTexture2D(string textureName)
+        public static Texture2D GetTexture2D(TexId textureId)
         {
-            ICutlassTexture texture = GetTexture(textureName);
+            ICutlassTexture texture = GetTexture(textureId);
+
             if (texture != null)
                 return texture.BaseTexture;
             else

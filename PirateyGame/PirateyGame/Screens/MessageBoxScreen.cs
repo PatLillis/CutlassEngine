@@ -5,6 +5,7 @@ using Cutlass.GameComponents;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace PirateyGame.Screens
 {
@@ -13,6 +14,12 @@ namespace PirateyGame.Screens
     /// </summary>
     class MessageBoxScreen : GameScreen
     {
+        #region Fields
+
+        TexId _Gradient_Id;
+
+        #endregion Fields
+
         #region Properties
 
         /// <summary>Message for this box</summary>
@@ -39,7 +46,7 @@ namespace PirateyGame.Screens
         public MessageBoxScreen(string message)
             : this(message, false)
         {
-            TextureManager.AddTexture(new CutlassTexture("Content/Textures/gradient"), "gradient");
+            _Gradient_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/gradient"));
         }
 
         /// <summary>
@@ -149,7 +156,7 @@ namespace PirateyGame.Screens
             ScreenManager.SpriteBatch.Begin();
 
             // Draw the background rectangle.
-            ScreenManager.SpriteBatch.Draw(TextureManager.GetTexture2D("gradient"), backgroundRectangle, color);
+            ScreenManager.SpriteBatch.Draw(TextureManager.GetTexture2D(_Gradient_Id), backgroundRectangle, color);
 
             // Draw the message box _Text.
             ScreenManager.SpriteBatch.DrawString(font, _Message, textPosition, color);

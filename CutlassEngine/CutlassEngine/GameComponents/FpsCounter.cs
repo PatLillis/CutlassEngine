@@ -3,6 +3,7 @@ using Cutlass.Assets;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace Cutlass.GameComponents
 {
@@ -11,6 +12,12 @@ namespace Cutlass.GameComponents
     /// </summary>
     public class FpsCounter : DrawableGameComponent
     {
+        #region Fields
+
+        private TexId _Blank_Id;
+
+        #endregion Fields
+
         #region Properties
 
         /// <summary>How often to update frame count.</summary>
@@ -50,7 +57,7 @@ namespace Cutlass.GameComponents
         /// </summary>
         protected override void LoadContent()
         {
-            TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"), "blank");
+            _Blank_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"));
 
             base.LoadContent();
         }
@@ -82,7 +89,7 @@ namespace Cutlass.GameComponents
             spriteBatch.Begin();
 
             //Draw background
-            spriteBatch.Draw(TextureManager.GetTexture2D("blank"), backgroundRect, Color.Black * 0.5f);
+            spriteBatch.Draw(TextureManager.GetTexture2D(_Blank_Id), backgroundRect, Color.Black * 0.5f);
             spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X, backgroundRect.Y, 1, backgroundRect.Height + 1), fpsColor);
             spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X, backgroundRect.Y, backgroundRect.Width + 1, 1), fpsColor);
             spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X + backgroundRect.Width, backgroundRect.Y, 1, backgroundRect.Height + 1), fpsColor);

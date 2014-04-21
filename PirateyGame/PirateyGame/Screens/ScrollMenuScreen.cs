@@ -5,6 +5,7 @@ using Cutlass.Assets;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace PirateyGame.Screens
 {
@@ -13,6 +14,16 @@ namespace PirateyGame.Screens
     /// </summary>
     class ScrollMenuScreen : MenuScreen
     {
+        #region Fields
+
+        TexId _TitleScrollMiddle_Id;
+        TexId _TitleScrollEdge_Id;
+        TexId _MenuBackgroundCorner_Id;
+        TexId _MenuBackgroundVerticalEdge_Id;
+        TexId _MenuBackgroundHorizontalEdge_Id;
+
+        #endregion Fields
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -31,11 +42,11 @@ namespace PirateyGame.Screens
         {
             base.LoadContent();
 
-            TextureManager.AddTexture(new CutlassTexture("Content/Textures/titleScrollMiddle"), "titleScrollMiddle");
-            TextureManager.AddTexture(new CutlassTexture("Content/Textures/titleScrollEdge"), "titleScrollEdge");
-            TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuCorner"), "menuBackgroundCorner");
-            TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuVerticalEdge"), "menuBackgroundVerticalEdge");
-            TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuHorizontalEdge"), "menuBackgroundHorizontalEdge");
+            _TitleScrollMiddle_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/titleScrollMiddle"));
+            _TitleScrollEdge_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/titleScrollEdge"));
+            _MenuBackgroundCorner_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuCorner"));
+            _MenuBackgroundVerticalEdge_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuVerticalEdge"));
+            _MenuBackgroundHorizontalEdge_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuHorizontalEdge"));
 
             FontManager.AddFont(new CutlassFont("Content/Fonts/bilboSwashCaps"), "bilbo");
             FontManager.AddFont(new CutlassFont("Content/Fonts/frederickaTheGreat"), "fredericka");
@@ -87,8 +98,8 @@ namespace PirateyGame.Screens
 
             titlePosition.Y -= transitionOffset * 100;
 
-            Texture2D titleScrollMiddle = TextureManager.GetTexture2D("titleScrollMiddle");
-            Texture2D titleScrollEdge = TextureManager.GetTexture2D("titleScrollEdge");
+            Texture2D titleScrollMiddle = TextureManager.GetTexture2D(_TitleScrollMiddle_Id);
+            Texture2D titleScrollEdge = TextureManager.GetTexture2D(_TitleScrollEdge_Id);
 
             //Draw Scroll behind menu title (properly sized)
             //80 = 40px drawable space on each scroll end image * 2
@@ -141,7 +152,7 @@ namespace PirateyGame.Screens
             spriteBatch.Begin();
 
             //UR corner
-            spriteBatch.Draw(TextureManager.GetTexture2D("menuBackgroundCorner"),
+            spriteBatch.Draw(TextureManager.GetTexture2D(_MenuBackgroundCorner_Id),
                              new Vector2(menuOptionsBackground.Right, menuOptionsBackground.Top - 64),
                              null,
                              Color.White,
@@ -151,7 +162,7 @@ namespace PirateyGame.Screens
                              SpriteEffects.None,
                              1.0f);
             //BR corner
-            spriteBatch.Draw(TextureManager.GetTexture2D("menuBackgroundCorner"),
+            spriteBatch.Draw(TextureManager.GetTexture2D(_MenuBackgroundCorner_Id),
                              new Vector2(menuOptionsBackground.Right, menuOptionsBackground.Bottom),
                              null,
                              Color.White,
@@ -161,7 +172,7 @@ namespace PirateyGame.Screens
                              SpriteEffects.FlipVertically,
                              1.0f);
             //BL corner
-            spriteBatch.Draw(TextureManager.GetTexture2D("menuBackgroundCorner"),
+            spriteBatch.Draw(TextureManager.GetTexture2D(_MenuBackgroundCorner_Id),
                              new Vector2(menuOptionsBackground.Left - 64, menuOptionsBackground.Bottom),
                              null,
                              Color.White,
@@ -171,7 +182,7 @@ namespace PirateyGame.Screens
                              SpriteEffects.FlipVertically | SpriteEffects.FlipHorizontally,
                              1.0f);
             //UL corner
-            spriteBatch.Draw(TextureManager.GetTexture2D("menuBackgroundCorner"),
+            spriteBatch.Draw(TextureManager.GetTexture2D(_MenuBackgroundCorner_Id),
                              new Vector2(menuOptionsBackground.Left - 64, menuOptionsBackground.Top - 64),
                              null,
                              Color.White,
@@ -181,7 +192,7 @@ namespace PirateyGame.Screens
                              SpriteEffects.FlipHorizontally,
                              1.0f);
             //Top edge
-            spriteBatch.Draw(TextureManager.GetTexture2D("menuBackgroundVerticalEdge"),
+            spriteBatch.Draw(TextureManager.GetTexture2D(_MenuBackgroundVerticalEdge_Id),
                              new Vector2(menuOptionsBackground.Left, menuOptionsBackground.Top - 64),
                              null,
                              Color.White,
@@ -191,7 +202,7 @@ namespace PirateyGame.Screens
                              SpriteEffects.None,
                              1.0f);
             //Right edge
-            spriteBatch.Draw(TextureManager.GetTexture2D("menuBackgroundHorizontalEdge"),
+            spriteBatch.Draw(TextureManager.GetTexture2D(_MenuBackgroundHorizontalEdge_Id),
                              new Vector2(menuOptionsBackground.Right, menuOptionsBackground.Top),
                              null,
                              Color.White,
@@ -201,7 +212,7 @@ namespace PirateyGame.Screens
                              SpriteEffects.None,
                              1.0f);
             //Bottom edge
-            spriteBatch.Draw(TextureManager.GetTexture2D("menuBackgroundVerticalEdge"),
+            spriteBatch.Draw(TextureManager.GetTexture2D(_MenuBackgroundVerticalEdge_Id),
                              new Vector2(menuOptionsBackground.Left, menuOptionsBackground.Bottom),
                              null,
                              Color.White,
@@ -211,7 +222,7 @@ namespace PirateyGame.Screens
                              SpriteEffects.FlipVertically,
                              1.0f);
             //Left edge
-            spriteBatch.Draw(TextureManager.GetTexture2D("menuBackgroundHorizontalEdge"),
+            spriteBatch.Draw(TextureManager.GetTexture2D(_MenuBackgroundHorizontalEdge_Id),
                              new Vector2(menuOptionsBackground.Left - 64, menuOptionsBackground.Top),
                              null,
                              Color.White,
@@ -221,7 +232,7 @@ namespace PirateyGame.Screens
                              SpriteEffects.FlipHorizontally,
                              1.0f);
             //Fill
-            spriteBatch.Draw(TextureManager.GetTexture2D("menuBackgroundHorizontalEdge"),
+            spriteBatch.Draw(TextureManager.GetTexture2D(_MenuBackgroundHorizontalEdge_Id),
                 menuOptionsBackground,
                 new Rectangle(0, 0, 1, 1),
                 Color.White);
