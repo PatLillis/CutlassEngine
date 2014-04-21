@@ -85,6 +85,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CutlassAnimatedTexture.cs" />
     <Compile Include="Assets\CutlassFont.cs" />
     <Compile Include="GameComponents\FpsCounter.cs" />
     <Compile Include="GameComponents\GameScreen.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Utilities\CustomEventArgs.cs" />
     <Compile Include="Utilities\FileHelper.cs" />
     <Compile Include="Utilities\GameSettings.cs" />
+    <Compile Include="Utilities\Structs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

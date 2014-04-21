@@ -23,20 +23,6 @@ namespace Cutlass
         }
         private static Game _Game;
 
-        /// <summary>Width of visible render area.</summary>
-        public static int Width
-        {
-            get { return _Width; }
-        }
-        private static int _Width;
-
-        /// <summary>Height of visible render area.</summary>
-        public static int Height
-        {
-            get { return _Height; }
-        }
-        private static int _Height;
-
         /// <summary>Aspect ratio of render area.</summary>
         public static float AspectRatio
         {

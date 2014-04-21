@@ -1,5 +1,6 @@
 ﻿using BoundingRect;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Cutlass.Interfaces
 {
@@ -11,13 +12,15 @@ namespace Cutlass.Interfaces
         //Whether this object should be fixed with respect to the player, or with respect to the screen
         bool ScreenPositionFixed { get; }
 
-        bool ReadyToRender { get; set; }
+        bool ReadyToRender { get; }
 
         bool IsVisible { get; set; }
 
-        float Width { get; }
+        int Width { get; }
 
-        float Height { get; }
+        int Height { get; }
+
+        ICutlassTexture Texture { get; }
 
         BoundingRectangle BoundingRect { get; }
 
@@ -27,6 +30,6 @@ namespace Cutlass.Interfaces
 
         float Rotation { get; set; }
 
-        void Draw(GameTime gameTime);
+        void Draw(GameTime gameTime, SpriteBatch spriteBatch);
     }
 }

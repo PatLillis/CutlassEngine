@@ -39,9 +39,14 @@ namespace PirateyGame.SceneObjects
         public bool ReadyToRender
         {
             get { return _ReadyToRender; }
-            set { _ReadyToRender = value; }
         }
         private bool _ReadyToRender = false;
+
+        public bool IsLoaded
+        {
+            get { return _IsLoaded; }
+        }
+        private bool _IsLoaded = false;
 
         public bool IsVisible
         {
@@ -50,14 +55,32 @@ namespace PirateyGame.SceneObjects
         }
         private bool _IsVisible = false;
 
-        public float Width
+        public ICutlassTexture Texture
         {
-            get { return FontManager.GetSpriteFontOrDefault(_PlayerFontKey).MeasureString(_PlayerName).X; }
+            get { return _Texture; }
+        }
+        private CutlassAnimatedTexture _Texture;
+
+        public int Width
+        {
+            get
+            {
+                if (_Texture != null)
+                    return _Texture.Width;
+                else
+                    return -1;
+            }
         }
 
-        public float Height
+        public int Height
         {
-            get { return FontManager.GetSpriteFontOrDefault(_PlayerFontKey).MeasureString(_PlayerName).Y; }
+            get
+            {
+                if (_Texture != null)
+                    return _Texture.Height;
+                else
+                    return -1;
+            }
         }
 
         public BoundingRectangle BoundingRect
@@ -86,13 +109,6 @@ namespace PirateyGame.SceneObjects
         }
         private float _Rotation;
 
-        public bool IsLoaded
-        {
-            get { return _IsLoaded; }
-            set { _IsLoaded = value; }
-        }
-        private bool _IsLoaded = false;
-
         #endregion Properties
 
         #region Events
@@ -107,6 +123,9 @@ namespace PirateyGame.SceneObjects
         {
             _PlayerName = playerName +"(|)";
             _PlayerFontKey = fontKey;
+
+            _Texture = new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 3);
+            TextureManager.AddTexture(_Texture, "playerTest");
 
             Position = new Vector2(100, 100);
 
@@ -170,9 +189,10 @@ namespace PirateyGame.SceneObjects
 
         #region Update and Draw
 
-        public void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            ScreenManager.SpriteBatch.DrawString(FontManager.GetSpriteFontOrDefault(_PlayerFontKey), _PlayerName, Position, Palette.MediumBlue);
+            //spriteBatch.DrawString(FontManager.GetSpriteFontOrDefault(_PlayerFontKey), _PlayerName, Position, Palette.MediumBlue);
+            spriteBatch.Draw(_Texture.BaseTexture, Position, _Texture.AreaToRender, Color.White);
         }
 
         public void Update(GameTime gameTime)
@@ -199,6 +219,8 @@ namespace PirateyGame.SceneObjects
             }
 
             _PlayerName = _PlayerName.Substring(0, _PlayerName.Length - 3) + statusGroup;
+
+            _Texture.Update(gameTime);
         }
 
         #endregion Update and Draw

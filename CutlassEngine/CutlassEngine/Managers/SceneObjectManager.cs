@@ -52,7 +52,6 @@ namespace Cutlass.Managers
                 {
                     ICutlassLoadable oLoadable = o as ICutlassLoadable;
                     oLoadable.LoadContent();
-                    oLoadable.IsLoaded = true;
                 }
             }
 
@@ -107,7 +106,7 @@ namespace Cutlass.Managers
                 //If object should move wrt player, pass in screen's offsetTransform.
                 ScreenManager.SpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, oDrawable.ScreenPositionFixed ? Matrix.Identity : offsetTransform);
 
-                oDrawable.Draw(gameTime);
+                oDrawable.Draw(gameTime, ScreenManager.SpriteBatch);
 
                 ScreenManager.SpriteBatch.End();
             }
@@ -127,7 +126,6 @@ namespace Cutlass.Managers
                 if (oLoadable != null)
                 {
                     oLoadable.LoadContent();
-                    oLoadable.IsLoaded = true;
                 }
             }
         }

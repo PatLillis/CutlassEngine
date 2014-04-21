@@ -15,7 +15,7 @@ namespace PirateyGame.SceneObjects
         #region Fields
 
         const int PLAYER_VERTICAL_BUFFER = 50;
-        const int PLAYER_HORIZONTAL_BUFFER = 50;
+        const int PLAYER_HORIZONTAL_BUFFER = 200;
 
         #endregion Fields
 
