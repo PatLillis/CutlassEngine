@@ -3,6 +3,7 @@ using Cutlass;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace PirateyGame.Screens
 {
@@ -38,12 +39,7 @@ namespace PirateyGame.Screens
         public Color SelectedTextColor = Color.Yellow;
 
         /// <summary>Which font this menu entry should use</summary>
-        public string EntryFontKey
-        {
-            get { return _EntryFontKey; }
-            set { _EntryFontKey = value; }
-        }
-        private string _EntryFontKey = String.Empty;
+        public FontId Entry_Id;
 
         /// <summary>The position at which the entry is drawn</summary>
         public Vector2 Position
@@ -192,7 +188,7 @@ namespace PirateyGame.Screens
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             // Draw _Text, centered on the middle of each line.
-            SpriteFont font = FontManager.GetSpriteFontOrDefault(_EntryFontKey);
+            SpriteFont font = FontManager.GetSpriteFontOrDefault(Entry_Id);
 
             // Draw the selected entry
             Color color = isSelected ? SelectedTextColor : TextColor;
@@ -218,7 +214,7 @@ namespace PirateyGame.Screens
         /// </summary>
         public virtual int GetHeight()
         {
-            return FontManager.GetSpriteFontOrDefault(EntryFontKey).LineSpacing;
+            return FontManager.GetSpriteFontOrDefault(Entry_Id).LineSpacing;
         }
 
         /// <summary>
@@ -226,7 +222,7 @@ namespace PirateyGame.Screens
         /// </summary>
         public virtual int GetWidth()
         {
-            return (int)FontManager.GetSpriteFontOrDefault(EntryFontKey).MeasureString(Text).X;
+            return (int)FontManager.GetSpriteFontOrDefault(Entry_Id).MeasureString(Text).X;
         }
 
         #endregion

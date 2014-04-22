@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Cutlass.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace Cutlass.Managers
 {
@@ -13,7 +15,7 @@ namespace Cutlass.Managers
         #region Properties
 
         /// <summary>Where the actual fonts are stored, accessed by a string key</summary>
-        private static Dictionary<string, ICutlassFont> _Fonts = new Dictionary<string, ICutlassFont>();
+        private static Dictionary<FontId, ICutlassFont> _Fonts = new Dictionary<FontId, ICutlassFont>();
 
         /// <summary>The default font to use</summary>
         public static SpriteFont DefaultFont
@@ -30,11 +32,7 @@ namespace Cutlass.Managers
         private static bool _Initialized = false;
 
         /// <summary>The number of fonts that are currently loaded.</summary>
-        public static int FontsLoaded
-        {
-            get { return _FontsLoaded; }
-        }
-        private static int _FontsLoaded = 0;
+        private static int _NextId = 0;
 
         #endregion Properties
 
@@ -81,32 +79,31 @@ namespace Cutlass.Managers
         /// </summary>
         /// <param name="newTexture"></param>
         /// <param name="textureName"></param>
-        public static void AddFont(ICutlassFont newFont, string fontName)
+        public static FontId AddFont(ICutlassFont newFont)
         {
-            if (fontName != null && !_Fonts.ContainsKey(fontName))
-            {
-                _Fonts.Add(fontName, newFont);
-                if (_Initialized)
-                {
-                    newFont.LoadContent();
-                }
-            }
+            _Fonts.Add(_NextId, newFont);
+
+            if (_Initialized)
+                newFont.LoadContent();
+
+            return _NextId++;
         }
 
         /// <summary>
         /// Remove a font.
         /// </summary>
-        /// <param name="fontName"></param>
-        public static void RemoveFont(string fontName)
+        /// <param name="fontId"></param>
+        public static void RemoveFont(FontId fontId)
         {
-            if (fontName != null && _Fonts.ContainsKey(fontName))
+            ICutlassFont fontToRemove;
+            _Fonts.TryGetValue(fontId, out fontToRemove);
+
+            if (fontToRemove != null)
             {
                 if (_Initialized)
-                {
-                    _Fonts[fontName].UnloadContent();
-                    _Fonts.Remove(fontName);
-                    _FontsLoaded--;
-                }
+                    fontToRemove.UnloadContent();
+
+                _Fonts.Remove(fontId);
             }
         }
 
@@ -115,13 +112,9 @@ namespace Cutlass.Managers
         /// </summary>
         /// <param name="textureId"></param>
         /// <returns></returns>
-        public static ICutlassFont GetFont(string fontName)
+        public static ICutlassFont GetFont(FontId fontId)
         {
-            if (fontName != null && _Fonts.ContainsKey(fontName))
-            {
-                return _Fonts[fontName];
-            }
-            return null;
+            return _Fonts.ElementAtOrDefault(fontId).Value;
         }
 
         /// <summary>
@@ -129,9 +122,10 @@ namespace Cutlass.Managers
         /// </summary>
         /// <param name="fontName"></param>
         /// <returns></returns>
-        public static SpriteFont GetSpriteFont(string fontName)
+        public static SpriteFont GetSpriteFont(FontId fontId)
         {
-            ICutlassFont font = GetFont(fontName);
+            ICutlassFont font = GetFont(fontId);
+
             if (font != null)
                 return font.Font;
             else
@@ -143,9 +137,9 @@ namespace Cutlass.Managers
         /// </summary>
         /// <param name="fontName"></param>
         /// <returns></returns>
-        public static SpriteFont GetSpriteFontOrDefault(string fontName)
+        public static SpriteFont GetSpriteFontOrDefault(FontId fontId)
         {
-            return GetSpriteFont(fontName) ?? DefaultFont;
+            return GetSpriteFont(fontId) ?? DefaultFont;
         }
 
         /// <summary>
@@ -155,9 +149,7 @@ namespace Cutlass.Managers
         public static void SetDefaultFont(ICutlassFont defaultFont)
         {
             if (!defaultFont.ReadyToRender)
-            {
                 defaultFont.LoadContent();
-            }
 
             _DefaultFont = defaultFont.Font;
         }

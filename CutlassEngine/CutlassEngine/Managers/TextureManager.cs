@@ -67,7 +67,7 @@ namespace Cutlass.Managers
             if (textureToRemove != null)
             {
                 if (_Initialized)
-                    _Textures[textureId].UnloadContent();
+                    textureToRemove.UnloadContent();
 
                 _Textures.Remove(textureId);
             }

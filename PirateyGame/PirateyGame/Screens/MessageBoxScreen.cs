@@ -134,7 +134,7 @@ namespace PirateyGame.Screens
             // Darken down any other screens that were drawn beneath the popup.
             ScreenManager.FadeBackBufferToBlack(TransitionAlpha * 2 / 3);
 
-            SpriteFont font = FontManager.GetSpriteFontOrDefault(String.Empty);
+            SpriteFont font = FontManager.DefaultFont;
 
             // Center the message _Text in the viewport.
             Vector2 viewportSize = new Vector2(CutlassEngine.Device.Viewport.Width, CutlassEngine.Device.Viewport.Height);

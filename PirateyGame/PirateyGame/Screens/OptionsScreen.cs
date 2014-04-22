@@ -335,7 +335,7 @@ namespace PirateyGame.Screens
             SpriteFont entryFont;
 
             //resolution
-            entryFont = FontManager.GetSpriteFontOrDefault(_ResolutionMenuEntry.EntryFontKey);
+            entryFont = FontManager.GetSpriteFontOrDefault(_ResolutionMenuEntry.Entry_Id);
             string rOption = "";
             float rOptionWidth = -1.0f;
             foreach (DisplayMode r in AvailableResolutions)
@@ -350,19 +350,19 @@ namespace PirateyGame.Screens
             int resolutionWidth = (int)entryFont.MeasureString("Screen Resolution: " + rOption).X;
 
             //FullScreen
-            entryFont = FontManager.GetSpriteFontOrDefault(_FullScreenEntry.EntryFontKey);
+            entryFont = FontManager.GetSpriteFontOrDefault(_FullScreenEntry.Entry_Id);
             int fullscreenWidth = (int)entryFont.MeasureString("Fullscreen: Yes").X;
 
             //Music
-            entryFont = FontManager.GetSpriteFontOrDefault(_MusicMenuEntry.EntryFontKey);
+            entryFont = FontManager.GetSpriteFontOrDefault(_MusicMenuEntry.Entry_Id);
             int musicWidth = (int)entryFont.MeasureString("Music Level: 100").X;
 
             //FX
-            entryFont = FontManager.GetSpriteFontOrDefault(_SfxMenuEntry.EntryFontKey);
+            entryFont = FontManager.GetSpriteFontOrDefault(_SfxMenuEntry.Entry_Id);
             int fxWidth = (int)entryFont.MeasureString("SFX Level: 100").X;
 
             //Language
-            entryFont = FontManager.GetSpriteFontOrDefault(_LanguageMenuEntry.EntryFontKey);
+            entryFont = FontManager.GetSpriteFontOrDefault(_LanguageMenuEntry.Entry_Id);
             string lOption = "";
             float lOptionWidth = -1.0f;
             foreach (string l in _AvailableLocales)
@@ -377,11 +377,11 @@ namespace PirateyGame.Screens
             int languageWidth = (int)entryFont.MeasureString("Language: " + lOption).X;
 
             //Insults
-            entryFont = FontManager.GetSpriteFontOrDefault(_InsultsMenuEntry.EntryFontKey);
+            entryFont = FontManager.GetSpriteFontOrDefault(_InsultsMenuEntry.Entry_Id);
             int insultsWidth = (int)entryFont.MeasureString("Devastating Insults: Off").X;
 
             //Ocean Color
-            entryFont = FontManager.GetSpriteFontOrDefault(_OceanColorMenuEntry.EntryFontKey);
+            entryFont = FontManager.GetSpriteFontOrDefault(_OceanColorMenuEntry.Entry_Id);
             string cOption = "";
             float cOptionWidth = -1.0f;
             foreach (string c in _AvailableOceanColors)

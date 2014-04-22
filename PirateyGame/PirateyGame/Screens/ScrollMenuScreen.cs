@@ -32,7 +32,6 @@ namespace PirateyGame.Screens
             : base(menuTitle)
         {
             _TitleColor = Palette.MediumBrown;
-            _TitleFontKey = "bilbo";
         }
 
         /// <summary>
@@ -48,10 +47,9 @@ namespace PirateyGame.Screens
             _MenuBackgroundVerticalEdge_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuVerticalEdge"));
             _MenuBackgroundHorizontalEdge_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/backgroundMenuHorizontalEdge"));
 
-            FontManager.AddFont(new CutlassFont("Content/Fonts/bilboSwashCaps"), "bilbo");
-            FontManager.AddFont(new CutlassFont("Content/Fonts/frederickaTheGreat"), "fredericka");
+            _TitleFont_Id = FontManager.AddFont(new CutlassFont("Content/Fonts/bilboSwashCaps"));
 
-            SetMenuEntryFont("fredericka");
+            SetMenuEntryFont(FontManager.AddFont(new CutlassFont("Content/Fonts/frederickaTheGreat")));
             SetMenuEntryTextColor(Palette.CharcoalGrey);
             SetMenuEntrySelectedTextColor(Palette.LightBlue);
         }
@@ -81,7 +79,7 @@ namespace PirateyGame.Screens
         {
             GraphicsDevice graphics = CutlassEngine.Device;
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            SpriteFont titleFont = FontManager.GetSpriteFontOrDefault(_TitleFontKey);
+            SpriteFont titleFont = FontManager.GetSpriteFontOrDefault(_TitleFont_Id);
 
             #region Draw Title Scroll
 

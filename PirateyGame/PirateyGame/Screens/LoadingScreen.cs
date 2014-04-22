@@ -7,6 +7,7 @@ using Cutlass.GameComponents;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace PirateyGame.Screens
 {
@@ -126,7 +127,7 @@ namespace PirateyGame.Screens
             if (_LoadingIsSlow)
             {
                 SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-                SpriteFont font = FontManager.GetSpriteFontOrDefault(String.Empty);
+                SpriteFont font = FontManager.DefaultFont;
 
                 const string message = "Loading...";
 

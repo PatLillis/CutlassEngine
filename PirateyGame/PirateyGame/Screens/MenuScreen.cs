@@ -6,6 +6,7 @@ using Cutlass.GameComponents;
 using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Utilities;
 
 namespace PirateyGame.Screens
 {
@@ -27,7 +28,7 @@ namespace PirateyGame.Screens
         protected string _MenuTitle = String.Empty;
 
         /// <summary>Which font the title should use</summary>
-        protected string _TitleFontKey = String.Empty;
+        protected FontId _TitleFont_Id;
 
         /// <summary>Title Color</summary>
         public Color TitleColor
@@ -287,7 +288,7 @@ namespace PirateyGame.Screens
 
             GraphicsDevice graphics = CutlassEngine.Device;
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            SpriteFont font = FontManager.GetSpriteFontOrDefault(_TitleFontKey);
+            SpriteFont font = FontManager.GetSpriteFontOrDefault(_TitleFont_Id);
 
             spriteBatch.Begin();
 
@@ -379,10 +380,10 @@ namespace PirateyGame.Screens
         /// Set font for all menu entries
         /// </summary>
         /// <param name="fontKey"></param>
-        public void SetMenuEntryFont(string fontKey)
+        public void SetMenuEntryFont(FontId fontId)
         {
             foreach (MenuEntry entry in MenuEntries)
-                entry.EntryFontKey = fontKey;
+                entry.Entry_Id = fontId;
         }
 
         #endregion
