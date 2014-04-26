@@ -1,10 +1,10 @@
 using System;
-using Cutlass.GameComponents;
-using Cutlass.Managers;
-using Cutlass.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.GameComponents;
+using Cutlass.Managers;
+using Cutlass.Utilities;
 
 namespace Cutlass
 {

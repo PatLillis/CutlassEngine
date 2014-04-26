@@ -1,8 +1,7 @@
 ﻿using System;
-using Cutlass;
-using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Managers;
 using Cutlass.Utilities;
 
 namespace PirateyGame.Screens

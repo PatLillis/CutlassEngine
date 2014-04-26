@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.Xna.Framework.Graphics;
 using Cutlass;
 using Cutlass.GameComponents;
 using Cutlass.Managers;
 using Cutlass.Utilities;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace PirateyGame.Screens
 {

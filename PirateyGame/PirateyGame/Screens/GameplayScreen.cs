@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using Cutlass;
-using Cutlass.GameComponents;
-using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using PirateyGame.SceneObjects;
+using Cutlass;
+using Cutlass.GameComponents;
+using Cutlass.Managers;
 using Cutlass.Utilities;
+using PirateyGame.SceneObjects;
 
 namespace PirateyGame.Screens
 {

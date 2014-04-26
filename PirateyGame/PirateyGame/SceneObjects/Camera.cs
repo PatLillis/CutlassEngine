@@ -1,12 +1,9 @@
-﻿using BoundingRect;
+﻿using System;
+using Microsoft.Xna.Framework;
+using BoundingRect;
 using Cutlass.GameComponents;
 using Cutlass.Interfaces;
 using Cutlass.Utilities;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PirateyGame.SceneObjects
 {

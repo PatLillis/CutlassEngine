@@ -1,6 +1,7 @@
-﻿using BoundingRect;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using BoundingRect;
 
 namespace Cutlass.Interfaces
 {

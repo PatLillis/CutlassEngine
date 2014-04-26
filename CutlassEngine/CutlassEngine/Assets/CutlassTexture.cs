@@ -1,7 +1,7 @@
 ﻿using System;
-using Cutlass.Interfaces;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Interfaces;
 
 namespace Cutlass.Assets
 {

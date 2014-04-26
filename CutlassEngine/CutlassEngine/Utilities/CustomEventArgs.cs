@@ -1,9 +1,6 @@
-﻿using BoundingRect;
+﻿using System;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using BoundingRect;
 
 namespace Cutlass.Utilities
 {

@@ -1,8 +1,8 @@
 ﻿using System;
-using Cutlass.Assets;
-using Cutlass.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass.Assets;
+using Cutlass.Managers;
 using Cutlass.Utilities;
 
 namespace Cutlass.GameComponents

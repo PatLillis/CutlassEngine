@@ -1,11 +1,8 @@
-﻿using Cutlass.Assets;
-using Cutlass.Interfaces;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Cutlass.Interfaces;
 
 namespace Cutlass.Managers
 {
