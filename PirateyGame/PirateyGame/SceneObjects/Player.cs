@@ -118,8 +118,6 @@ namespace PirateyGame.SceneObjects
             _PlayerName = playerName +"(|)";
             _PlayerFontKey = fontKey;
 
-            _PlayerTest_Id = TextureManager.AddTexture(new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 3));
-
             Position = new Vector2(100, 100);
 
             IsVisible = true;
@@ -127,12 +125,14 @@ namespace PirateyGame.SceneObjects
 
         public void LoadContent()
         {
+            _PlayerTest_Id = TextureManager.AddTexture(new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 3));
+
             _IsLoaded = true;
         }
 
         public void UnloadContent()
         {
-            //Unload Content
+            _IsLoaded = false;
         }
 
         #endregion Initialization

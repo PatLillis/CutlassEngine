@@ -99,6 +99,8 @@ namespace Cutlass.Assets
                 _IsLoaded = true;
                 _ReadyToRender = true;
             }
+
+            _IsLoaded = true;
         }
 
         /// <summary>
@@ -107,6 +109,8 @@ namespace Cutlass.Assets
         public void UnloadContent()
         {
             _BaseTexture.Dispose();
+
+            _IsLoaded = false;
         }
 
         #endregion Initialization

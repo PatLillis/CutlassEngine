@@ -43,6 +43,8 @@ namespace PirateyGame.Screens
         /// </summary>
         public override void LoadContent()
         {
+            base.LoadContent();
+
             _OceanClouds_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/oceanClouds"));
         }
 

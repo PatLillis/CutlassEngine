@@ -213,13 +213,21 @@ namespace Cutlass
         /// LoadContent will be called once per game
         /// </summary>
         protected override void LoadContent()
-        { }
+        {
+            base.LoadContent();
+
+            //Load engine-specific content
+        }
 
         /// <summary>
         /// UnloadContent will be called once per game
         /// </summary>
         protected override void UnloadContent()
-        { }
+        {
+            base.UnloadContent();
+
+            //Unload engine-specific content
+        }
 
         #endregion
 

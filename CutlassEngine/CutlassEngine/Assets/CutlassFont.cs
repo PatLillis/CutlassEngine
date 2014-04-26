@@ -68,7 +68,9 @@ namespace Cutlass.Assets
         /// Unload font assets.
         /// </summary>
         public void UnloadContent()
-        { }
+        {
+            _ReadyToRender = false;
+        }
 
         #endregion Initialization
     }

@@ -57,9 +57,9 @@ namespace Cutlass.GameComponents
         /// </summary>
         protected override void LoadContent()
         {
-            _Blank_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"));
-
             base.LoadContent();
+
+            _Blank_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"));
         }
 
         #endregion Initialization

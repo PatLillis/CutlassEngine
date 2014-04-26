@@ -52,14 +52,6 @@ namespace PirateyGame.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-
-            _Player = new Player("Wuuuuut");
-            _Camera = new Camera(this, GameSettingsManager.Default.ResolutionWidth, GameSettingsManager.Default.ResolutionHeight);
-
-            _Player.PlayerMoved += _Camera.UpdateCameraPosition;
-            ViewSettingsChanged += _Camera.UpdateVisibleArea;
-
-            ObjectManager.AddObjects(Player, Camera);
         }
 
         /// <summary>
@@ -68,6 +60,14 @@ namespace PirateyGame.Screens
         public override void LoadContent()
         {
             base.LoadContent();
+
+            _Player = new Player("Wuuuuut");
+            _Camera = new Camera(this, GameSettingsManager.Default.ResolutionWidth, GameSettingsManager.Default.ResolutionHeight);
+
+            _Player.PlayerMoved += _Camera.UpdateCameraPosition;
+            ViewSettingsChanged += _Camera.UpdateVisibleArea;
+
+            ObjectManager.AddObjects(Player, Camera);
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
