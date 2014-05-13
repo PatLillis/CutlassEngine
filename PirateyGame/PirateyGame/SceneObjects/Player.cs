@@ -17,17 +17,21 @@ namespace PirateyGame.SceneObjects
 
         private TexId _PlayerTest_Id;
 
+        const float PLAYER_VERTICAL_SPEED = 1f;
+        const float PLAYER_HORIZONTAL_SPEED = 1f;
+
         #endregion Fields
 
         #region Properties
 
-        public string PlayerName
-        {
-            get { return _PlayerName; }
-        }
-        private string _PlayerName = String.Empty;
-
         private string _PlayerFontKey = String.Empty;
+
+        public bool Active
+        {
+            get { return _Active; }
+            set { _Active = value; }
+        }
+        private bool _Active;
 
         public int DrawOrder
         {
@@ -63,18 +67,12 @@ namespace PirateyGame.SceneObjects
 
         public int Width
         {
-            get
-            {
-                return TextureManager.GetTexture(_PlayerTest_Id).Width;
-            }
+            get { return TextureManager.GetTexture(_PlayerTest_Id).Width; }
         }
 
         public int Height
         {
-            get
-            {
-                return TextureManager.GetTexture(_PlayerTest_Id).Height;
-            }
+            get { return TextureManager.GetTexture(_PlayerTest_Id).Height; }
         }
 
         public BoundingRectangle BoundingRect
@@ -113,20 +111,19 @@ namespace PirateyGame.SceneObjects
 
         #region Initialization
 
-        public Player(string playerName, string fontKey = "")
+        public Player(ICutlassTexture texture, string fontKey = "")
         {
-            _PlayerName = playerName +"(|)";
             _PlayerFontKey = fontKey;
+            _PlayerTest_Id = TextureManager.AddTexture(texture);
+            _Active = true;
 
-            Position = new Vector2(100, 100);
+            _Position = new Vector2(100, 100);
 
-            IsVisible = true;
+            _IsVisible = true;
         }
 
         public void LoadContent()
         {
-            _PlayerTest_Id = TextureManager.AddTexture(new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 3));
-
             _IsLoaded = true;
         }
 
@@ -144,7 +141,7 @@ namespace PirateyGame.SceneObjects
             KeyboardState keyboardState = input.CurrentKeyboardState;
             GamePadState gamePadState = input.CurrentGamePadState;
 
-            // Otherwise move the player position.
+            // Otherwise move the player vector.
             Vector2 movement = Vector2.Zero;
 
             if (keyboardState.IsKeyDown(Keys.Left))
@@ -167,6 +164,9 @@ namespace PirateyGame.SceneObjects
             if (movement.Length() > 1)
                 movement.Normalize();
 
+            movement.X *= PLAYER_VERTICAL_SPEED;
+            movement.Y *= PLAYER_HORIZONTAL_SPEED;
+
             _Position += movement;
 
             OnPlayerMoved();
@@ -186,35 +186,11 @@ namespace PirateyGame.SceneObjects
         {
             CutlassAnimatedTexture texture = (CutlassAnimatedTexture)TextureManager.GetTexture(_PlayerTest_Id);
 
-            //spriteBatch.DrawString(FontManager.GetSpriteFontOrDefault(_PlayerFontKey), _PlayerName, Position, Palette.MediumBlue);
             spriteBatch.Draw(texture.BaseTexture, Position, texture.AreaToRender, Color.White);
         }
 
         public void Update(GameTime gameTime)
         {
-            string statusChar = _PlayerName.Substring(_PlayerName.Length - 2, 1);
-            string statusGroup = String.Empty;
-
-            switch(statusChar)
-            {
-                case @"\":
-                    statusGroup = "(|)";
-                    break;
-                case @"|":
-                    statusGroup = "(/)";
-                    break;
-                case @"/":
-                    statusGroup = "(-)";
-                    break;
-                case @"-":
-                    statusGroup = @"(\)";
-                    break;
-                default:
-                    break;
-            }
-
-            _PlayerName = _PlayerName.Substring(0, _PlayerName.Length - 3) + statusGroup;
-
             ((CutlassAnimatedTexture)TextureManager.GetTexture(_PlayerTest_Id)).Update(gameTime);
         }
 

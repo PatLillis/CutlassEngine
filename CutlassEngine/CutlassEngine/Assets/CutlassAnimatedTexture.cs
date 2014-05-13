@@ -42,6 +42,7 @@ namespace Cutlass.Assets
         /// Construct a new CutlassTexture.
         /// </summary>
         public CutlassAnimatedTexture()
+            : base()
         { }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace Cutlass.Assets
         /// </summary>
         /// <param name="fileName">The asset file name.</param>
         public CutlassAnimatedTexture(string fileName, int numFrames = 1, int frameLength = 1)
-            :base(fileName)
+            : base(fileName)
         {
             _NumberOfFrames = numFrames;
             _FrameLength = frameLength;

@@ -11,14 +11,14 @@ namespace PirateyGame.SceneObjects
     {
         #region Fields
 
-        const int PLAYER_VERTICAL_BUFFER = 200;
-        const int PLAYER_HORIZONTAL_BUFFER = 200;
+        const int PLAYER_VERTICAL_BUFFER = 50;
+        const int PLAYER_HORIZONTAL_BUFFER = 50;
 
         #endregion Fields
 
         #region Properties
 
-        GameScreen ViewScreen
+        public GameScreen ViewScreen
         {
             get { return _ViewScreen; }
             set { _ViewScreen = value; }
@@ -32,12 +32,20 @@ namespace PirateyGame.SceneObjects
         }
         private BoundingRectangle _VisibleArea;
 
+        public bool Active
+        {
+            get { return _Active; }
+            set { _Active = value; }
+        }
+        private bool _Active;
+
         #endregion Properties
 
         #region Initialization
 
         public Camera(GameScreen viewScreen, float screenWidth, float screenHeight, float startingX = 0.0f, float startingY = 0.0f)
         {
+            _Active = true;
             _ViewScreen = viewScreen;
             _VisibleArea = new BoundingRectangle(startingX, startingY, screenWidth, screenHeight);
         }

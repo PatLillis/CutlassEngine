@@ -90,12 +90,14 @@
     <Compile Include="GameComponents\FpsCounter.cs" />
     <Compile Include="GameComponents\GameScreen.cs" />
     <Compile Include="GameComponents\Input.cs" />
+    <Compile Include="Interfaces\ICutlassCollidable.cs" />
     <Compile Include="Interfaces\ICutlassDrawable.cs" />
     <Compile Include="Interfaces\ICutlassFont.cs" />
     <Compile Include="Interfaces\ICutlassLoadable.cs" />
     <Compile Include="Interfaces\ICutlassSceneObject.cs" />
     <Compile Include="Interfaces\ICutlassTexture.cs" />
     <Compile Include="Interfaces\ICutlassUpdateable.cs" />
+    <Compile Include="Managers\CollisionManager.cs" />
     <Compile Include="Managers\FontManager.cs" />
     <Compile Include="Managers\SceneObjectManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />

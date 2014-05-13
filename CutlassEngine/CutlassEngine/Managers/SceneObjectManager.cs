@@ -77,10 +77,20 @@ namespace Cutlass.Managers
         {
             foreach (ICutlassSceneObject o in Objects)
             {
+                //Remove outdated objects
+                if (!o.Active)
+                {
+                    Objects.Remove(o);
+                    continue;
+                }
+
+                //Update objects
                 ICutlassUpdateable oUpdateable = o as ICutlassUpdateable;
                 if (oUpdateable != null)
                     oUpdateable.Update(gameTime);
             }
+
+            //Check Collisions
         }
 
         public void Draw(GameTime gameTime, Matrix offsetTransform)
@@ -89,6 +99,14 @@ namespace Cutlass.Managers
 
             foreach (ICutlassSceneObject o in Objects)
             {
+                //Remove outdated objects
+                if (!o.Active)
+                {
+                    Objects.Remove(o);
+                    continue;
+                }
+
+                //Draw objects
                 ICutlassDrawable oDrawable = o as ICutlassDrawable;
                 if (oDrawable != null && oDrawable.IsVisible)
                 {
@@ -127,10 +145,8 @@ namespace Cutlass.Managers
             }
         }
 
-        public void AddObjects(ICutlassSceneObject o, params ICutlassSceneObject[] list)
+        public void AddObjects(params ICutlassSceneObject[] list)
         {
-            AddObject(o);
-
             for (int i = 0; i < list.Length; i++)
             {
                 AddObject(list[i]);

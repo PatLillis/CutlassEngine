@@ -85,6 +85,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneObjects\Camera.cs" />
     <Compile Include="SceneObjects\Player.cs" />
+    <Compile Include="SceneObjects\Scenery.cs" />
     <Compile Include="Screens\BackgroundScreen.cs" />
     <Compile Include="Screens\GameplayScreen.cs" />
     <Compile Include="Screens\LoadingScreen.cs" />

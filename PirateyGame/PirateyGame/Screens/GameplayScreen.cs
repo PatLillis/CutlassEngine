@@ -8,6 +8,8 @@ using Cutlass.GameComponents;
 using Cutlass.Managers;
 using Cutlass.Utilities;
 using PirateyGame.SceneObjects;
+using Cutlass.Assets;
+using System.Collections.Generic;
 
 namespace PirateyGame.Screens
 {
@@ -38,6 +40,17 @@ namespace PirateyGame.Screens
         }
         private Camera _Camera;
 
+        public List<Scenery> Scenery
+        {
+            get
+            {
+                if (_Scenery == null)
+                    _Scenery = new List<Scenery>();
+                return _Scenery;
+            }
+        }
+        private List<Scenery> _Scenery;
+
         #endregion
 
         #region Initialization
@@ -58,13 +71,16 @@ namespace PirateyGame.Screens
         {
             base.LoadContent();
 
-            _Player = new Player("Wuuuuut");
+            _Player = new Player(new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 3), "Wuuuuut");
             _Camera = new Camera(this, GameSettingsManager.Default.ResolutionWidth, GameSettingsManager.Default.ResolutionHeight);
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
             ViewSettingsChanged += _Camera.UpdateVisibleArea;
 
+            Scenery.Add(new Scenery(new Vector2(300, 300), new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 3)));
+
             ObjectManager.AddObjects(Player, Camera);
+            ObjectManager.AddObjects(Scenery.ToArray());
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a

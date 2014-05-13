@@ -53,23 +53,6 @@ namespace PirateyGame.Screens
             SetMenuEntrySelectedTextColor(Palette.LightBlue);
         }
 
-        protected override void UpdateMenuEntryLocations()
-        {
-            base.UpdateMenuEntryLocations();
-
-            //MenuEntry last = MenuEntries.LastOrDefault();
-            //int bottomPosition = (int)last.Position.Y + (last.GetHeight() / 2);
-            //int difference = CutlassEngine.Device.Viewport.Height - bottomPosition - 32;
-
-            //if (difference < 0)
-            //{
-            //    foreach(MenuEntry m in MenuEntries)
-            //    {
-            //        m.Position = new Vector2(m.Position.X, m.Position.Y + difference);
-            //    }
-            //}
-        }
-
         /// <summary>
         /// Draw
         /// </summary>

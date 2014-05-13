@@ -12,6 +12,14 @@ namespace Cutlass.Assets
     {
         #region Properties
 
+        /// <summary>Once this is set to false, will be removed from Scene.</summary>
+        public bool Active
+        {
+            get { return _Active; }
+            set { _Active = value; }
+        }
+        protected bool _Active;
+
         /// <summary>The file name of the asset.</summary>
         public string FileName
         {
@@ -77,13 +85,16 @@ namespace Cutlass.Assets
         /// Construct a new CutlassTexture.
         /// </summary>
         public CutlassTexture()
-        { }
+        {
+            _Active = true;
+        }
 
         /// <summary>
         /// Construct a new CutlassTexture.
         /// </summary>
         /// <param name="fileName">The asset file name.</param>
         public CutlassTexture(string fileName)
+            : this()
         {
             _FileName = fileName;
         }

@@ -1,16 +1,17 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using BoundingRect;
+using Cutlass.Interfaces;
 
 namespace Cutlass.Utilities
 {
-    public class PositionEventArgs : EventArgs
+    public class Vector2EventArgs : EventArgs
     {
-        public Vector2 Position;
+        public Vector2 Vector;
 
-        public PositionEventArgs(Vector2 position)
+        public Vector2EventArgs(Vector2 vector)
         {
-            Position = position;
+            Vector = vector;
         }
     }
 
@@ -24,13 +25,23 @@ namespace Cutlass.Utilities
         }
     }
 
-    public class RectangleEventArgs: EventArgs
+    public class RectangleEventArgs : EventArgs
     {
         public Rectangle Rectangle;
 
         public RectangleEventArgs(Rectangle rectangle)
         {
             Rectangle = rectangle;
+        }
+    }
+
+    public class CollisionEventArgs : EventArgs
+    {
+        ICutlassCollidable CollisionTarget;
+
+        public CollisionEventArgs(ICutlassCollidable collisionTarget)
+        {
+            CollisionTarget = collisionTarget;
         }
     }
 }
