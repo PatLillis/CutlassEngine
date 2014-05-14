@@ -34,14 +34,4 @@ namespace Cutlass.Utilities
             Rectangle = rectangle;
         }
     }
-
-    public class CollisionEventArgs : EventArgs
-    {
-        ICutlassCollidable CollisionTarget;
-
-        public CollisionEventArgs(ICutlassCollidable collisionTarget)
-        {
-            CollisionTarget = collisionTarget;
-        }
-    }
 }

@@ -11,8 +11,8 @@ namespace PirateyGame.SceneObjects
     {
         #region Fields
 
-        const int PLAYER_VERTICAL_BUFFER = 50;
-        const int PLAYER_HORIZONTAL_BUFFER = 50;
+        const int VERTICAL_EDGE_BUFFER = 50;
+        const int HORIZONTAL_EDGE_BUFFER = 50;
 
         #endregion Fields
 
@@ -24,13 +24,6 @@ namespace PirateyGame.SceneObjects
             set { _ViewScreen = value; }
         }
         private GameScreen _ViewScreen;
-
-        public BoundingRectangle VisibleArea
-        {
-            get { return _VisibleArea; }
-            set { _VisibleArea = value; }
-        }
-        private BoundingRectangle _VisibleArea;
 
         public bool Active
         {
@@ -47,7 +40,7 @@ namespace PirateyGame.SceneObjects
         {
             _Active = true;
             _ViewScreen = viewScreen;
-            _VisibleArea = new BoundingRectangle(startingX, startingY, screenWidth, screenHeight);
+            _ViewScreen.VisibleArea = new BoundingRectangle(startingX, startingY, screenWidth, screenHeight);
         }
 
         #endregion Initialization
@@ -55,35 +48,25 @@ namespace PirateyGame.SceneObjects
         #region Public Methods
 
         /// <summary>
-        /// Make sure camera follows player around.
+        /// Update camera position so that the passed in Rectangle is on screen.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
         public void UpdateCameraPosition(object sender, BoundingRectangleEventArgs args)
         {
-            BoundingRectangle playerPosition = args.Rectangle;
-            Vector2 currentOffset = _VisibleArea.Min;
+            BoundingRectangle rectangle = args.Rectangle;
+            Vector2 currentOffset = _ViewScreen.VisibleArea.Min;
             Vector2 newOffset = Vector2.Zero;
 
             //Calculate offset
-            newOffset.X = Math.Max(0, PLAYER_HORIZONTAL_BUFFER - (playerPosition.Left - _VisibleArea.Left));
-            newOffset.X = Math.Min(newOffset.X, -PLAYER_HORIZONTAL_BUFFER - (playerPosition.Right - _VisibleArea.Right));
-            newOffset.Y = Math.Max(0, PLAYER_VERTICAL_BUFFER - (playerPosition.Top - _VisibleArea.Top));
-            newOffset.Y = Math.Min(newOffset.Y, -PLAYER_VERTICAL_BUFFER - (playerPosition.Bottom - _VisibleArea.Bottom));
+            newOffset.X = Math.Max(0, HORIZONTAL_EDGE_BUFFER - (rectangle.Left - _ViewScreen.VisibleArea.Left));
+            newOffset.X = Math.Min(newOffset.X, -HORIZONTAL_EDGE_BUFFER - (rectangle.Right - _ViewScreen.VisibleArea.Right));
+            newOffset.Y = Math.Max(0, VERTICAL_EDGE_BUFFER - (rectangle.Top - _ViewScreen.VisibleArea.Top));
+            newOffset.Y = Math.Min(newOffset.Y, -VERTICAL_EDGE_BUFFER - (rectangle.Bottom - _ViewScreen.VisibleArea.Bottom));
 
             //Apply offset
-            _VisibleArea.Translate(-newOffset);
+            _ViewScreen.VisibleArea = BoundingRectangle.Translate(_ViewScreen.VisibleArea, -newOffset);
             _ViewScreen.OffsetTransform = Matrix.CreateTranslation(new Vector3(newOffset - currentOffset, 0.0f));
-        }
-
-        /// <summary>
-        /// Change screen size
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        public void UpdateVisibleArea(object sender, RectangleEventArgs args)
-        {
-            _VisibleArea = new BoundingRectangle(args.Rectangle);
         }
 
         #endregion Public Methods

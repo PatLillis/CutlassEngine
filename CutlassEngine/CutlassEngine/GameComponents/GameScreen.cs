@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Cutlass.Managers;
 using Cutlass.Utilities;
+using BoundingRect;
 
 namespace Cutlass.GameComponents
 {
@@ -48,6 +49,13 @@ namespace Cutlass.GameComponents
             set { _OffsetTransform = value; }
         }
         protected Matrix _OffsetTransform = Matrix.Identity;
+
+        public BoundingRectangle VisibleArea
+        {
+            get { return _VisibleArea; }
+            set { _VisibleArea = value; }
+        }
+        protected BoundingRectangle _VisibleArea;
 
         /// <summary>
         /// Normally when one screen is brought up over the top of another,
@@ -277,8 +285,12 @@ namespace Cutlass.GameComponents
 
         public void ChangeViewSettings(int newResolutionWidth, int newResolutionHeight)
         {
+            Rectangle newViewArea = new Rectangle() { Width = newResolutionWidth, Height = newResolutionHeight };
+
+            _VisibleArea = new BoundingRectangle(newViewArea);
+
             if (ViewSettingsChanged != null)
-                ViewSettingsChanged(this, new RectangleEventArgs(new Rectangle() { Width = newResolutionWidth, Height = newResolutionHeight }));
+                ViewSettingsChanged(this, new RectangleEventArgs(newViewArea));
         }
 
         /// <summary>
@@ -299,7 +311,6 @@ namespace Cutlass.GameComponents
                 _IsExiting = true;
             }
         }
-
-        #endregion
+        #endregion Events
     }
 }

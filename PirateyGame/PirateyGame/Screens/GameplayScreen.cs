@@ -75,7 +75,6 @@ namespace PirateyGame.Screens
             _Camera = new Camera(this, GameSettingsManager.Default.ResolutionWidth, GameSettingsManager.Default.ResolutionHeight);
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
-            ViewSettingsChanged += _Camera.UpdateVisibleArea;
 
             Scenery.Add(new Scenery(new Vector2(300, 300), new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 3)));
 
