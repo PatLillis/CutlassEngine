@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Cutlass;
 using Cutlass.GameComponents;
 using Cutlass.Managers;
+using Cutlass.Utilities;
 
 namespace PirateyGame.Screens
 {

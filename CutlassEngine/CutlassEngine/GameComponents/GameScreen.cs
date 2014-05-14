@@ -7,21 +7,6 @@ using BoundingRect;
 namespace Cutlass.GameComponents
 {
     /// <summary>
-    /// Enum describes the screen transition state.
-    /// </summary>
-    public enum ScreenState
-    {
-        /// <summary>Transition On</summary>
-        TransitionOn,
-        /// <summary>Active</summary>
-        Active,
-        /// <summary>Transition Off</summary>
-        TransitionOff,
-        /// <summary>Hidden</summary>
-        Hidden,
-    }
-
-    /// <summary>
     /// A screen is a single layer that has update and draw logic, and which
     /// can be combined with other layers to build up a complex menu system.
     /// For instance the main menu, the options menu, the "are you sure you

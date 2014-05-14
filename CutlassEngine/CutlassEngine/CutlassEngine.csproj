@@ -106,6 +106,7 @@
     <Compile Include="CutlassEngine.cs" />
     <Compile Include="Assets\CutlassTexture.cs" />
     <Compile Include="Utilities\CustomEventArgs.cs" />
+    <Compile Include="Utilities\Enums.cs" />
     <Compile Include="Utilities\FileHelper.cs" />
     <Compile Include="Utilities\GameSettings.cs" />
     <Compile Include="Utilities\Structs.cs" />
