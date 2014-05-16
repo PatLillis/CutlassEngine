@@ -24,13 +24,19 @@ namespace Cutlass.Managers
         }
         private List<ICutlassSceneObject> _Objects = new List<ICutlassSceneObject>();
 
+        private CollisionManager _CollisionManager;
+
         #endregion Properties
 
         #region Initialization
 
-        public SceneObjectManager() { }
+        public SceneObjectManager(CollisionManager collisionManager)
+        {
+            _CollisionManager = collisionManager;
+        }
 
-        public SceneObjectManager(IEnumerable<ICutlassSceneObject> objects)
+        public SceneObjectManager(IEnumerable<ICutlassSceneObject> objects, CollisionManager collisionManager)
+            : this(collisionManager)
         {
             foreach(ICutlassSceneObject o in objects)
             {
@@ -88,9 +94,15 @@ namespace Cutlass.Managers
                 ICutlassUpdateable oUpdateable = o as ICutlassUpdateable;
                 if (oUpdateable != null)
                     oUpdateable.Update(gameTime);
+
+                //Add to CollisionManager
+                ICutlassCollidable oCollidable = o as ICutlassCollidable;
+                if (oCollidable != null)
+                    _CollisionManager.AddCollidableObject(oCollidable);
             }
 
             //Check Collisions
+            _CollisionManager.CheckCollisions(gameTime);
         }
 
         public void Draw(GameTime gameTime, Matrix offsetTransform)

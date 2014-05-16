@@ -8,9 +8,9 @@ namespace Cutlass.Interfaces
     {
         BoundingRectangle BoundingRect { get; }
 
-        CollisionCategory CategoryMask { get; set; }
-        CollisionCategory Category { get; set; }
-        CollisionSide Side { get; set; }
+        CollisionCategory CategoryMask { get; }
+        CollisionCategory Category { get; }
+        CollisionSide Side { get; }
 
         void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection);
     }

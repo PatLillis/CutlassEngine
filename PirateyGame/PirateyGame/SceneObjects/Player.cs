@@ -11,7 +11,7 @@ using Cutlass.Utilities;
 
 namespace PirateyGame.SceneObjects
 {
-    public class Player : ICutlassDrawable, ICutlassUpdateable, ICutlassLoadable
+    public class Player : ICutlassDrawable, ICutlassUpdateable, ICutlassLoadable, ICutlassCollidable
     {
         #region Fields
 
@@ -101,6 +101,25 @@ namespace PirateyGame.SceneObjects
         }
         private float _Rotation;
 
+        #region ICutlassCollidable
+
+        public CollisionSide Side
+        {
+            get { return CollisionSide.All; }
+        }
+
+        public CollisionCategory Category
+        {
+            get { return CollisionCategory.Good; }
+        }
+
+        public CollisionCategory CategoryMask
+        {
+            get { return CollisionCategory.Bad | CollisionCategory.Scenery;  }
+        }
+
+        #endregion ICutlassCollidable
+
         #endregion Properties
 
         #region Events
@@ -176,6 +195,11 @@ namespace PirateyGame.SceneObjects
         {
             if (PlayerMoved != null)
                 PlayerMoved(this, new BoundingRectangleEventArgs(BoundingRect));
+        }
+
+        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection)
+        {
+            Console.WriteLine("Collided with Player!");
         }
 
         #endregion

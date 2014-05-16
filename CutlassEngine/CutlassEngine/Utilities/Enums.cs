@@ -11,7 +11,8 @@ namespace Cutlass.Utilities
         AttackHigh = 0x4,
         AttackMid = 0x8,
         AttackLow = 0x16,
-        Scenery = 0x32
+        Scenery = 0x32,
+        All = 0x63
     }
 
     [Flags]

@@ -59,6 +59,7 @@ namespace PirateyGame.Screens
         /// Constructor.
         /// </summary>
         public GameplayScreen()
+            : base()
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);

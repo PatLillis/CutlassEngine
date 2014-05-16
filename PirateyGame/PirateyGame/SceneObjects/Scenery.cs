@@ -9,7 +9,7 @@ using System;
 
 namespace PirateyGame.SceneObjects
 {
-    public class Scenery : ICutlassDrawable, ICutlassUpdateable, ICutlassLoadable
+    public class Scenery : ICutlassDrawable, ICutlassUpdateable, ICutlassLoadable, ICutlassCollidable
     {
         #region Fields
 
@@ -93,6 +93,25 @@ namespace PirateyGame.SceneObjects
         }
         private float _Rotation;
 
+        #region ICutlassCollidable
+
+        public CollisionSide Side
+        {
+            get { return CollisionSide.All; }
+        }
+
+        public CollisionCategory Category
+        {
+            get { return CollisionCategory.Scenery; }
+        }
+
+        public CollisionCategory CategoryMask
+        {
+            get { return CollisionCategory.All; }
+        }
+
+        #endregion ICutlassCollidable
+
         #endregion Properties
 
         #region Initialization
@@ -116,6 +135,15 @@ namespace PirateyGame.SceneObjects
         }
 
         #endregion Initialization
+
+        #region Public Methods
+
+        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection)
+        {
+            Console.WriteLine("Collided with Scenery!");
+        }
+
+        #endregion Public Methods
 
         #region Update and Draw
 

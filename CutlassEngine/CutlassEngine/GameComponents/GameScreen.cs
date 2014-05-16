@@ -19,23 +19,18 @@ namespace Cutlass.GameComponents
 
         public SceneObjectManager ObjectManager
         {
-            get
-            {
-                if (_ObjectManager == null)
-                    _ObjectManager = new SceneObjectManager();
-                return _ObjectManager;
-            }
+            get { return _ObjectManager; }
         }
         protected SceneObjectManager _ObjectManager;
 
-        public Matrix OffsetTransform
+        public virtual Matrix OffsetTransform
         {
             get { return _OffsetTransform; }
             set { _OffsetTransform = value; }
         }
         protected Matrix _OffsetTransform = Matrix.Identity;
 
-        public BoundingRectangle VisibleArea
+        public virtual BoundingRectangle VisibleArea
         {
             get { return _VisibleArea; }
             set { _VisibleArea = value; }
@@ -140,6 +135,11 @@ namespace Cutlass.GameComponents
         #endregion
 
         #region Initialization
+
+        public GameScreen()
+        {
+            _ObjectManager = new SceneObjectManager(new CollisionManager(this));
+        }
 
         /// <summary>
         /// Load graphics content for the screen.
