@@ -130,13 +130,13 @@ namespace PirateyGame.SceneObjects
 
         #region Initialization
 
-        public Player(ICutlassTexture texture, string fontKey = "")
+        public Player(ICutlassTexture texture, Vector2 position, string fontKey = "")
         {
             _PlayerFontKey = fontKey;
             _PlayerTest_Id = TextureManager.AddTexture(texture);
             _Active = true;
 
-            _Position = new Vector2(100, 100);
+            _Position = position;
 
             _IsVisible = true;
         }

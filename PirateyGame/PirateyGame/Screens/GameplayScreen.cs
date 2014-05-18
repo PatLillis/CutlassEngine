@@ -72,14 +72,12 @@ namespace PirateyGame.Screens
         {
             base.LoadContent();
 
-            _Player = new Player(new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 3), "Wuuuuut");
+            _Player = new Player(new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest-100-100-3", 3), new Vector2(400, 100));
             _Camera = new Camera(this, GameSettingsManager.Default.ResolutionWidth, GameSettingsManager.Default.ResolutionHeight);
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
 
-            Scenery.Add(new Scenery(new Vector2(300, 300), new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 1)));
-            Scenery.Add(new Scenery(new Vector2(600, 300), new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 1)));
-            Scenery.Add(new Scenery(new Vector2(900, 300), new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 1)));
+            Scenery.Add(new Scenery(new Vector2(300, 300), new CutlassTexture("Content/Textures/Sprites/planks-793-77")));
 
             ObjectManager.AddObjects(Scenery.ToArray());
             ObjectManager.AddObjects(Player, Camera);

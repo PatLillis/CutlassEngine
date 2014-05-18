@@ -25,6 +25,7 @@ namespace PirateyGame
         /// </summary>
         public static Color White = new Color(250, 246, 242);
 
+
         /// <summary>
         /// #282F42
         /// </summary>
@@ -37,6 +38,8 @@ namespace PirateyGame
         /// #00387B
         /// </summary>
         public static Color LightBlue = new Color(0, 56, 123);
+
+
 
         /// <summary>
         /// #5B3F00

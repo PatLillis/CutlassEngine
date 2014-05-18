@@ -98,7 +98,10 @@
     <Compile Include="Screens\ScrollMenuScreen.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="roadmap.txt" />
+    <None Include="fonts.txt" />
     <Content Include="Game.ico" />
+    <None Include="palette.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CutlassEngine\CutlassEngine\CutlassEngine.csproj">

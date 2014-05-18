@@ -14,6 +14,7 @@ namespace PirateyGame.SceneObjects
         #region Fields
 
         private TexId _SceneryObject_Id;
+        private bool _Animated;
 
         #endregion Fields
 
@@ -116,12 +117,13 @@ namespace PirateyGame.SceneObjects
 
         #region Initialization
 
-        public Scenery(Vector2 position, ICutlassTexture texture)
+        public Scenery(Vector2 position, ICutlassTexture texture, bool animated = false)
         {
             _Position = position;
             _SceneryObject_Id = TextureManager.AddTexture(texture);
             _Active = true;
             _IsVisible = true;
+            _Animated = animated;
         }
 
         public void LoadContent()
@@ -149,14 +151,15 @@ namespace PirateyGame.SceneObjects
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            CutlassAnimatedTexture texture = (CutlassAnimatedTexture)TextureManager.GetTexture(_SceneryObject_Id);
+            ICutlassTexture texture = TextureManager.GetTexture(_SceneryObject_Id);
 
             spriteBatch.Draw(texture.BaseTexture, Position, texture.AreaToRender, Color.White);
         }
 
         public void Update(GameTime gameTime)
         {
-            ((CutlassAnimatedTexture)TextureManager.GetTexture(_SceneryObject_Id)).Update(gameTime);
+            if (_Animated)
+                ((ICutlassUpdateable)TextureManager.GetTexture(_SceneryObject_Id)).Update(gameTime);
         }
 
         #endregion Update and Draw

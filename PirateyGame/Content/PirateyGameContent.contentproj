@@ -44,9 +44,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <None Include="fonts.txt">
-      <Name>fonts</Name>
-    </None>
     <Compile Include="Textures\oceanClouds.png">
       <Name>oceanClouds</Name>
       <Importer>TextureImporter</Importer>
@@ -77,14 +74,6 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
-    <None Include="palette.png">
-      <Name>palette</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </None>
-    <None Include="palette.txt">
-      <Name>palette</Name>
-    </None>
     <Compile Include="Textures\titleScrollEdge.png">
       <Name>titleScrollEdge</Name>
       <Importer>TextureImporter</Importer>
@@ -103,10 +92,16 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Compile Include="Textures\Sprites\playerTest.png">
-      <Name>playerTest</Name>
+    <Compile Include="Textures\Sprites\planks-793-77.png">
+      <Name>planks-793-77</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Sprites\playerTest-100-100-3.png">
+      <Name>playerTest-100-100-3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

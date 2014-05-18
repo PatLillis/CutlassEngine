@@ -1,0 +1,23 @@
+CODE
+====
+
+General:
+-Gravity
+-Side-specific collisions
+-AI/Enemies
+-Dialogue
+-Level Initialization
+
+Player:
+-Jumping
+-Attacking
+-Picking up objects
+-Dying
+
+GRAPHICS
+========
+
+-Player
+-Weapons
+-Scenery
+-Enemies
