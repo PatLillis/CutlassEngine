@@ -77,10 +77,12 @@ namespace PirateyGame.Screens
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
 
-            Scenery.Add(new Scenery(new Vector2(300, 300), new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 3)));
+            Scenery.Add(new Scenery(new Vector2(300, 300), new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 1)));
+            Scenery.Add(new Scenery(new Vector2(600, 300), new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 1)));
+            Scenery.Add(new Scenery(new Vector2(900, 300), new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest", 1)));
 
-            ObjectManager.AddObjects(Player, Camera);
             ObjectManager.AddObjects(Scenery.ToArray());
+            ObjectManager.AddObjects(Player, Camera);
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a

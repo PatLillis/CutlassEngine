@@ -138,9 +138,9 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection)
+        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 offset)
         {
-            Console.WriteLine("Collided with Scenery!");
+            //Console.WriteLine("Collided with Scenery!");
         }
 
         #endregion Public Methods

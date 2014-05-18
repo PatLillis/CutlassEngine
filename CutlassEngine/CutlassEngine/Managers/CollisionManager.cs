@@ -76,22 +76,18 @@ namespace Cutlass.Managers
                 float groupWidth = collisionSpace.Width / _HorizontalGroups;
                 float groupHeight = collisionSpace.Height / _VerticalGroups;
 
-                minHorizontalGroup = (int)((intersection.Left - collisionSpace.Left) / groupWidth);
-                maxHorizontalGroup = (int)((intersection.Right - collisionSpace.Left) / groupWidth);
-                minVerticalGroup = (int)((intersection.Top - collisionSpace.Top) / groupHeight);
-                maxVerticalGroup = (int)((intersection.Bottom - collisionSpace.Top) / groupHeight);
+                minHorizontalGroup = Math.Max(0, (int)((intersection.Left - collisionSpace.Left) / groupWidth));
+                maxHorizontalGroup = Math.Min(_HorizontalGroups - 1, (int)((intersection.Right - collisionSpace.Left) / groupWidth));
+                minVerticalGroup = Math.Max(0, (int)((intersection.Top - collisionSpace.Top) / groupHeight));
+                maxVerticalGroup = Math.Min(_VerticalGroups - 1, (int)((intersection.Bottom - collisionSpace.Top) / groupHeight));
 
-                if (minHorizontalGroup >= 0 && minVerticalGroup >= 0 &&
-                    maxHorizontalGroup < _HorizontalGroups && maxVerticalGroup < _VerticalGroups)
-                {
-                    for (int i = minHorizontalGroup; i <= maxHorizontalGroup; i++)
-                        for (int j = minVerticalGroup; j <= maxVerticalGroup; j++)
-                        {
-                            if (_CurrentCollidableObjects[i, j] == null)
-                                _CurrentCollidableObjects[i, j] = new List<ICutlassCollidable>();
-                            _CurrentCollidableObjects[i, j].Add(collidableObject);
-                        }
-                }
+                for (int i = minHorizontalGroup; i <= maxHorizontalGroup; i++)
+                    for (int j = minVerticalGroup; j <= maxVerticalGroup; j++)
+                    {
+                        if (_CurrentCollidableObjects[i, j] == null)
+                            _CurrentCollidableObjects[i, j] = new List<ICutlassCollidable>();
+                        _CurrentCollidableObjects[i, j].Add(collidableObject);
+                    }
             }
         }
 
@@ -111,7 +107,7 @@ namespace Cutlass.Managers
 
         private void CheckCollisionsInGroup(List<ICutlassCollidable> collidableObjects)
         {
-            if (collidableObjects == null || collidableObjects.Count == 0)
+            if (collidableObjects == null || collidableObjects.Count <= 1)
                 return;
 
             for (int i = 0; i < collidableObjects.Count; i++)
@@ -132,8 +128,23 @@ namespace Cutlass.Managers
 
         private void CollisionDetected(ICutlassCollidable first, ICutlassCollidable second, BoundingRectangle intersection)
         {
-            first.CollisionDetected(second, intersection);
-            second.CollisionDetected(first, intersection);
+            Vector2 offset = Vector2.Zero;
+            Vector2 directionToFirst = first.BoundingRect.Center - intersection.Center;
+            //Vector2 directionToSecond = intersection.Center - second.BoundingRect.Center;
+
+            if (intersection.Height > intersection.Width)
+            {
+                offset = new Vector2(directionToFirst.X, 0);
+                offset.Normalize();
+            }
+            else
+            {
+                offset = new Vector2(0, directionToFirst.Y);
+                offset.Normalize();
+            }
+
+            first.CollisionDetected(second, intersection, offset);
+            second.CollisionDetected(first, intersection, -offset);
         }
 
         #endregion Private Methods

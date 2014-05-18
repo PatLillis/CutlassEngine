@@ -197,9 +197,16 @@ namespace PirateyGame.SceneObjects
                 PlayerMoved(this, new BoundingRectangleEventArgs(BoundingRect));
         }
 
-        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection)
+        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 offset)
         {
-            Console.WriteLine("Collided with Player!");
+            //Console.WriteLine("Collided with Player!");
+
+            switch(collisionTarget.Category)
+            {
+                case CollisionCategory.Scenery:
+                    _Position += offset;
+                    break;
+            }
         }
 
         #endregion

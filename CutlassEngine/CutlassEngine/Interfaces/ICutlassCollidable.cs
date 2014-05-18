@@ -1,6 +1,7 @@
+using System;
 using BoundingRect;
 using Cutlass.Utilities;
-using System;
+using Microsoft.Xna.Framework;
 
 namespace Cutlass.Interfaces
 {
@@ -12,6 +13,6 @@ namespace Cutlass.Interfaces
         CollisionCategory Category { get; }
         CollisionSide Side { get; }
 
-        void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection);
+        void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 offset);
     }
 }
