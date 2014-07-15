@@ -33,7 +33,9 @@ namespace Cutlass.Managers
         private static bool _Initialized = false;
 
         /// <summary>The number of fonts that are currently loaded.</summary>
-        private static int _NextId = 0;
+        private static int _NextFontId = 0;
+
+        private static Object _FontIdLock = new Object();
 
         #endregion Properties
 
@@ -82,12 +84,19 @@ namespace Cutlass.Managers
         /// <param name="textureName"></param>
         public static FontId AddFont(ICutlassFont newFont)
         {
-            _Fonts.Add(_NextId, newFont);
+            FontId fontId;
+
+            lock (_FontIdLock)
+            {
+                fontId = _NextFontId++;
+            }
+
+            _Fonts.Add(fontId, newFont);
 
             if (_Initialized)
                 newFont.LoadContent();
 
-            return _NextId++;
+            return fontId;
         }
 
         /// <summary>

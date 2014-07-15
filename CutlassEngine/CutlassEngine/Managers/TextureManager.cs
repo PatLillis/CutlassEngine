@@ -31,7 +31,9 @@ namespace Cutlass.Managers
         private static bool _Initialized = false;
 
         /// <summary>The number of textures that are currently loaded.</summary>
-        private static int _NextId = 0;
+        private static int _NextTexId = 0;
+
+        private static Object _TexIdLock = new Object();
 
         /// <summary>
         /// Create the texture Manager.
@@ -48,12 +50,19 @@ namespace Cutlass.Managers
         /// <param name="textureName"></param>
         public static TexId AddTexture(ICutlassTexture newTexture)
         {
-            _Textures.Add(_NextId, newTexture);
+            TexId texId;
+
+            lock (_TexIdLock)
+            {
+                texId = _NextTexId++;
+            }
+
+            _Textures.Add(texId, newTexture);
 
             if (_Initialized)
                 newTexture.LoadContent();
 
-            return _NextId++;
+            return texId;
         }
 
         /// <summary>
