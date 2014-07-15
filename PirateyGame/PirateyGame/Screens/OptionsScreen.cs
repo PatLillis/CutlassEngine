@@ -17,6 +17,9 @@ namespace PirateyGame.Screens
     {
         #region Properties
 
+        const int MINIMUM_RESOLUTION_WIDTH = 1280;
+        const int MINIMUM_RESOLUTION_HEIGHT = 720;
+
         /// <summary></summary>
         private MenuEntry _ResolutionMenuEntry;
         private MenuEntry _FullScreenEntry;
@@ -37,7 +40,7 @@ namespace PirateyGame.Screens
                 {
                     _AvailableResolutions = new List<DisplayMode>();
 
-                    foreach (DisplayMode mode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes.Where(mode => mode.Width >= 1024 && mode.Height >= 768))
+                    foreach (DisplayMode mode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes.Where(mode => mode.Width >= MINIMUM_RESOLUTION_WIDTH && mode.Height >= MINIMUM_RESOLUTION_HEIGHT))
                     {
                         if (!_AvailableResolutions.Any(r => r.Width == mode.Width && r.Height == mode.Height))
                             _AvailableResolutions.Add(mode);
