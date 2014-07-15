@@ -138,7 +138,7 @@ namespace Cutlass.GameComponents
 
         public GameScreen()
         {
-            _ObjectManager = new SceneObjectManager(new CollisionManager(this));
+            _ObjectManager = new SceneObjectManager(new CollisionManager(this), new MovementManager());
         }
 
         /// <summary>

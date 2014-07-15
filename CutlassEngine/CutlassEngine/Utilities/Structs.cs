@@ -25,4 +25,15 @@ namespace Cutlass.Utilities
 
         public static implicit operator int(FontId id) { return id.Id; }
     }
+
+    public struct SceneObjectId
+    {
+        private int Id;
+
+        public SceneObjectId(int id) { Id = id; }
+
+        public static implicit operator SceneObjectId(int id) { return new SceneObjectId(id); }
+
+        public static implicit operator int(SceneObjectId id) { return id.Id; }
+    }
 }

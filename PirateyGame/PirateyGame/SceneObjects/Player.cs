@@ -11,20 +11,24 @@ using Cutlass.Utilities;
 
 namespace PirateyGame.SceneObjects
 {
-    public class Player : ICutlassDrawable, ICutlassUpdateable, ICutlassLoadable, ICutlassCollidable
+    public class Player : ICutlassDrawable,
+                          ICutlassUpdateable,
+                          ICutlassLoadable,
+                          ICutlassCollidable,
+                          ICutlassMovable
     {
         #region Fields
 
         private TexId _PlayerTest_Id;
 
-        const float PLAYER_VERTICAL_SPEED = 1f;
-        const float PLAYER_HORIZONTAL_SPEED = 1f;
+        const float MAX_PLAYER_VERTICAL_SPEED = 1f;
+        const float MAX_PLAYER_HORIZONTAL_SPEED = 1f;
 
         #endregion Fields
 
         #region Properties
 
-        private string _PlayerFontKey = String.Empty;
+        public SceneObjectId SceneObjectId { get; set; }
 
         public bool Active
         {
@@ -101,6 +105,21 @@ namespace PirateyGame.SceneObjects
         }
         private float _Rotation;
 
+        #region ICutlassMovable
+
+        public Vector2 Velocity
+        {
+            get { return _Velocity; }
+            set { _Velocity = value; }
+        }
+        private Vector2 _Velocity = Vector2.Zero;
+
+        public float GravityCoefficient { get { return 1; } }
+
+        public float FrictionCoefficient { get { return 1; } }
+
+        #endregion ICutlassMovable
+
         #region ICutlassCollidable
 
         public CollisionSide Side
@@ -132,7 +151,6 @@ namespace PirateyGame.SceneObjects
 
         public Player(ICutlassTexture texture, Vector2 position, string fontKey = "")
         {
-            _PlayerFontKey = fontKey;
             _PlayerTest_Id = TextureManager.AddTexture(texture);
             _Active = true;
 
@@ -164,31 +182,32 @@ namespace PirateyGame.SceneObjects
             Vector2 movement = Vector2.Zero;
 
             if (keyboardState.IsKeyDown(Keys.Left))
-                movement.X--;
+                _Velocity.X = Math.Max(_Velocity.X - 1.0f, -MAX_PLAYER_HORIZONTAL_SPEED);
 
             if (keyboardState.IsKeyDown(Keys.Right))
-                movement.X++;
+                _Velocity.X = Math.Min(_Velocity.X + 1.0f, MAX_PLAYER_HORIZONTAL_SPEED);
 
             if (keyboardState.IsKeyDown(Keys.Up))
-                movement.Y--;
+                _Velocity.Y = Math.Max(_Velocity.Y - 1.0f, -MAX_PLAYER_VERTICAL_SPEED);
 
             if (keyboardState.IsKeyDown(Keys.Down))
-                movement.Y++;
+                _Velocity.Y = Math.Min(_Velocity.Y + 1.0f, MAX_PLAYER_VERTICAL_SPEED);
 
-            Vector2 thumbstick = gamePadState.ThumbSticks.Left;
+            Console.WriteLine(_Velocity);
+            //Vector2 thumbstick = gamePadState.ThumbSticks.Left;
 
-            movement.X += thumbstick.X;
-            movement.Y -= thumbstick.Y;
+            //movement.X += thumbstick.X;
+            //movement.Y -= thumbstick.Y;
 
-            if (movement.Length() > 1)
-                movement.Normalize();
+            //if (movement.Length() > 1)
+            //    movement.Normalize();
 
-            movement.X *= PLAYER_VERTICAL_SPEED;
-            movement.Y *= PLAYER_HORIZONTAL_SPEED;
+            //movement.X *= PLAYER_VERTICAL_SPEED;
+            //movement.Y *= PLAYER_HORIZONTAL_SPEED;
 
-            _Position += movement;
+            //_Position += movement;
 
-            OnPlayerMoved();
+            //OnPlayerMoved();
         }
 
         protected internal void OnPlayerMoved()
@@ -199,8 +218,6 @@ namespace PirateyGame.SceneObjects
 
         public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 offset)
         {
-            //Console.WriteLine("Collided with Player!");
-
             switch(collisionTarget.Category)
             {
                 case CollisionCategory.Scenery:

@@ -18,6 +18,8 @@ namespace PirateyGame.SceneObjects
 
         #region Properties
 
+        public SceneObjectId SceneObjectId { get; set; }
+
         public GameScreen ViewScreen
         {
             get { return _ViewScreen; }

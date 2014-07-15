@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Cutlass.Interfaces;
+using Cutlass.Utilities;
 
 namespace Cutlass.Assets
 {
@@ -19,6 +20,8 @@ namespace Cutlass.Assets
         #endregion Fields
 
         #region Properties
+
+        public SceneObjectId SceneObjectId { get; set; }
 
         public override Rectangle AreaToRender
         {

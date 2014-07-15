@@ -20,6 +20,8 @@ namespace PirateyGame.SceneObjects
 
         #region Properties
 
+        public SceneObjectId SceneObjectId { get; set; }
+
         public bool Active
         {
             get { return _Active; }

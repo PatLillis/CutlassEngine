@@ -1,4 +1,6 @@
-﻿namespace Cutlass.Interfaces
+﻿using Cutlass.Utilities;
+
+namespace Cutlass.Interfaces
 {
     public interface ICutlassSceneObject
     {
@@ -6,5 +8,7 @@
         /// Once this is set to false, will be removed from Scene.
         /// </summary>
         bool Active { get; set; }
+
+        SceneObjectId SceneObjectId { get; set; }
     }
 }
