@@ -101,6 +101,7 @@
     <Compile Include="Managers\CollisionManager.cs" />
     <Compile Include="Managers\FontManager.cs" />
     <Compile Include="Managers\MovementManager.cs" />
+    <Compile Include="Managers\ResolutionManager.cs" />
     <Compile Include="Managers\SceneObjectManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
     <Compile Include="Managers\TextureManager.cs" />

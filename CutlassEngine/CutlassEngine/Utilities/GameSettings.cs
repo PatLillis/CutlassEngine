@@ -156,10 +156,13 @@ namespace Cutlass.Utilities
         }
 
         /// <summary>Minimum resolution width (if none is set)</summary>
-        public const int MinimumResolutionWidth = 1024;
+        public const int MinimumResolutionWidth = 1280;
 
         /// <summary>Minimum resolution height (if none is set)</summary>
-        public const int MinimumResolutionHeight = 768;
+        public const int MinimumResolutionHeight = 720;
+
+        /// <summary>Whether device changes need to be applied</summary>
+        public static bool ResolutionChangesToApply = false;
 
         #region Default Settings
 

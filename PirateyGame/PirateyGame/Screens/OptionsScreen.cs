@@ -17,9 +17,6 @@ namespace PirateyGame.Screens
     {
         #region Properties
 
-        const int MINIMUM_RESOLUTION_WIDTH = 1280;
-        const int MINIMUM_RESOLUTION_HEIGHT = 720;
-
         /// <summary></summary>
         private MenuEntry _ResolutionMenuEntry;
         private MenuEntry _FullScreenEntry;
@@ -40,7 +37,9 @@ namespace PirateyGame.Screens
                 {
                     _AvailableResolutions = new List<DisplayMode>();
 
-                    foreach (DisplayMode mode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes.Where(mode => mode.Width >= MINIMUM_RESOLUTION_WIDTH && mode.Height >= MINIMUM_RESOLUTION_HEIGHT))
+                    foreach (DisplayMode mode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes.Where(mode =>
+                        mode.Width >= GameSettingsManager.MinimumResolutionWidth &&
+                        mode.Height >= GameSettingsManager.MinimumResolutionHeight))
                     {
                         if (!_AvailableResolutions.Any(r => r.Width == mode.Width && r.Height == mode.Height))
                             _AvailableResolutions.Add(mode);
@@ -188,8 +187,7 @@ namespace PirateyGame.Screens
 
                 GameSettingsManager.Default.ResolutionWidth = AvailableResolutions[_CurrentResolution].Width;
                 GameSettingsManager.Default.ResolutionHeight = AvailableResolutions[_CurrentResolution].Height;
-
-                CutlassEngine.ApplyResolutionChange();
+                GameSettingsManager.ResolutionChangesToApply = true;
 
                 SetMenuEntryText();
             }
@@ -214,7 +212,7 @@ namespace PirateyGame.Screens
         void FullscreenMenuEntrySelected(object sender, EventArgs e)
         {
             GameSettingsManager.Default.Fullscreen = !GameSettingsManager.Default.Fullscreen;
-            CutlassEngine.ApplyResolutionChange();
+            GameSettingsManager.ResolutionChangesToApply = true;
 
             SetMenuEntryText();
         }

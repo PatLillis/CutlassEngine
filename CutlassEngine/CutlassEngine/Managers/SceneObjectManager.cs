@@ -152,7 +152,7 @@ namespace Cutlass.Managers
             _MovementManager.ApplyMovement(MovableObjects.Values);
         }
 
-        public void Draw(GameTime gameTime, Matrix offsetTransform)
+        public void Draw(GameTime gameTime, Matrix offsetTransform, Matrix scaleTransform)
         {
             RemoveInactiveObjects();
 
@@ -160,8 +160,13 @@ namespace Cutlass.Managers
             {
                 if (drawable.IsVisible)
                 {
+                    Matrix transformMatrix = drawable.ScreenPositionFixed ? Matrix.Identity : offsetTransform;
+                    transformMatrix = scaleTransform * transformMatrix;
+
+                    Console.WriteLine(scaleTransform);
+
                     //If object should move wrt player, pass in screen's offsetTransform.
-                    ScreenManager.SpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, drawable.ScreenPositionFixed ? Matrix.Identity : offsetTransform);
+                    ScreenManager.SpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, scaleTransform);
 
                     drawable.Draw(gameTime, ScreenManager.SpriteBatch);
 

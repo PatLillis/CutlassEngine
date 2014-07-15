@@ -73,9 +73,6 @@ namespace Cutlass
         /// <summary>Whether the Graphics Options have been checked yet</summary>
         private static bool _CheckedGraphicsOptions = false;
 
-        /// <summary>Whether device changes need to be applied</summary>
-        private static bool _ApplyDeviceChanges = false;
-
         #endregion
 
         #region Game Components
@@ -96,6 +93,9 @@ namespace Cutlass
         /// <summary>Texture Manager component</summary>
         private static TextureManager _TextureManager = null;
 
+        /// <summary>Resolution Manager component</summary>
+        private static ResolutionManager _ResolutionManager = null;
+
         #endregion
 
         #region Initialization
@@ -107,13 +107,14 @@ namespace Cutlass
         {
             _GraphicsDeviceManager = new GraphicsDeviceManager(this);
             _ContentManager = new ContentManager(this.Services);
+            _ResolutionManager = new ResolutionManager(_GraphicsDeviceManager);
 
             _GraphicsDeviceManager.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(GraphicsDeviceManager_PreparingDeviceSettings);
             Window.Title = _WindowTitle = windowTitle;
 
             GameSettingsManager.Initialize();
 
-            ApplyResolutionChange();
+            _ResolutionManager.ApplyResolutionChanges();
 
 #if DEBUG
             //Disable vertical retrace to get highest framerates possible for
@@ -244,52 +245,17 @@ namespace Cutlass
             base.Draw(gameTime);
 
             // Apply device changes
-            if (_ApplyDeviceChanges)
+            if (GameSettingsManager.ResolutionChangesToApply)
             {
-                _GraphicsDeviceManager.ApplyChanges();
-                ScreenManager.ChangeViewSettings(GameSettingsManager.Default.ResolutionWidth, GameSettingsManager.Default.ResolutionHeight);
+                _ResolutionManager.ApplyResolutionChanges();
                 ResetElapsedTime();
-                _ApplyDeviceChanges = false;
+                GameSettingsManager.ResolutionChangesToApply = false;
             }
         }
 
         #endregion
 
         #region Public Methods
-
-        /// <summary>
-        /// Apply any changes made (most likely via the "Options" screen)
-        /// </summary>
-        public static void ApplyResolutionChange()
-        {
-            //Set width/height
-            int resolutionWidth = GameSettingsManager.Default.ResolutionWidth;
-            int resolutionHeight = GameSettingsManager.Default.ResolutionHeight;
-
-            //Make sure width/height is at least minimum
-            if (resolutionWidth <= 0 || resolutionWidth <= 0)
-            {
-                resolutionWidth = GameSettingsManager.MinimumResolutionWidth;
-                resolutionHeight = GameSettingsManager.MinimumResolutionHeight;
-            }
-#if XBOX360
-            // Xbox 360 graphics settings are fixed
-            _graphicsDeviceManager.IsFullScreen = true;
-            _graphicsDeviceManager.PreferredBackBufferWidth =
-                GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            _graphicsDeviceManager.PreferredBackBufferHeight =
-                GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-#else
-            _GraphicsDeviceManager.PreferredBackBufferWidth = resolutionWidth;
-            _GraphicsDeviceManager.PreferredBackBufferHeight = resolutionHeight;
-            _GraphicsDeviceManager.IsFullScreen = GameSettingsManager.Default.Fullscreen;
-
-            //Save new settings out to disk.
-            GameSettingsManager.Save();
-
-            _ApplyDeviceChanges = true;
-#endif
-        }
 
         /// <summary>
         /// Handle when this app is activated.

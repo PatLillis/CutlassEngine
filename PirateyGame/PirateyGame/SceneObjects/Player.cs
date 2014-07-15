@@ -193,7 +193,7 @@ namespace PirateyGame.SceneObjects
             if (keyboardState.IsKeyDown(Keys.Down))
                 _Velocity.Y = Math.Min(_Velocity.Y + 1.0f, MAX_PLAYER_VERTICAL_SPEED);
 
-            Console.WriteLine(_Velocity);
+            //Console.WriteLine(_Velocity);
             //Vector2 thumbstick = gamePadState.ThumbSticks.Left;
 
             //movement.X += thumbstick.X;
