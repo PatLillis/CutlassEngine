@@ -60,7 +60,7 @@ namespace PirateyGame.Screens
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice graphics = CutlassEngine.Device;
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+            SpriteBatch spriteBatch = CutlassEngine.SpriteBatch;
             SpriteFont titleFont = FontManager.GetSpriteFontOrDefault(_TitleFont_Id);
 
             #region Draw Title Scroll
@@ -71,7 +71,7 @@ namespace PirateyGame.Screens
             float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
 
             // Draw the menu title centered on the screen
-            Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, 80);
+            Vector2 titlePosition = new Vector2(ResolutionManager.VirtualWidth / 2, 80);
             Vector2 titleSize = titleFont.MeasureString(_MenuTitle);
             Color titleColor = TitleColor * TransitionAlpha;
             float titleScale = 1.25f;
@@ -91,15 +91,15 @@ namespace PirateyGame.Screens
             }
             int totalMiddleScrollWidth = middleScrollCount * titleScrollMiddle.Width;
 
-            Vector2 leftScrollPosition = new Vector2((graphics.Viewport.Width / 2) - (totalMiddleScrollWidth / 2),
+            Vector2 leftScrollPosition = new Vector2((ResolutionManager.VirtualWidth / 2) - (totalMiddleScrollWidth / 2),
                 titlePosition.Y);
             Vector2 leftScrollOrigin = new Vector2(titleScrollEdge.Width, titleScrollEdge.Height / 2);
 
-            Vector2 rightScrollPosition = new Vector2((graphics.Viewport.Width / 2) + (totalMiddleScrollWidth / 2),
+            Vector2 rightScrollPosition = new Vector2((ResolutionManager.VirtualWidth / 2) + (totalMiddleScrollWidth / 2),
                 titlePosition.Y);
             Vector2 rightScrollOrigin = new Vector2(0, titleScrollEdge.Height / 2);
 
-            Vector2 middleScrollPosition = new Vector2((graphics.Viewport.Width / 2) - (totalMiddleScrollWidth / 2) + (titleScrollMiddle.Width / 2), titlePosition.Y);
+            Vector2 middleScrollPosition = new Vector2((ResolutionManager.VirtualWidth / 2) - (totalMiddleScrollWidth / 2) + (titleScrollMiddle.Width / 2), titlePosition.Y);
             Vector2 middleScrollOrigin = new Vector2(titleScrollEdge.Width / 2, titleScrollEdge.Height / 2);
 
             spriteBatch.Begin();

@@ -4,32 +4,41 @@ using Cutlass.Utilities;
 
 namespace Cutlass.Managers
 {
-    public class ResolutionManager
+    public static class ResolutionManager
     {
         #region Fields
 
         public const int VIRTUAL_HEIGHT = 720;
 
-        private GraphicsDeviceManager _GraphicsDeviceManager;
+        private static GraphicsDeviceManager _GraphicsDeviceManager;
+        private static bool _Initialized = false;
 
         #endregion Fields
 
         #region Properties
 
-        public int VirtualWidth { get; set; }
+        public static int VirtualWidth { get; set; }
 
-        public int PhysicalHeight { get; set; }
-        public int PhysicalWidth { get; set; }
+        public static int PhysicalHeight { get; set; }
+        public static int PhysicalWidth { get; set; }
 
-        public Matrix ResolutionScale { get; set; }
+        public static Rectangle VirtualFullscreen
+        {
+            get
+            {
+                return new Rectangle(0, 0, VirtualWidth, VIRTUAL_HEIGHT);
+            }
+        }
 
         #endregion Properties
 
         #region Initialization
 
-        public ResolutionManager(GraphicsDeviceManager graphicsDeviceManager)
+        public static void Initialize(GraphicsDeviceManager graphicsDeviceManager)
         {
             _GraphicsDeviceManager = graphicsDeviceManager;
+            _Initialized = true;
+
             ApplyResolutionChanges();
         }
 
@@ -40,8 +49,12 @@ namespace Cutlass.Managers
         /// <summary>
         /// Apply any changes made (most likely via the "Options" screen)
         /// </summary>
-        public void ApplyResolutionChanges()
+        public static void ApplyResolutionChanges()
         {
+            //If no GraphicsDeviceManager has been set up yet, don't apply changes.
+            if (!_Initialized)
+                return;
+
             //Set width/height
             PhysicalWidth = GameSettingsManager.Default.ResolutionWidth;
             PhysicalHeight = GameSettingsManager.Default.ResolutionHeight;
@@ -72,18 +85,20 @@ namespace Cutlass.Managers
             //Apply new settings on Graphics Device
             _GraphicsDeviceManager.ApplyChanges();
 
+            Console.WriteLine(PhysicalWidth + ", " + PhysicalHeight);
+
             //Calculate new aspect ratio
-            float aspectRatio = PhysicalWidth / PhysicalHeight;
+            float aspectRatio = (float)PhysicalWidth / PhysicalHeight;
             VirtualWidth = (int)(VIRTUAL_HEIGHT * aspectRatio);
 
             //Calculate new Sacling matrix
-            float widthScale = (float)PhysicalWidth / VirtualWidth;
-            float heightScale = (float)PhysicalHeight / VIRTUAL_HEIGHT;
-            Vector3 scalingFactor = new Vector3(widthScale, heightScale, 1);
-            ResolutionScale = Matrix.CreateScale(scalingFactor);
+            //float widthScale = (float)PhysicalWidth / VirtualWidth;
+            //float heightScale = (float)PhysicalHeight / VIRTUAL_HEIGHT;
+            //Vector3 scalingFactor = new Vector3(widthScale, heightScale, 1);
+            //ResolutionScale = Matrix.CreateScale(scalingFactor);
 
-            //Update screens
-            ScreenManager.ChangeViewSettings(VirtualWidth, ResolutionScale);
+            ////Update screens
+            ScreenManager.ChangeViewSettings(VirtualWidth);
         }
 
         #endregion Public Methods

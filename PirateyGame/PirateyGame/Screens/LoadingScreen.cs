@@ -123,16 +123,15 @@ namespace PirateyGame.Screens
             // to bother drawing the message.
             if (_LoadingIsSlow)
             {
-                SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+                SpriteBatch spriteBatch = CutlassEngine.SpriteBatch;
                 SpriteFont font = FontManager.DefaultFont;
 
                 const string message = "Loading...";
 
-                // Center the _Text in the viewport.
-                Viewport viewport = CutlassEngine.Device.Viewport;
-                Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
+                // Center the text.
+                Vector2 screenSize = new Vector2(ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
                 Vector2 textSize = font.MeasureString(message);
-                Vector2 textPosition = (viewportSize - textSize) / 2;
+                Vector2 textPosition = (screenSize - textSize) / 2;
 
                 Color color = Color.White * TransitionAlpha;
 

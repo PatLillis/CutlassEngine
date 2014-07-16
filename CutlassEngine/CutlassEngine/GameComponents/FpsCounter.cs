@@ -74,7 +74,7 @@ namespace Cutlass.GameComponents
         {
             base.Draw(gameTime);
 
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+            SpriteBatch spriteBatch = CutlassEngine.SpriteBatch;
 
             //Change color, depending on how dire the situation is.
             Color fpsColor = Color.Green;
@@ -94,6 +94,11 @@ namespace Cutlass.GameComponents
             spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X, backgroundRect.Y, backgroundRect.Width + 1, 1), fpsColor);
             spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X + backgroundRect.Width, backgroundRect.Y, 1, backgroundRect.Height + 1), fpsColor);
             spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(backgroundRect.X, backgroundRect.Y + backgroundRect.Height, backgroundRect.Width + 1, 1), fpsColor);
+
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(360, 360, 3, 53), Color.Tomato);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(360, 360, 53, 3), Color.Tomato);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(410, 360, 3, 53), Color.Tomato);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle(360, 410, 53, 3), Color.Tomato);
 
             //Draw text
             spriteBatch.DrawString(FontManager.DefaultFont, Fps.ToString("0.00"), new Vector2(20, 20), fpsColor);

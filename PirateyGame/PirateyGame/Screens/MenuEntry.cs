@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cutlass;
 using Cutlass.Managers;
 using Cutlass.Utilities;
 
@@ -184,7 +185,7 @@ namespace PirateyGame.Screens
         /// </summary>
         public virtual void Draw(MenuScreen screen, bool isSelected, GameTime gameTime)
         {
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+            SpriteBatch spriteBatch = CutlassEngine.SpriteBatch;
 
             // Draw _Text, centered on the middle of each line.
             SpriteFont font = FontManager.GetSpriteFontOrDefault(Entry_Id);

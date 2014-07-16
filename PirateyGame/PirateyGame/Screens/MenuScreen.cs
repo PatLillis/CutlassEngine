@@ -232,12 +232,12 @@ namespace PirateyGame.Screens
             int totalMenuEntryHeights = MenuEntryHeight();
 
             //Center menu entries on bottom half of screen, or at least try to.
-            float startingHeight = (CutlassEngine.Device.Viewport.Height * 0.75f) - (totalMenuEntryHeights / 2f);
+            float startingHeight = (ResolutionManager.VIRTUAL_HEIGHT * 0.75f) - (totalMenuEntryHeights / 2f);
 
             // Buffer menu entries so they don't hit the bottom of the screen.
-            if (startingHeight < CutlassEngine.Device.Viewport.Height / 2)
+            if (startingHeight < ResolutionManager.VIRTUAL_HEIGHT / 2)
             {
-                startingHeight = CutlassEngine.Device.Viewport.Height - (totalMenuEntryHeights) - 10;
+                startingHeight = ResolutionManager.VIRTUAL_HEIGHT - (totalMenuEntryHeights) - 10;
             }
 
             Vector2 position = new Vector2(0f, startingHeight);
@@ -246,7 +246,7 @@ namespace PirateyGame.Screens
             foreach(MenuEntry menuEntry in _MenuEntries)
             {
                 // each entry is to be centered horizontally
-                position.X = CutlassEngine.Device.Viewport.Width / 2;
+                position.X = ResolutionManager.VirtualWidth / 2;
 
                 if (ScreenState == ScreenState.TransitionOn)
                     position.X -= transitionOffset * 256;
@@ -287,7 +287,7 @@ namespace PirateyGame.Screens
             UpdateMenuEntryLocations();
 
             GraphicsDevice graphics = CutlassEngine.Device;
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+            SpriteBatch spriteBatch = CutlassEngine.SpriteBatch;
             SpriteFont font = FontManager.GetSpriteFontOrDefault(_TitleFont_Id);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null);
@@ -314,7 +314,7 @@ namespace PirateyGame.Screens
             float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
 
             // Draw the menu title centered on the screen
-            Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, 80);
+            Vector2 titlePosition = new Vector2(ResolutionManager.VirtualWidth / 2, 80);
             Vector2 titleSize = font.MeasureString(_MenuTitle);
             Color titleColor = TitleColor * TransitionAlpha;
             float titleScale = 1.25f;

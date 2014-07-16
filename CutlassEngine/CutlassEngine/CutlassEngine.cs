@@ -73,6 +73,15 @@ namespace Cutlass
         /// <summary>Whether the Graphics Options have been checked yet</summary>
         private static bool _CheckedGraphicsOptions = false;
 
+        public static SpriteBatch SpriteBatch
+        {
+            get {return _SpriteBatch;}
+            set { _SpriteBatch = value; }
+        }
+        private static SpriteBatch _SpriteBatch = null;
+
+        private RenderTarget2D _VirtualRenderTarget = null;
+
         #endregion
 
         #region Game Components
@@ -93,9 +102,6 @@ namespace Cutlass
         /// <summary>Texture Manager component</summary>
         private static TextureManager _TextureManager = null;
 
-        /// <summary>Resolution Manager component</summary>
-        private static ResolutionManager _ResolutionManager = null;
-
         #endregion
 
         #region Initialization
@@ -114,7 +120,7 @@ namespace Cutlass
             GameSettingsManager.Initialize();
 
             //Initialize Resolution settings.
-            _ResolutionManager = new ResolutionManager(_GraphicsDeviceManager);
+            ResolutionManager.Initialize(_GraphicsDeviceManager);
 
 #if DEBUG
             //Disable vertical retrace to get highest framerates possible for
@@ -218,6 +224,8 @@ namespace Cutlass
             base.LoadContent();
 
             //Load engine-specific content
+            _VirtualRenderTarget = new RenderTarget2D(GraphicsDevice, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
+            _SpriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         /// <summary>
@@ -228,6 +236,11 @@ namespace Cutlass
             base.UnloadContent();
 
             //Unload engine-specific content
+            //_VirtualRenderTarget.Dispose();
+            //_VirtualRenderTarget = null;
+
+            _SpriteBatch.Dispose();
+            _SpriteBatch = null;
         }
 
         #endregion
@@ -239,8 +252,8 @@ namespace Cutlass
         /// </summary>
         protected override void Draw(GameTime gameTime)
         {
-            RenderTarget2D virtualRenderTarget = new RenderTarget2D(GraphicsDevice, _ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
-            GraphicsDevice.SetRenderTarget(virtualRenderTarget);
+            GraphicsDevice.SetRenderTarget(_VirtualRenderTarget);
+            GraphicsDevice.Clear(BackgroundColor);
 
             // The real drawing happens inside the screen manager component.
             base.Draw(gameTime);
@@ -249,14 +262,19 @@ namespace Cutlass
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(BackgroundColor);
 
-            ScreenManager.SpriteBatch.Begin();
-            ScreenManager.SpriteBatch.Draw((Texture2D)virtualRenderTarget, new Rectangle(0, 0, _ResolutionManager.PhysicalWidth, _ResolutionManager.PhysicalHeight), Color.White);
-            ScreenManager.SpriteBatch.End();
+            _SpriteBatch.Begin();
+            _SpriteBatch.Draw((Texture2D)_VirtualRenderTarget, new Rectangle(0, 0, ResolutionManager.PhysicalWidth, ResolutionManager.PhysicalHeight), Color.White);
+            _SpriteBatch.End();
 
             // Apply device changes
             if (GameSettingsManager.ResolutionChangesToApply)
             {
-                _ResolutionManager.ApplyResolutionChanges();
+                ResolutionManager.ApplyResolutionChanges();
+                _SpriteBatch.Dispose();
+                _SpriteBatch = new SpriteBatch(GraphicsDevice);
+                _VirtualRenderTarget.Dispose();
+                _VirtualRenderTarget = new RenderTarget2D(GraphicsDevice, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
+
                 ResetElapsedTime();
                 GameSettingsManager.ResolutionChangesToApply = false;
             }

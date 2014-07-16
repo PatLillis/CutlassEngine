@@ -268,7 +268,7 @@ namespace Cutlass.GameComponents
 
         public event EventHandler<RectangleEventArgs> ViewSettingsChanged;
 
-        public void ChangeViewSettings(int newVirtualWidth, Matrix newScaleMatrix)
+        public void ChangeViewSettings(int newVirtualWidth)
         {
             //_ScaleTransform = newScaleMatrix;
 

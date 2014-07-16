@@ -67,13 +67,12 @@ namespace PirateyGame.Screens
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            Viewport viewport = CutlassEngine.Device.Viewport;
-            Rectangle fullscreen = new Rectangle(0, 0, viewport.Width, viewport.Height);
+            SpriteBatch spriteBatch = CutlassEngine.SpriteBatch;
+            Texture2D texture = TextureManager.GetTexture2D(_OceanClouds_Id);
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(TextureManager.GetTexture2D(_OceanClouds_Id), fullscreen, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            spriteBatch.Draw(texture, ResolutionManager.VirtualFullscreen, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
 
             spriteBatch.End();
         }

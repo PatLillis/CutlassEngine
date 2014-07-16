@@ -156,16 +156,17 @@ namespace Cutlass.Managers
         {
             RemoveInactiveObjects();
 
+            SpriteBatch spriteBatch = CutlassEngine.SpriteBatch;
             foreach (ICutlassDrawable drawable in DrawableObjects.Values.OrderBy(pair => pair.DrawOrder))
             {
                 if (drawable.IsVisible)
                 {
                     //If object should move wrt player, pass in screen's offsetTransform.
-                    ScreenManager.SpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, (drawable.ScreenPositionFixed ? Matrix.Identity : offsetTransform));
+                    spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, (drawable.ScreenPositionFixed ? Matrix.Identity : offsetTransform));
 
-                    drawable.Draw(gameTime, ScreenManager.SpriteBatch);
+                    drawable.Draw(gameTime, spriteBatch);
 
-                    ScreenManager.SpriteBatch.End();
+                    spriteBatch.End();
                 }
             }
         }

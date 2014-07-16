@@ -29,11 +29,11 @@ namespace Cutlass.Managers
         /// A default SpriteBatch shared by all the screens. This saves
         /// each screen having to bother creating their own local instance.
         /// </summary>
-        public static SpriteBatch SpriteBatch
-        {
-            get { return _SpriteBatch; }
-        }
-        private static SpriteBatch _SpriteBatch;
+        //public static SpriteBatch SpriteBatch
+        //{
+        //    get { return _SpriteBatch; }
+        //}
+        //private static SpriteBatch _SpriteBatch;
 
         /// <summary>
         /// If true, the manager prints out a list of all the screens
@@ -84,7 +84,7 @@ namespace Cutlass.Managers
         /// </summary>
         protected override void LoadContent()
         {
-            _SpriteBatch = new SpriteBatch(GraphicsDevice);
+            //_SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             _Blank_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"));
 
@@ -245,22 +245,20 @@ namespace Cutlass.Managers
         /// </summary>
         public static void FadeBackBufferToBlack(float alpha)
         {
-            Viewport viewport = CutlassEngine.Device.Viewport;
+            CutlassEngine.SpriteBatch.Begin();
 
-            _SpriteBatch.Begin();
-
-            _SpriteBatch.Draw(TextureManager.GetTexture2D(_Blank_Id),
-                             new Rectangle(0, 0, viewport.Width, viewport.Height),
+            CutlassEngine.SpriteBatch.Draw(TextureManager.GetTexture2D(_Blank_Id),
+                             ResolutionManager.VirtualFullscreen,
                              Color.Black * alpha);
 
-            _SpriteBatch.End();
+            CutlassEngine.SpriteBatch.End();
         }
 
-        public static void ChangeViewSettings(int newVirtualWidth, Matrix newScaleMatrix)
+        public static void ChangeViewSettings(int newVirtualWidth)
         {
             foreach (GameScreen screen in _Screens)
             {
-                screen.ChangeViewSettings(newVirtualWidth, newScaleMatrix);
+                screen.ChangeViewSettings(newVirtualWidth);
             }
         }
 

@@ -135,11 +135,12 @@ namespace PirateyGame.Screens
             ScreenManager.FadeBackBufferToBlack(TransitionAlpha * 2 / 3);
 
             SpriteFont font = FontManager.DefaultFont;
+            SpriteBatch spriteBatch = CutlassEngine.SpriteBatch;
 
-            // Center the message _Text in the viewport.
-            Vector2 viewportSize = new Vector2(CutlassEngine.Device.Viewport.Width, CutlassEngine.Device.Viewport.Height);
+            // Center the message text.
+            Vector2 screenSize = new Vector2(ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
             Vector2 textSize = font.MeasureString(_Message);
-            Vector2 textPosition = (viewportSize - textSize) / 2;
+            Vector2 textPosition = (screenSize - textSize) / 2;
 
             // The background includes a border somewhat larger than the _Text itself.
             const int hPad = 32;
@@ -153,15 +154,15 @@ namespace PirateyGame.Screens
             // Fade the popup alpha during transitions.
             Color color = Color.White * TransitionAlpha;
 
-            ScreenManager.SpriteBatch.Begin();
+            spriteBatch.Begin();
 
             // Draw the background rectangle.
-            ScreenManager.SpriteBatch.Draw(TextureManager.GetTexture2D(_Gradient_Id), backgroundRectangle, color);
+            spriteBatch.Draw(TextureManager.GetTexture2D(_Gradient_Id), backgroundRectangle, color);
 
             // Draw the message box _Text.
-            ScreenManager.SpriteBatch.DrawString(font, _Message, textPosition, color);
+            spriteBatch.DrawString(font, _Message, textPosition, color);
 
-            ScreenManager.SpriteBatch.End();
+            spriteBatch.End();
         }
 
         #endregion
