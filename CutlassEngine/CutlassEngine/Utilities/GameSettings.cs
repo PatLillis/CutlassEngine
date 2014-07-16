@@ -40,7 +40,10 @@ namespace Cutlass.Utilities
                 set
                 {
                     if (_ResolutionWidth != value)
+                    {
                         _NeedSave = true;
+                        ResolutionChangesToApply = true;
+                    }
                     _ResolutionWidth = value;
                 }
             }
@@ -56,24 +59,30 @@ namespace Cutlass.Utilities
                 set
                 {
                     if (_ResolutionHeight != value)
+                    {
                         _NeedSave = true;
+                        ResolutionChangesToApply = true;
+                    }
                     _ResolutionHeight = value;
                 }
             }
             private int _ResolutionHeight = 0;
 
-            /// <summary>Fullscreen</summary>
-            public bool Fullscreen
+            /// <summary>IsFullscreen</summary>
+            public bool IsFullscreen
             {
-                get { return _Fullscreen; }
+                get { return _IsFullscreen; }
                 set
                 {
-                    if (_Fullscreen != value)
+                    if (_IsFullscreen != value)
+                    {
                         _NeedSave = true;
-                    _Fullscreen = value;
+                        ResolutionChangesToApply = true;
+                    }
+                    _IsFullscreen = value;
                 }
             }
-            private bool _Fullscreen = false;
+            private bool _IsFullscreen = false;
 
             /// <summary>Locale</summary>
             public string Locale
@@ -155,16 +164,13 @@ namespace Cutlass.Utilities
 
         }
 
+        #region Default Settings
+
         /// <summary>Minimum resolution width (if none is set)</summary>
         public const int MinimumResolutionWidth = 1280;
 
         /// <summary>Minimum resolution height (if none is set)</summary>
         public const int MinimumResolutionHeight = 720;
-
-        /// <summary>Whether device changes need to be applied</summary>
-        public static bool ResolutionChangesToApply = false;
-
-        #region Default Settings
 
         /// <summary>Filename used to store the game settings</summary>
         private const string _SettingsFilename = "config.xml";
@@ -178,6 +184,9 @@ namespace Cutlass.Utilities
 
         /// <summary>Need to save the game settings file only if true</summary>
         private static bool _NeedSave = false;
+
+        /// <summary>Whether device resolution changes need to be applied</summary>
+        public static bool ResolutionChangesToApply = false;
 
         #endregion
 

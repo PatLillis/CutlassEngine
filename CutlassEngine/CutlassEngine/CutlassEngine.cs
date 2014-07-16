@@ -81,6 +81,7 @@ namespace Cutlass
         private static SpriteBatch _SpriteBatch = null;
 
         private RenderTarget2D _VirtualRenderTarget = null;
+        private Texture2D _VirtualTexture2D = null;
 
         #endregion
 
@@ -236,8 +237,9 @@ namespace Cutlass
             base.UnloadContent();
 
             //Unload engine-specific content
-            //_VirtualRenderTarget.Dispose();
-            //_VirtualRenderTarget = null;
+            _VirtualRenderTarget.Dispose();
+            _VirtualRenderTarget = null;
+            _VirtualTexture2D = null;
 
             _SpriteBatch.Dispose();
             _SpriteBatch = null;
@@ -262,21 +264,20 @@ namespace Cutlass
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(BackgroundColor);
 
+            _VirtualTexture2D = (Texture2D)_VirtualRenderTarget;
+
             _SpriteBatch.Begin();
-            _SpriteBatch.Draw((Texture2D)_VirtualRenderTarget, new Rectangle(0, 0, ResolutionManager.PhysicalWidth, ResolutionManager.PhysicalHeight), Color.White);
+            _SpriteBatch.Draw(_VirtualTexture2D, new Rectangle(0, 0, ResolutionManager.PhysicalWidth, ResolutionManager.PhysicalHeight), Color.White);
             _SpriteBatch.End();
 
             // Apply device changes
             if (GameSettingsManager.ResolutionChangesToApply)
             {
                 ResolutionManager.ApplyResolutionChanges();
-                _SpriteBatch.Dispose();
-                _SpriteBatch = new SpriteBatch(GraphicsDevice);
-                _VirtualRenderTarget.Dispose();
+                GameSettingsManager.ResolutionChangesToApply = false;
                 _VirtualRenderTarget = new RenderTarget2D(GraphicsDevice, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
 
                 ResetElapsedTime();
-                GameSettingsManager.ResolutionChangesToApply = false;
             }
         }
 

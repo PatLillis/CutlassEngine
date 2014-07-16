@@ -72,6 +72,7 @@ namespace PirateyGame.Screens
         /// </summary>
         public override void HandleInput(Input input)
         {
+            #region Up
             // Move to the previous menu entry?
             if (input.MenuUp)
             {
@@ -81,6 +82,10 @@ namespace PirateyGame.Screens
                     _SelectedEntry = _MenuEntries.Count - 1;
             }
 
+            #endregion Up
+
+            #region Down
+
             // Move to the next menu entry?
             if (input.MenuDown)
             {
@@ -89,6 +94,8 @@ namespace PirateyGame.Screens
                 if (_SelectedEntry >= _MenuEntries.Count)
                     _SelectedEntry = 0;
             }
+
+            #endregion Down
 
             #region Right
 
@@ -128,7 +135,7 @@ namespace PirateyGame.Screens
                 OnLeftReleased(_SelectedEntry);
             }
 
-    #endregion Left
+            #endregion Left
 
             // Select the current entry?
             if (input.MenuSelect)

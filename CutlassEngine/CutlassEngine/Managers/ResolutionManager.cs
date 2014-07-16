@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Cutlass.Utilities;
 
 namespace Cutlass.Managers
@@ -68,37 +69,28 @@ namespace Cutlass.Managers
 
 #if XBOX360
             // Xbox 360 graphics settings are fixed
-            _graphicsDeviceManager.IsFullScreen = true;
-            _graphicsDeviceManager.PreferredBackBufferWidth =
-                GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            _graphicsDeviceManager.PreferredBackBufferHeight =
-                GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            _GraphicsDeviceManager.IsFullScreen = true;
+            _GraphicsDeviceManager.PreferredBackBufferWidth =
+                CutlassEngine.Device.Adapter.CurrentDisplayMode.Width;
+            _GraphicsDeviceManager.PreferredBackBufferHeight =
+                CutlassEngine.Device.Adapter.CurrentDisplayMode.Height;
 #else
+            _GraphicsDeviceManager.IsFullScreen = GameSettingsManager.Default.IsFullscreen;
             _GraphicsDeviceManager.PreferredBackBufferWidth = PhysicalWidth;
             _GraphicsDeviceManager.PreferredBackBufferHeight = PhysicalHeight;
-            _GraphicsDeviceManager.IsFullScreen = GameSettingsManager.Default.Fullscreen;
-
 #endif
-            //Save new settings out to disk.
-            GameSettingsManager.Save();
-
-            //Apply new settings on Graphics Device
-            _GraphicsDeviceManager.ApplyChanges();
-
-            Console.WriteLine(PhysicalWidth + ", " + PhysicalHeight);
-
             //Calculate new aspect ratio
             float aspectRatio = (float)PhysicalWidth / PhysicalHeight;
             VirtualWidth = (int)(VIRTUAL_HEIGHT * aspectRatio);
 
-            //Calculate new Sacling matrix
-            //float widthScale = (float)PhysicalWidth / VirtualWidth;
-            //float heightScale = (float)PhysicalHeight / VIRTUAL_HEIGHT;
-            //Vector3 scalingFactor = new Vector3(widthScale, heightScale, 1);
-            //ResolutionScale = Matrix.CreateScale(scalingFactor);
-
-            ////Update screens
+            //Update screens
             ScreenManager.ChangeViewSettings(VirtualWidth);
+
+            //Apply new settings on Graphics Device
+            _GraphicsDeviceManager.ApplyChanges();
+
+            //Save new settings out to disk.
+            GameSettingsManager.Save();
         }
 
         #endregion Public Methods

@@ -19,7 +19,7 @@ namespace PirateyGame.Screens
 
         /// <summary></summary>
         private MenuEntry _ResolutionMenuEntry;
-        private MenuEntry _FullScreenEntry;
+        private MenuEntry _FullscreenEntry;
         private MenuEntry _MusicMenuEntry;
         private MenuEntry _SfxMenuEntry;
         private MenuEntry _LanguageMenuEntry;
@@ -110,7 +110,7 @@ namespace PirateyGame.Screens
 
             // Create our menu entries.
             _ResolutionMenuEntry = new MenuEntry(string.Empty);
-            _FullScreenEntry = new MenuEntry(string.Empty);
+            _FullscreenEntry = new MenuEntry(string.Empty);
             _MusicMenuEntry = new MenuEntry(string.Empty);
             _SfxMenuEntry = new MenuEntry(string.Empty);
             _LanguageMenuEntry = new MenuEntry(string.Empty);
@@ -126,7 +126,7 @@ namespace PirateyGame.Screens
             _ResolutionMenuEntry.Right += ResolutionMenuEntryRight;
             _ResolutionMenuEntry.Left += ResolutionMenuEntryLeft;
 
-            _FullScreenEntry.Selected += FullscreenMenuEntrySelected;
+            _FullscreenEntry.Selected += FullscreenMenuEntrySelected;
 
             _MusicMenuEntry.Right += MusicMenuEntryRight;
             _MusicMenuEntry.StillRight += MusicMenuEntryRight;
@@ -152,7 +152,7 @@ namespace PirateyGame.Screens
 
             // Add entries to the menu.
             MenuEntries.Add(_ResolutionMenuEntry);
-            MenuEntries.Add(_FullScreenEntry);
+            MenuEntries.Add(_FullscreenEntry);
             MenuEntries.Add(_MusicMenuEntry);
             MenuEntries.Add(_SfxMenuEntry);
             MenuEntries.Add(_LanguageMenuEntry);
@@ -167,7 +167,7 @@ namespace PirateyGame.Screens
         void SetMenuEntryText()
         {
             _ResolutionMenuEntry.Text = "Screen Resolution: " + AvailableResolutions[_TemporaryResolution].Width + " x " + AvailableResolutions[_TemporaryResolution].Height;
-            _FullScreenEntry.Text = "Fullscreen: " + (GameSettingsManager.Default.Fullscreen ? "Yes" : "No");
+            _FullscreenEntry.Text = "Fullscreen: " + (GameSettingsManager.Default.IsFullscreen ? "Yes" : "No");
             _MusicMenuEntry.Text = "Music Level: " + GameSettingsManager.Default.MusicVolume;
             _SfxMenuEntry.Text = "SFX Level: " + GameSettingsManager.Default.SfxVolume;
             _LanguageMenuEntry.Text = "Language: " + _CurrentLanguage;
@@ -187,7 +187,6 @@ namespace PirateyGame.Screens
 
                 GameSettingsManager.Default.ResolutionWidth = AvailableResolutions[_CurrentResolution].Width;
                 GameSettingsManager.Default.ResolutionHeight = AvailableResolutions[_CurrentResolution].Height;
-                GameSettingsManager.ResolutionChangesToApply = true;
 
                 SetMenuEntryText();
             }
@@ -211,8 +210,7 @@ namespace PirateyGame.Screens
 
         void FullscreenMenuEntrySelected(object sender, EventArgs e)
         {
-            GameSettingsManager.Default.Fullscreen = !GameSettingsManager.Default.Fullscreen;
-            GameSettingsManager.ResolutionChangesToApply = true;
+            GameSettingsManager.Default.IsFullscreen = !GameSettingsManager.Default.IsFullscreen;
 
             SetMenuEntryText();
         }
@@ -351,8 +349,8 @@ namespace PirateyGame.Screens
             int resolutionWidth = (int)entryFont.MeasureString("Screen Resolution: " + rOption).X;
 
             //FullScreen
-            entryFont = FontManager.GetSpriteFontOrDefault(_FullScreenEntry.Entry_Id);
-            int fullscreenWidth = (int)entryFont.MeasureString("Fullscreen: Yes").X;
+            entryFont = FontManager.GetSpriteFontOrDefault(_FullscreenEntry.Entry_Id);
+            int fullscreenWidth = (int)entryFont.MeasureString("IsFullscreen: Yes").X;
 
             //Music
             entryFont = FontManager.GetSpriteFontOrDefault(_MusicMenuEntry.Entry_Id);
