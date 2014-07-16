@@ -256,11 +256,11 @@ namespace Cutlass.Managers
             _SpriteBatch.End();
         }
 
-        public static void ChangeViewSettings(int newNativeWidth, Matrix newScaleMatrix)
+        public static void ChangeViewSettings(int newVirtualWidth, Matrix newScaleMatrix)
         {
             foreach (GameScreen screen in _Screens)
             {
-                screen.ChangeViewSettings(newNativeWidth, newScaleMatrix);
+                screen.ChangeViewSettings(newVirtualWidth, newScaleMatrix);
             }
         }
 

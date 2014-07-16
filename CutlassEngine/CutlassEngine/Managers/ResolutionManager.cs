@@ -8,7 +8,7 @@ namespace Cutlass.Managers
     {
         #region Fields
 
-        public static readonly int NATIVE_HEIGHT = 720;
+        public const int VIRTUAL_HEIGHT = 720;
 
         private GraphicsDeviceManager _GraphicsDeviceManager;
 
@@ -16,7 +16,7 @@ namespace Cutlass.Managers
 
         #region Properties
 
-        public int NativeWidth { get; set; }
+        public int VirtualWidth { get; set; }
 
         public int PhysicalHeight { get; set; }
         public int PhysicalWidth { get; set; }
@@ -30,6 +30,7 @@ namespace Cutlass.Managers
         public ResolutionManager(GraphicsDeviceManager graphicsDeviceManager)
         {
             _GraphicsDeviceManager = graphicsDeviceManager;
+            ApplyResolutionChanges();
         }
 
         #endregion Initialization
@@ -73,16 +74,16 @@ namespace Cutlass.Managers
 
             //Calculate new aspect ratio
             float aspectRatio = PhysicalWidth / PhysicalHeight;
-            NativeWidth = (int)(NATIVE_HEIGHT * aspectRatio);
+            VirtualWidth = (int)(VIRTUAL_HEIGHT * aspectRatio);
 
             //Calculate new Sacling matrix
-            float widthScale = (float)PhysicalWidth / NativeWidth;
-            float heightScale = (float)PhysicalHeight / NATIVE_HEIGHT;
+            float widthScale = (float)PhysicalWidth / VirtualWidth;
+            float heightScale = (float)PhysicalHeight / VIRTUAL_HEIGHT;
             Vector3 scalingFactor = new Vector3(widthScale, heightScale, 1);
             ResolutionScale = Matrix.CreateScale(scalingFactor);
 
             //Update screens
-            ScreenManager.ChangeViewSettings(NativeWidth, ResolutionScale);
+            ScreenManager.ChangeViewSettings(VirtualWidth, ResolutionScale);
         }
 
         #endregion Public Methods

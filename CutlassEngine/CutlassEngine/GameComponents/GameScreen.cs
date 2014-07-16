@@ -30,13 +30,6 @@ namespace Cutlass.GameComponents
         }
         protected Matrix _OffsetTransform = Matrix.Identity;
 
-        public virtual Matrix ScaleTransform
-        {
-            get { return _ScaleTransform; }
-            set { _ScaleTransform = value; }
-        }
-        protected Matrix _ScaleTransform = Matrix.Identity;
-
         public virtual BoundingRectangle VisibleArea
         {
             get { return _VisibleArea; }
@@ -266,7 +259,7 @@ namespace Cutlass.GameComponents
         /// </summary>
         public virtual void Draw(GameTime gameTime)
         {
-            ObjectManager.Draw(gameTime, _OffsetTransform, _ScaleTransform);
+            ObjectManager.Draw(gameTime, _OffsetTransform);
         }
 
         #endregion
@@ -275,11 +268,11 @@ namespace Cutlass.GameComponents
 
         public event EventHandler<RectangleEventArgs> ViewSettingsChanged;
 
-        public void ChangeViewSettings(int newNativeWidth, Matrix newScaleMatrix)
+        public void ChangeViewSettings(int newVirtualWidth, Matrix newScaleMatrix)
         {
-            _ScaleTransform = newScaleMatrix;
+            //_ScaleTransform = newScaleMatrix;
 
-            Rectangle newViewArea = new Rectangle() { Width = newNativeWidth, Height = ResolutionManager.NATIVE_HEIGHT };
+            Rectangle newViewArea = new Rectangle() { Width = newVirtualWidth, Height = ResolutionManager.VIRTUAL_HEIGHT };
 
             _VisibleArea = new BoundingRectangle(newViewArea);
 

@@ -290,7 +290,7 @@ namespace PirateyGame.Screens
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             SpriteFont font = FontManager.GetSpriteFontOrDefault(_TitleFont_Id);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, ScaleTransform);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null);
 
             #region Draw Menu Options
 

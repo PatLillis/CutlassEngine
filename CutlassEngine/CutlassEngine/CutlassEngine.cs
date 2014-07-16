@@ -107,14 +107,14 @@ namespace Cutlass
         {
             _GraphicsDeviceManager = new GraphicsDeviceManager(this);
             _ContentManager = new ContentManager(this.Services);
-            _ResolutionManager = new ResolutionManager(_GraphicsDeviceManager);
 
             _GraphicsDeviceManager.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(GraphicsDeviceManager_PreparingDeviceSettings);
             Window.Title = _WindowTitle = windowTitle;
 
             GameSettingsManager.Initialize();
 
-            _ResolutionManager.ApplyResolutionChanges();
+            //Initialize Resolution settings.
+            _ResolutionManager = new ResolutionManager(_GraphicsDeviceManager);
 
 #if DEBUG
             //Disable vertical retrace to get highest framerates possible for
@@ -239,10 +239,19 @@ namespace Cutlass
         /// </summary>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(BackgroundColor);
+            RenderTarget2D virtualRenderTarget = new RenderTarget2D(GraphicsDevice, _ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
+            GraphicsDevice.SetRenderTarget(virtualRenderTarget);
 
             // The real drawing happens inside the screen manager component.
             base.Draw(gameTime);
+
+            // Reset the device to the back buffer
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(BackgroundColor);
+
+            ScreenManager.SpriteBatch.Begin();
+            ScreenManager.SpriteBatch.Draw((Texture2D)virtualRenderTarget, new Rectangle(0, 0, _ResolutionManager.PhysicalWidth, _ResolutionManager.PhysicalHeight), Color.White);
+            ScreenManager.SpriteBatch.End();
 
             // Apply device changes
             if (GameSettingsManager.ResolutionChangesToApply)
