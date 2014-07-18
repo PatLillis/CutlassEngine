@@ -267,7 +267,7 @@ namespace Cutlass
             _VirtualTexture2D = (Texture2D)_VirtualRenderTarget;
 
             _SpriteBatch.Begin();
-            _SpriteBatch.Draw(_VirtualTexture2D, new Rectangle(0, 0, ResolutionManager.PhysicalWidth, ResolutionManager.PhysicalHeight), Color.White);
+            _SpriteBatch.Draw(_VirtualTexture2D, ResolutionManager.PhysicalFullscreen, Color.White);
             _SpriteBatch.End();
 
             // Apply device changes

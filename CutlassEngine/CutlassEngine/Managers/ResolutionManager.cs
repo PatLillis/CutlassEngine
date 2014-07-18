@@ -31,6 +31,14 @@ namespace Cutlass.Managers
             }
         }
 
+        public static Rectangle PhysicalFullscreen
+        {
+            get
+            {
+                return new Rectangle(0, 0, PhysicalWidth, PhysicalHeight);
+            }
+        }
+
         #endregion Properties
 
         #region Initialization
