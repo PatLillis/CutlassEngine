@@ -121,7 +121,7 @@ namespace Cutlass
             GameSettingsManager.Initialize();
 
             //Initialize Resolution settings.
-            ResolutionManager.Initialize(_GraphicsDeviceManager);
+            ResolutionManager.Initialize(this, _GraphicsDeviceManager);
 
 #if DEBUG
             //Disable vertical retrace to get highest framerates possible for

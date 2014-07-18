@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Cutlass.Utilities;
@@ -12,7 +13,10 @@ namespace Cutlass.Managers
         public const int VIRTUAL_HEIGHT = 720;
 
         private static GraphicsDeviceManager _GraphicsDeviceManager;
+
         private static bool _Initialized = false;
+
+        private static Form _GameForm = null;
 
         #endregion Fields
 
@@ -43,8 +47,13 @@ namespace Cutlass.Managers
 
         #region Initialization
 
-        public static void Initialize(GraphicsDeviceManager graphicsDeviceManager)
+        public static void Initialize(Game game, GraphicsDeviceManager graphicsDeviceManager)
         {
+            //Get the WinForm for the Game
+            IntPtr hWnd = game.Window.Handle;
+            Control control = System.Windows.Forms.Control.FromHandle(hWnd);
+            _GameForm = control.FindForm();
+
             _GraphicsDeviceManager = graphicsDeviceManager;
             _Initialized = true;
 
@@ -86,6 +95,11 @@ namespace Cutlass.Managers
             _GraphicsDeviceManager.IsFullScreen = GameSettingsManager.Default.IsFullscreen;
             _GraphicsDeviceManager.PreferredBackBufferWidth = PhysicalWidth;
             _GraphicsDeviceManager.PreferredBackBufferHeight = PhysicalHeight;
+
+            if (GameSettingsManager.Default.IsBorderless)
+                _GameForm.FormBorderStyle = FormBorderStyle.None;
+            else
+                _GameForm.FormBorderStyle = FormBorderStyle.FixedSingle;
 #endif
             //Calculate new aspect ratio
             float aspectRatio = (float)PhysicalWidth / PhysicalHeight;

@@ -20,6 +20,7 @@ namespace PirateyGame.Screens
         /// <summary></summary>
         private MenuEntry _ResolutionMenuEntry;
         private MenuEntry _FullscreenEntry;
+        private MenuEntry _BorderlessEntry;
         private MenuEntry _MusicMenuEntry;
         private MenuEntry _SfxMenuEntry;
         private MenuEntry _LanguageMenuEntry;
@@ -109,13 +110,14 @@ namespace PirateyGame.Screens
             }
 
             // Create our menu entries.
-            _ResolutionMenuEntry = new MenuEntry(string.Empty);
-            _FullscreenEntry = new MenuEntry(string.Empty);
-            _MusicMenuEntry = new MenuEntry(string.Empty);
-            _SfxMenuEntry = new MenuEntry(string.Empty);
-            _LanguageMenuEntry = new MenuEntry(string.Empty);
-            _InsultsMenuEntry = new MenuEntry(string.Empty);
-            _OceanColorMenuEntry = new MenuEntry(string.Empty);
+            _ResolutionMenuEntry = new MenuEntry(String.Empty);
+            _FullscreenEntry = new MenuEntry(String.Empty);
+            _BorderlessEntry = new MenuEntry(String.Empty);
+            _MusicMenuEntry = new MenuEntry(String.Empty);
+            _SfxMenuEntry = new MenuEntry(String.Empty);
+            _LanguageMenuEntry = new MenuEntry(String.Empty);
+            _InsultsMenuEntry = new MenuEntry(String.Empty);
+            _OceanColorMenuEntry = new MenuEntry(String.Empty);
 
             SetMenuEntryText();
 
@@ -127,6 +129,8 @@ namespace PirateyGame.Screens
             _ResolutionMenuEntry.Left += ResolutionMenuEntryLeft;
 
             _FullscreenEntry.Selected += FullscreenMenuEntrySelected;
+
+            _BorderlessEntry.Selected += BorderlessMenuEntrySelected;
 
             _MusicMenuEntry.Right += MusicMenuEntryRight;
             _MusicMenuEntry.StillRight += MusicMenuEntryRight;
@@ -153,6 +157,7 @@ namespace PirateyGame.Screens
             // Add entries to the menu.
             MenuEntries.Add(_ResolutionMenuEntry);
             MenuEntries.Add(_FullscreenEntry);
+            MenuEntries.Add(_BorderlessEntry);
             MenuEntries.Add(_MusicMenuEntry);
             MenuEntries.Add(_SfxMenuEntry);
             MenuEntries.Add(_LanguageMenuEntry);
@@ -168,6 +173,7 @@ namespace PirateyGame.Screens
         {
             _ResolutionMenuEntry.Text = "Screen Resolution: " + AvailableResolutions[_TemporaryResolution].Width + " x " + AvailableResolutions[_TemporaryResolution].Height;
             _FullscreenEntry.Text = "Fullscreen: " + (GameSettingsManager.Default.IsFullscreen ? "Yes" : "No");
+            _BorderlessEntry.Text = "Borderless: " + (GameSettingsManager.Default.IsBorderless ? "Yes" : "No");
             _MusicMenuEntry.Text = "Music Level: " + GameSettingsManager.Default.MusicVolume;
             _SfxMenuEntry.Text = "SFX Level: " + GameSettingsManager.Default.SfxVolume;
             _LanguageMenuEntry.Text = "Language: " + _CurrentLanguage;
@@ -207,7 +213,6 @@ namespace PirateyGame.Screens
             SetMenuEntryText();
         }
 
-
         void FullscreenMenuEntrySelected(object sender, EventArgs e)
         {
             GameSettingsManager.Default.IsFullscreen = !GameSettingsManager.Default.IsFullscreen;
@@ -215,6 +220,12 @@ namespace PirateyGame.Screens
             SetMenuEntryText();
         }
 
+        void BorderlessMenuEntrySelected(object sender, EventArgs e)
+        {
+            GameSettingsManager.Default.IsBorderless = !GameSettingsManager.Default.IsBorderless;
+
+            SetMenuEntryText();
+        }
 
         void MusicMenuEntryRight(object sender, EventArgs e)
         {
@@ -333,7 +344,7 @@ namespace PirateyGame.Screens
         {
             SpriteFont entryFont;
 
-            //resolution
+            //Resolution
             entryFont = FontManager.GetSpriteFontOrDefault(_ResolutionMenuEntry.Entry_Id);
             string rOption = "";
             float rOptionWidth = -1.0f;
@@ -350,8 +361,11 @@ namespace PirateyGame.Screens
 
             //FullScreen
             entryFont = FontManager.GetSpriteFontOrDefault(_FullscreenEntry.Entry_Id);
-            int fullscreenWidth = (int)entryFont.MeasureString("IsFullscreen: Yes").X;
+            int fullscreenWidth = (int)entryFont.MeasureString("Fullscreen: Yes").X;
 
+            //Borderless
+            entryFont = FontManager.GetSpriteFontOrDefault(_BorderlessEntry.Entry_Id);
+            int borderlessWidth = (int)entryFont.MeasureString("Borderless: Yes").X;
             //Music
             entryFont = FontManager.GetSpriteFontOrDefault(_MusicMenuEntry.Entry_Id);
             int musicWidth = (int)entryFont.MeasureString("Music Level: 100").X;
@@ -395,7 +409,7 @@ namespace PirateyGame.Screens
             int oceanColorsWidth = (int)entryFont.MeasureString("Ocean Color: " + cOption).X;
 
             int overallMaxWidth = -1;
-            new List<int> { resolutionWidth, fullscreenWidth, musicWidth, fxWidth, languageWidth, insultsWidth, oceanColorsWidth }
+            new List<int> { resolutionWidth, fullscreenWidth, borderlessWidth, musicWidth, fxWidth, languageWidth, insultsWidth, oceanColorsWidth }
                 .ForEach(w => overallMaxWidth = Math.Max(overallMaxWidth, w));
 
             return overallMaxWidth;

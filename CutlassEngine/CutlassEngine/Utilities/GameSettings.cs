@@ -68,7 +68,7 @@ namespace Cutlass.Utilities
             }
             private int _ResolutionHeight = 0;
 
-            /// <summary>IsFullscreen</summary>
+            /// <summary>Is Fullscreen</summary>
             public bool IsFullscreen
             {
                 get { return _IsFullscreen; }
@@ -83,6 +83,22 @@ namespace Cutlass.Utilities
                 }
             }
             private bool _IsFullscreen = false;
+
+            /// <summary>Is Borderless</summary>
+            public bool IsBorderless
+            {
+                get { return _IsBorderless; }
+                set
+                {
+                    if (_IsBorderless != value)
+                    {
+                        _NeedSave = true;
+                        ResolutionChangesToApply = true;
+                    }
+                    _IsBorderless = value;
+                }
+            }
+            private bool _IsBorderless = false;
 
             /// <summary>Locale</summary>
             public string Locale
