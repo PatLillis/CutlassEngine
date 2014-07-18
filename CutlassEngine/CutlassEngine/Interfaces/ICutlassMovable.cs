@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Cutlass.Utilities;
 
 namespace Cutlass.Interfaces
 {
@@ -13,6 +14,9 @@ namespace Cutlass.Interfaces
 
         float FrictionCoefficient { get; }
 
-        //void Move(GameTime gameTime);
+        //Throws event with object's new position 
+        event EventHandler<Vector2EventArgs> Moved;
+
+        void OnMoved();
     }
 }

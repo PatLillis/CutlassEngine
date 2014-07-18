@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cutlass.Interfaces;
 using Microsoft.Xna.Framework;
+using Cutlass.Utilities;
 
 namespace Cutlass.Managers
 {
@@ -40,6 +41,7 @@ namespace Cutlass.Managers
             foreach (ICutlassMovable movableObject in objectsToMove)
             {
                 movableObject.Position += movableObject.Velocity;
+                movableObject.OnMoved();
             }
         }
     }

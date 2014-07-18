@@ -150,6 +150,8 @@ namespace PirateyGame.SceneObjects
 
         public event EventHandler<BoundingRectangleEventArgs> PlayerMoved;
 
+        public event EventHandler<Vector2EventArgs> Moved;
+
         #endregion Events
 
         #region Initialization
@@ -197,26 +199,13 @@ namespace PirateyGame.SceneObjects
 
             if (keyboardState.IsKeyDown(Keys.Down))
                 _Velocity.Y = Math.Min(_Velocity.Y + 1.0f, MAX_PLAYER_VERTICAL_SPEED);
-
-            //Console.WriteLine(_Velocity);
-            //Vector2 thumbstick = gamePadState.ThumbSticks.Left;
-
-            //movement.X += thumbstick.X;
-            //movement.Y -= thumbstick.Y;
-
-            //if (movement.Length() > 1)
-            //    movement.Normalize();
-
-            //movement.X *= PLAYER_VERTICAL_SPEED;
-            //movement.Y *= PLAYER_HORIZONTAL_SPEED;
-
-            //_Position += movement;
-
-            //OnPlayerMoved();
         }
 
-        protected internal void OnPlayerMoved()
+        public virtual void OnMoved()
         {
+            if (Moved != null)
+                Moved(this, new Vector2EventArgs(Position));
+
             if (PlayerMoved != null)
                 PlayerMoved(this, new BoundingRectangleEventArgs(CurrentFrameBoundingRect));
         }

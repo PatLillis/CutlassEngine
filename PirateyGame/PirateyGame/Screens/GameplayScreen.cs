@@ -73,7 +73,7 @@ namespace PirateyGame.Screens
             base.LoadContent();
 
             _Player = new Player(new CutlassAnimatedTexture("Content/Textures/Sprites/playerTest-100-100-3", 3), new Vector2(400, 100));
-            _Camera = new Camera(this, GameSettingsManager.Default.ResolutionWidth, GameSettingsManager.Default.ResolutionHeight);
+            _Camera = new Camera(this, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
 
