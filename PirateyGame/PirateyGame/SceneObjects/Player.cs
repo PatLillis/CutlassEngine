@@ -79,9 +79,14 @@ namespace PirateyGame.SceneObjects
             get { return TextureManager.GetTexture(_PlayerTest_Id).Height; }
         }
 
-        public BoundingRectangle BoundingRect
+        public BoundingRectangle CurrentFrameBoundingRect
         {
             get { return new BoundingRectangle(_Position.X, _Position.Y, Width, Height); }
+        }
+
+        public BoundingRectangle NextFrameBoundingRect
+        {
+            get { return new BoundingRectangle(_Position.X + _Velocity.X, _Position.Y + _Velocity.Y, Width, Height); }
         }
 
         public Vector2 Position
@@ -213,15 +218,22 @@ namespace PirateyGame.SceneObjects
         protected internal void OnPlayerMoved()
         {
             if (PlayerMoved != null)
-                PlayerMoved(this, new BoundingRectangleEventArgs(BoundingRect));
+                PlayerMoved(this, new BoundingRectangleEventArgs(CurrentFrameBoundingRect));
         }
 
-        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 offset)
+        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 adjustmentDirection)
         {
             switch(collisionTarget.Category)
             {
                 case CollisionCategory.Scenery:
-                    _Position += offset;
+                    if (adjustmentDirection.X > 0)
+                        _Velocity.X += (intersection.Right - NextFrameBoundingRect.Left);
+                    else if (adjustmentDirection.X < 0)
+                        _Velocity.X += (intersection.Left - NextFrameBoundingRect.Right);
+                    else if (adjustmentDirection.Y > 0)
+                        _Velocity.Y += (intersection.Bottom - NextFrameBoundingRect.Top);
+                    else if (adjustmentDirection.Y < 0)
+                        _Velocity.Y += (intersection.Top - NextFrameBoundingRect.Bottom);
                     break;
             }
         }

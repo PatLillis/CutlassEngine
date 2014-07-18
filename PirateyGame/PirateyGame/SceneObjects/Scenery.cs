@@ -70,9 +70,14 @@ namespace PirateyGame.SceneObjects
             get { return TextureManager.GetTexture(_SceneryObject_Id).Height; }
         }
 
-        public BoundingRectangle BoundingRect
+        public BoundingRectangle CurrentFrameBoundingRect
         {
             get { return new BoundingRectangle(_Position.X, _Position.Y, Width, Height); }
+        }
+
+        public BoundingRectangle NextFrameBoundingRect
+        {
+            get { return CurrentFrameBoundingRect; }
         }
 
         public Vector2 Position
@@ -142,7 +147,7 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 offset)
+        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 adjustmentDirection)
         {
             //Console.WriteLine("Collided with Scenery!");
         }

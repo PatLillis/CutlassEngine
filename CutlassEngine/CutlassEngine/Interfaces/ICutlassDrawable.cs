@@ -21,7 +21,7 @@ namespace Cutlass.Interfaces
 
         int Height { get; }
 
-        BoundingRectangle BoundingRect { get; }
+        BoundingRectangle CurrentFrameBoundingRect { get; }
 
         Vector2 Position { get; set; }
 

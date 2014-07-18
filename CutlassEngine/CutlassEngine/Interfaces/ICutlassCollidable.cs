@@ -7,12 +7,13 @@ namespace Cutlass.Interfaces
 {
     public interface ICutlassCollidable
     {
-        BoundingRectangle BoundingRect { get; }
+        BoundingRectangle CurrentFrameBoundingRect { get; }
+        BoundingRectangle NextFrameBoundingRect { get; }
 
         CollisionCategory CategoryMask { get; }
         CollisionCategory Category { get; }
         CollisionSide Side { get; }
 
-        void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 offset);
+        void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 adjustmentDirection);
     }
 }

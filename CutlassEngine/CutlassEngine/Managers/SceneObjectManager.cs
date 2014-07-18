@@ -137,14 +137,8 @@ namespace Cutlass.Managers
                 updateable.Update(gameTime);
             }
 
-            //Add objects to CollisionManager
-            foreach (ICutlassCollidable collidable in CollidableObjects.Values)
-            {
-                _CollisionManager.AddCollidableObject(collidable);
-            }
-
             //Check Collisions
-            _CollisionManager.CheckCollisions(gameTime);
+            _CollisionManager.CheckCollisions(gameTime, CollidableObjects.Values);
 
             //Apply Movement
             //_MovementManager.ApplyGravity(gameTime, MovableObjects.Values);

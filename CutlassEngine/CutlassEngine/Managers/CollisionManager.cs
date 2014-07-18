@@ -59,14 +59,35 @@ namespace Cutlass.Managers
 
         #region Public Methods
 
-        public void AddCollidableObject(ICutlassCollidable collidableObject)
+        public void CheckCollisions(GameTime gameTime, IEnumerable<ICutlassCollidable> collidableObjects)
+        {
+            //Add objects to collision list
+            foreach (ICutlassCollidable collidable in collidableObjects)
+            {
+                AddCollidableObject(collidable);
+            }
+
+            //Check for collisions
+            for (int i = 0; i < _HorizontalGroups; i++)
+                for (int j = 0; j < _VerticalGroups; j++)
+                    CheckCollisionsInGroup(_CurrentCollidableObjects[i, j]);
+
+            //Reset objects for next frame
+            _CurrentCollidableObjects = new List<ICutlassCollidable>[_HorizontalGroups, _VerticalGroups];
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void AddCollidableObject(ICutlassCollidable collidableObject)
         {
             //Want to extend collisions slightly outside visible screen.
             BoundingRectangle collisionSpace = BoundingRectangle.Scale(_ViewScreen.VisibleArea, 1.1f, _ViewScreen.VisibleArea.Center);
 
-            BoundingRectangle intersection = BoundingRectangle.Intersection(collidableObject.BoundingRect, collisionSpace);
+            BoundingRectangle intersection = BoundingRectangle.Intersection(collidableObject.NextFrameBoundingRect, collisionSpace);
 
-            int minHorizontalGroup= -1,
+            int minHorizontalGroup = -1,
                   maxHorizontalGroup = -1,
                   minVerticalGroup = -1,
                   maxVerticalGroup = -1;
@@ -91,20 +112,6 @@ namespace Cutlass.Managers
             }
         }
 
-        public void CheckCollisions(GameTime gameTime)
-        {
-            for (int i = 0; i < _HorizontalGroups; i++)
-                for (int j = 0; j < _VerticalGroups; j++)
-                    CheckCollisionsInGroup(_CurrentCollidableObjects[i, j]);
-
-            //Reset objects for next frame
-            _CurrentCollidableObjects = new List<ICutlassCollidable>[_HorizontalGroups, _VerticalGroups];
-        }
-
-        #endregion Public Methods
-
-        #region Private Methods
-
         private void CheckCollisionsInGroup(List<ICutlassCollidable> collidableObjects)
         {
             if (collidableObjects == null || collidableObjects.Count <= 1)
@@ -120,31 +127,27 @@ namespace Cutlass.Managers
 
                     if ((first.Category & second.CategoryMask) != 0 &&
                         (second.Category & first.CategoryMask) != 0 &&
-                        first.BoundingRect.Intersects(second.BoundingRect))
-                        CollisionDetected(first, second, BoundingRectangle.Intersection(first.BoundingRect, second.BoundingRect));
+                        first.NextFrameBoundingRect.Intersects(second.NextFrameBoundingRect))
+                    {
+                        CollisionDetected(first, second, BoundingRectangle.Intersection(first.NextFrameBoundingRect, second.NextFrameBoundingRect));
+                    }
                 }
             }
         }
 
         private void CollisionDetected(ICutlassCollidable first, ICutlassCollidable second, BoundingRectangle intersection)
         {
-            Vector2 offset = Vector2.Zero;
-            Vector2 directionToFirst = first.BoundingRect.Center - intersection.Center;
-            //Vector2 directionToSecond = intersection.Center - second.BoundingRect.Center;
+            Vector2 directionToFirst = first.NextFrameBoundingRect.Center - intersection.Center;
 
             if (intersection.Height > intersection.Width)
-            {
-                offset = new Vector2(directionToFirst.X, 0);
-                offset.Normalize();
-            }
+                directionToFirst.Y = 0;
             else
-            {
-                offset = new Vector2(0, directionToFirst.Y);
-                offset.Normalize();
-            }
+                directionToFirst.X = 0;
 
-            first.CollisionDetected(second, intersection, offset);
-            second.CollisionDetected(first, intersection, -offset);
+            directionToFirst.Normalize();
+
+            first.CollisionDetected(second, intersection, directionToFirst);
+            second.CollisionDetected(first, intersection, -directionToFirst);
         }
 
         #endregion Private Methods
