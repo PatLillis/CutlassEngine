@@ -137,12 +137,13 @@ namespace Cutlass.Managers
                 updateable.Update(gameTime);
             }
 
+            _MovementManager.ApplyGravity(gameTime, MovableObjects.Values);
+            _MovementManager.ApplyFriction(gameTime, MovableObjects.Values);
+
             //Check Collisions
             _CollisionManager.CheckCollisions(gameTime, CollidableObjects.Values);
 
             //Apply Movement
-            //_MovementManager.ApplyGravity(gameTime, MovableObjects.Values);
-            //_MovementManager.ApplyFriction(gameTime, objectsToMove);
             _MovementManager.ApplyMovement(MovableObjects.Values);
         }
 

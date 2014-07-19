@@ -137,17 +137,17 @@ namespace Cutlass.Managers
 
         private void CollisionDetected(ICutlassCollidable first, ICutlassCollidable second, BoundingRectangle intersection)
         {
-            Vector2 directionToFirst = first.NextFrameBoundingRect.Center - intersection.Center;
+            Vector2 directionToSecond = second.NextFrameBoundingRect.Center - intersection.Center;
 
             if (intersection.Height > intersection.Width)
-                directionToFirst.Y = 0;
+                directionToSecond.Y = 0;
             else
-                directionToFirst.X = 0;
+                directionToSecond.X = 0;
 
-            directionToFirst.Normalize();
+            directionToSecond.Normalize();
 
-            first.CollisionDetected(second, intersection, directionToFirst);
-            second.CollisionDetected(first, intersection, -directionToFirst);
+            first.CollisionDetected(second, intersection, -directionToSecond);
+            second.CollisionDetected(first, intersection, directionToSecond);
         }
 
         #endregion Private Methods

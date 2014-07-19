@@ -11,7 +11,7 @@ namespace Cutlass.Managers
         public float Gravity;
         public float Friction;
 
-        public MovementManager(float gravity = 0.05f, float friction = 0.05f)
+        public MovementManager(float gravity = 0.126f, float friction = 0.05f)
         {
             Gravity = gravity;
             Friction = friction;
@@ -22,17 +22,19 @@ namespace Cutlass.Managers
             foreach(ICutlassMovable movableObject in objectsToMove)
             {
                 movableObject.Velocity = new Vector2(movableObject.Velocity.X,
-                    movableObject.Velocity.Y + Gravity * gameTime.ElapsedGameTime.Milliseconds);
+                    movableObject.Velocity.Y + (Gravity * movableObject.GravityCoefficient));
             }
         }
 
-        public void ApplyFriction(GameTime gameTime, List<ICutlassMovable> objectsToMove)
+        public void ApplyFriction(GameTime gameTime, IEnumerable<ICutlassMovable> objectsToMove)
         {
             foreach (ICutlassMovable movableObject in objectsToMove)
             {
+                float adjustedFriction = Friction * movableObject.FrictionCoefficient;
+
                 movableObject.Velocity = new Vector2(
-                    movableObject.Velocity.Y * (1 - (Friction * gameTime.ElapsedGameTime.Milliseconds)),
-                    movableObject.Velocity.X * (1 - (2 * Friction * gameTime.ElapsedGameTime.Milliseconds)));
+                    movableObject.Velocity.X * (1 - (2 * adjustedFriction)),
+                    movableObject.Velocity.Y * (1 - (adjustedFriction)));
             }
         }
 

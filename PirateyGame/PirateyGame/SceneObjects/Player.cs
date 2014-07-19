@@ -21,8 +21,10 @@ namespace PirateyGame.SceneObjects
 
         private TexId _PlayerTest_Id;
 
-        const float MAX_PLAYER_VERTICAL_SPEED = 1f;
-        const float MAX_PLAYER_HORIZONTAL_SPEED = 1f;
+        const float MAX_PLAYER_VERTICAL_SPEED = 2f;
+        const float MAX_PLAYER_HORIZONTAL_SPEED = 2f;
+
+        private bool _IsJumping = false;
 
         #endregion Fields
 
@@ -119,9 +121,9 @@ namespace PirateyGame.SceneObjects
         }
         private Vector2 _Velocity = Vector2.Zero;
 
-        public float GravityCoefficient { get { return 1; } }
+        public float GravityCoefficient { get { return 1f; } }
 
-        public float FrictionCoefficient { get { return 1; } }
+        public float FrictionCoefficient { get { return 1f; } }
 
         #endregion ICutlassMovable
 
@@ -194,11 +196,11 @@ namespace PirateyGame.SceneObjects
             if (keyboardState.IsKeyDown(Keys.Right))
                 _Velocity.X = Math.Min(_Velocity.X + 1.0f, MAX_PLAYER_HORIZONTAL_SPEED);
 
-            if (keyboardState.IsKeyDown(Keys.Up))
-                _Velocity.Y = Math.Max(_Velocity.Y - 1.0f, -MAX_PLAYER_VERTICAL_SPEED);
-
-            if (keyboardState.IsKeyDown(Keys.Down))
-                _Velocity.Y = Math.Min(_Velocity.Y + 1.0f, MAX_PLAYER_VERTICAL_SPEED);
+            if (keyboardState.IsKeyDown(Keys.Space) && !_IsJumping)
+            {
+                _IsJumping = true;
+                _Velocity.Y = _Velocity.Y - 20.0f;
+            }
         }
 
         public virtual void OnMoved()
@@ -222,7 +224,11 @@ namespace PirateyGame.SceneObjects
                     else if (adjustmentDirection.Y > 0)
                         _Velocity.Y += (intersection.Bottom - NextFrameBoundingRect.Top);
                     else if (adjustmentDirection.Y < 0)
+                    {
+                        if (intersection.Width > 2.0f)
+                            _IsJumping = false;
                         _Velocity.Y += (intersection.Top - NextFrameBoundingRect.Bottom);
+                    }
                     break;
             }
         }
