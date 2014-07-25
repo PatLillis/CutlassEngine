@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+using Microsoft.Xna.Framework.Input;
 
 namespace Cutlass.Utilities
 {
@@ -30,9 +31,6 @@ namespace Cutlass.Utilities
             }
             private string _PlayerName = "Player";
 
-            /// <summary>Minimum resolution width (if none is set)</summary>
-            public const int MinimumResolutionWidth = 1024;
-
             /// <summary>Resolution width</summary>
             public int ResolutionWidth
             {
@@ -48,9 +46,6 @@ namespace Cutlass.Utilities
                 }
             }
             private int _ResolutionWidth = 0;
-
-            /// <summary>Minimum resolution height (if none is set)</summary>
-            public const int MinimumResolutionHeight = 768;
 
             /// <summary>Resolution height</summary>
             public int ResolutionHeight
@@ -177,6 +172,72 @@ namespace Cutlass.Utilities
                 }
             }
             private float _ControllerSensitivity = 0.5f;
+
+            /// <summary>Jump Key</summary>
+            public Keys JumpKey
+            {
+                get { return _JumpKey; }
+                set
+                {
+                    if (_JumpKey != value)
+                        _NeedSave = true;
+                    _JumpKey = value;
+                }
+            }
+            private Keys _JumpKey = Keys.Space;
+
+
+            /// <summary>Up Key</summary>
+            public Keys UpKey
+            {
+                get { return _UpKey; }
+                set
+                {
+                    if (_UpKey != value)
+                        _NeedSave = true;
+                    _UpKey = value;
+                }
+            }
+            private Keys _UpKey = Keys.Up;
+
+            /// <summary>Right Key</summary>
+            public Keys RightKey
+            {
+                get { return _RightKey; }
+                set
+                {
+                    if (_RightKey!= value)
+                        _NeedSave = true;
+                    _RightKey= value;
+                }
+            }
+            private Keys _RightKey = Keys.Right;
+
+            /// <summary>Down Key</summary>
+            public Keys DownKey
+            {
+                get { return _DownKey; }
+                set
+                {
+                    if (_DownKey != value)
+                        _NeedSave = true;
+                    _DownKey = value;
+                }
+            }
+            private Keys _DownKey = Keys.Down;
+
+            /// <summary>Left Key</summary>
+            public Keys LeftKey
+            {
+                get { return _LeftKey; }
+                set
+                {
+                    if (_LeftKey != value)
+                        _NeedSave = true;
+                    _LeftKey = value;
+                }
+            }
+            private Keys _LeftKey = Keys.Left;
 
         }
 

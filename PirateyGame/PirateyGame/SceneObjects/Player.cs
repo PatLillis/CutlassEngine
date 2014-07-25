@@ -196,13 +196,13 @@ namespace PirateyGame.SceneObjects
             // Otherwise move the player vector.
             Vector2 movement = Vector2.Zero;
 
-            if (keyboardState.IsKeyDown(Keys.Left))
+            if (keyboardState.IsKeyDown(GameSettingsManager.Default.LeftKey))
                 _Velocity.X = Math.Max(_Velocity.X - (0.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds), -MAX_PLAYER_HORIZONTAL_SPEED);
 
-            if (keyboardState.IsKeyDown(Keys.Right))
+            if (keyboardState.IsKeyDown(GameSettingsManager.Default.RightKey))
                 _Velocity.X = Math.Min(_Velocity.X + (0.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds), MAX_PLAYER_HORIZONTAL_SPEED);
 
-            if (keyboardState.IsKeyDown(Keys.Space) && !_IsJumping)
+            if (keyboardState.IsKeyDown(GameSettingsManager.Default.JumpKey) && !_IsJumping)
             {
                 _IsJumping = true;
                 _Velocity.Y = _Velocity.Y - (7.0f);
