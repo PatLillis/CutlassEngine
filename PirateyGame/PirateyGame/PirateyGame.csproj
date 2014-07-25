@@ -98,6 +98,7 @@
     <Compile Include="Screens\ScrollMenuScreen.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resolutions.txt" />
     <None Include="roadmap.txt" />
     <None Include="fonts.txt" />
     <Content Include="Game.ico" />

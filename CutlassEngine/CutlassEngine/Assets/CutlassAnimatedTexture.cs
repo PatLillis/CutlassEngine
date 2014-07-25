@@ -9,6 +9,9 @@ namespace Cutlass.Assets
     {
         #region Fields
 
+        private const int FramesPerSecond = 60;
+        private const float MillisecondsPerFrame = 1000f / FramesPerSecond;
+
         private int _CurrentFrame = 0;
 
         private int _FrameLength = 1;
@@ -16,6 +19,8 @@ namespace Cutlass.Assets
         private int _NumberOfFrames = 1;
 
         private int _FrameCounter = 0;
+
+        private double _SubFrameCounter = 0;
 
         #endregion Fields
 
@@ -65,12 +70,18 @@ namespace Cutlass.Assets
 
         public void Update(GameTime gameTime)
         {
-            _FrameCounter++;
+            _SubFrameCounter += gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if (_FrameCounter == _FrameLength)
+            if (_SubFrameCounter >= MillisecondsPerFrame)
             {
-                _FrameCounter = 0;
-                _CurrentFrame = (_CurrentFrame + 1) % _NumberOfFrames;
+                _SubFrameCounter -= MillisecondsPerFrame;
+                _FrameCounter++;
+
+                if (_FrameCounter == _FrameLength)
+                {
+                    _FrameCounter = 0;
+                    _CurrentFrame = (_CurrentFrame + 1) % _NumberOfFrames;
+                }
             }
         }
 

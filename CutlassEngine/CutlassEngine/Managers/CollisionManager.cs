@@ -8,6 +8,11 @@ using Cutlass.GameComponents;
 
 namespace Cutlass.Managers
 {
+    /// <summary>
+    /// Collision Manager for a Screen.
+    /// Uses collision based on Speculative Contacts, as outlined in:
+    /// http://www.wildbunny.co.uk/blog/2011/12/14/how-to-make-a-2d-platform-game-part-2-collision-detection/
+    /// </summary>
     public class CollisionManager
     {
         #region Fields
@@ -70,7 +75,7 @@ namespace Cutlass.Managers
             //Check for collisions
             for (int i = 0; i < _HorizontalGroups; i++)
                 for (int j = 0; j < _VerticalGroups; j++)
-                    CheckCollisionsInGroup(_CurrentCollidableObjects[i, j]);
+                    CheckCollisionsInGroup(gameTime, _CurrentCollidableObjects[i, j]);
 
             //Reset objects for next frame
             _CurrentCollidableObjects = new List<ICutlassCollidable>[_HorizontalGroups, _VerticalGroups];
@@ -85,7 +90,7 @@ namespace Cutlass.Managers
             //Want to extend collisions slightly outside visible screen.
             BoundingRectangle collisionSpace = BoundingRectangle.Scale(_ViewScreen.VisibleArea, 1.1f, _ViewScreen.VisibleArea.Center);
 
-            BoundingRectangle intersection = BoundingRectangle.Intersection(collidableObject.NextFrameBoundingRect, collisionSpace);
+            BoundingRectangle intersection = BoundingRectangle.Intersection(collidableObject.CurrentFrameBoundingRect, collisionSpace);
 
             int minHorizontalGroup = -1,
                   maxHorizontalGroup = -1,
@@ -112,7 +117,7 @@ namespace Cutlass.Managers
             }
         }
 
-        private void CheckCollisionsInGroup(List<ICutlassCollidable> collidableObjects)
+        private void CheckCollisionsInGroup(GameTime gameTime, List<ICutlassCollidable> collidableObjects)
         {
             if (collidableObjects == null || collidableObjects.Count <= 1)
                 return;
@@ -125,29 +130,161 @@ namespace Cutlass.Managers
                 {
                     ICutlassCollidable second = collidableObjects[j];
 
-                    if ((first.Category & second.CategoryMask) != 0 &&
-                        (second.Category & first.CategoryMask) != 0 &&
-                        first.NextFrameBoundingRect.Intersects(second.NextFrameBoundingRect))
+                    CollisionContact collisionContact = new CollisionContact() { A = first, B = second };
+
+                    if (CalculateCollision(gameTime, ref collisionContact) && !IsInternalEdge(collisionContact))
                     {
-                        CollisionDetected(first, second, BoundingRectangle.Intersection(first.NextFrameBoundingRect, second.NextFrameBoundingRect));
+                        first.CollisionDetected(collisionContact);
+                        second.CollisionDetected(new CollisionContact(collisionContact.B, collisionContact.A, -collisionContact.Normal, collisionContact.Distance));
                     }
                 }
             }
         }
 
-        private void CollisionDetected(ICutlassCollidable first, ICutlassCollidable second, BoundingRectangle intersection)
+        private bool CalculateCollision(GameTime gameTime, ref CollisionContact contact)
         {
-            Vector2 directionToSecond = second.NextFrameBoundingRect.Center - intersection.Center;
+            ICutlassCollidable first = contact.A;
+            ICutlassCollidable second = contact.B;
 
-            if (intersection.Height > intersection.Width)
-                directionToSecond.Y = 0;
+            //No collision if their catgories don't overlap.
+            if ((first.Category & second.CategoryMask) == 0 ||
+                (second.Category & first.CategoryMask) == 0)
+                return false;
+
+            Vector2 halfExtents = new Vector2(second.CurrentFrameBoundingRect.Width / 2, second.CurrentFrameBoundingRect.Height / 2);
+            BoundingRectangle firstPlusHalfExtents = new BoundingRectangle(first.CurrentFrameBoundingRect.Left - halfExtents.X,
+                                                                    first.CurrentFrameBoundingRect.Top - halfExtents.Y,
+                                                                    first.CurrentFrameBoundingRect.Width + 2 * halfExtents.X,
+                                                                    first.CurrentFrameBoundingRect.Height + 2 * halfExtents.Y);
+
+            //Get closest point
+            Vector2 closestPoint = second.CurrentFrameBoundingRect.Center;
+
+            //X Axis
+            float x = second.CurrentFrameBoundingRect.Center.X;
+            if (x < firstPlusHalfExtents.Left) x = firstPlusHalfExtents.Left;
+            if (x > firstPlusHalfExtents.Right) x = firstPlusHalfExtents.Right;
+            closestPoint.X = x;
+
+            //Y Axis
+            float y = second.CurrentFrameBoundingRect.Center.Y;
+            if (y < firstPlusHalfExtents.Top) y = firstPlusHalfExtents.Top;
+            if (y > firstPlusHalfExtents.Bottom) y = firstPlusHalfExtents.Bottom;
+            closestPoint.Y = y;
+
+            //Check if second's center is inside fisrtPlusHalfExtents. If so, find closest edge for negative distance.
+            if (closestPoint == second.CurrentFrameBoundingRect.Center)
+            {
+                Vector2 distanceToClosestEdge;
+                //X Axis
+                if (Math.Abs(closestPoint.X - firstPlusHalfExtents.Right) > Math.Abs(closestPoint.X - firstPlusHalfExtents.Left))
+                    distanceToClosestEdge.X = closestPoint.X - firstPlusHalfExtents.Left;
+                else
+                    distanceToClosestEdge.X = closestPoint.X - firstPlusHalfExtents.Right;
+
+                //Y Axis
+                if (Math.Abs(closestPoint.Y - firstPlusHalfExtents.Bottom) > Math.Abs(closestPoint.Y - firstPlusHalfExtents.Top))
+                    distanceToClosestEdge.Y = closestPoint.Y - firstPlusHalfExtents.Top;
+                else
+                    distanceToClosestEdge.Y = closestPoint.Y - firstPlusHalfExtents.Bottom;
+
+                //Minimum
+                Vector2 axisMinor = VectorUtilities.MinorAxis(distanceToClosestEdge);
+                closestPoint = closestPoint + axisMinor;
+            }
+
+            //Calculate distance and Normal
+            Vector2 distance = closestPoint - second.CurrentFrameBoundingRect.Center;
+
+            contact.Distance = VectorUtilities.MaximumComponent(distance);
+
+            if (contact.Distance == 0.0f)//right up against each other, will get invalid normal.
+            {
+                //On Top
+                if (first.CurrentFrameBoundingRect.Bottom == second.CurrentFrameBoundingRect.Top)
+                {
+                    contact.Normal = new Vector2(0.0f, -1.0f);
+                    if ((first.Side & CollisionSide.Bottom) == 0 ||
+                        (second.Side & CollisionSide.Top) == 0)
+                        return false;
+                }
+                //To the Right
+                else if (first.CurrentFrameBoundingRect.Left == second.CurrentFrameBoundingRect.Right)
+                {
+                    contact.Normal = new Vector2(1.0f, 0.0f);
+                    if ((first.Side & CollisionSide.Left) == 0 ||
+                        (second.Side & CollisionSide.Right) == 0)
+                        return false;
+                }
+                //On Bottom
+                else if (first.CurrentFrameBoundingRect.Top == second.CurrentFrameBoundingRect.Bottom)
+                {
+                    contact.Normal = new Vector2(0.0f, 1.0f);
+                    if ((first.Side & CollisionSide.Top) == 0 ||
+                        (second.Side & CollisionSide.Bottom) == 0)
+                        return false;
+                }
+                //To the Left
+                else if (first.CurrentFrameBoundingRect.Right == second.CurrentFrameBoundingRect.Left)
+                {
+                    contact.Normal = new Vector2(-1.0f, 0.0f);
+                    if ((first.Side & CollisionSide.Right) == 0 ||
+                        (second.Side & CollisionSide.Left) == 0)
+                        return false;
+                }
+            }
             else
-                directionToSecond.X = 0;
+            {
+                contact.Normal = VectorUtilities.NormalizedMajorAxis(distance);
+            }
 
-            directionToSecond.Normalize();
+            //On top
+            if (contact.Normal.Y == -1.0f &&
+                ((first.Side & CollisionSide.Bottom) == 0 ||
+                 (second.Side & CollisionSide.Top) == 0))
+            {
+                return false;
+            }
+            //To the Right
+            else if (contact.Normal.X == 1.0f &&
+                ((first.Side & CollisionSide.Left) == 0 ||
+                 (second.Side & CollisionSide.Right) == 0))
+            {
+                return false;
+            }
+            //On Bottom
+            else if (contact.Normal.Y == 1.0f &&
+                ((first.Side & CollisionSide.Top) == 0 ||
+                 (second.Side & CollisionSide.Bottom) == 0))
+            {
+                return false;
+            }
+            //To the Left
+            else if (contact.Normal.X == -1.0f &&
+                ((first.Side & CollisionSide.Right) == 0 ||
+                        (second.Side & CollisionSide.Left) == 0))
+            {
+                return false;
+            }
 
-            first.CollisionDetected(second, intersection, -directionToSecond);
-            second.CollisionDetected(first, intersection, directionToSecond);
+            Boolean returnValue = false;
+
+            //Collision Direction is X
+            if (Math.Abs(contact.Normal.X) >= Math.Abs(contact.Normal.Y) &&
+                (((first.Velocity.X * gameTime.ElapsedGameTime.TotalMilliseconds) + contact.Distance) * contact.Normal.X < 0))
+                returnValue = true;
+
+            //Collision Direction is Y
+            if (Math.Abs(contact.Normal.X) <= Math.Abs(contact.Normal.Y) &&
+                (((first.Velocity.Y * gameTime.ElapsedGameTime.TotalMilliseconds) + contact.Distance) * contact.Normal.Y < 0))
+                returnValue = true;
+
+            return returnValue;
+        }
+
+        private bool IsInternalEdge(CollisionContact contact)
+        {
+            return false;
         }
 
         #endregion Private Methods

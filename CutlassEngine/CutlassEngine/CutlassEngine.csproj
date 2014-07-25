@@ -114,6 +114,7 @@
     <Compile Include="Utilities\FileHelper.cs" />
     <Compile Include="Utilities\GameSettings.cs" />
     <Compile Include="Utilities\Structs.cs" />
+    <Compile Include="Utilities\VectorUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -10,10 +10,14 @@ namespace Cutlass.Interfaces
         BoundingRectangle CurrentFrameBoundingRect { get; }
         BoundingRectangle NextFrameBoundingRect { get; }
 
+        Vector2 Position { get; }
+        Vector2 Velocity { get; }
+        Vector2 PositionCorrection { get; }
+
         CollisionCategory CategoryMask { get; }
         CollisionCategory Category { get; }
         CollisionSide Side { get; }
 
-        void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 adjustmentDirection);
+        void CollisionDetected(CollisionContact collisionContact);
     }
 }

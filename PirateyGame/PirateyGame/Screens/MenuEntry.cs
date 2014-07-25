@@ -167,7 +167,7 @@ namespace PirateyGame.Screens
             // When the menu selection changes, entries gradually fade between
             // their selected and deselected appearance, rather than instantly
             // popping to the new state.
-            float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (isSelected)
                 _SelectionFade = Math.Min(_SelectionFade + (fadeSpeed * 4f), 1);

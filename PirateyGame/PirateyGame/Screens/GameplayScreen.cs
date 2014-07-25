@@ -78,10 +78,11 @@ namespace PirateyGame.Screens
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
 
             Scenery.Add(new Scenery(new Vector2(300, 300), new CutlassTexture("Content/Textures/Sprites/planks-793-77")));
+            Scenery.Add(new Scenery(new Vector2(0, 200), new CutlassTexture("Content/Textures/Sprites/topOnlyPlatform-200-100"), side: CollisionSide.Bottom | CollisionSide.Top));
             Scenery.Add(new Scenery(new Vector2(-100, 500), new CutlassTexture("Content/Textures/Sprites/planks-793-77")));
 
-            ObjectManager.AddObjects(Scenery.ToArray());
             ObjectManager.AddObjects(Player, Camera);
+            ObjectManager.AddObjects(Scenery.ToArray());
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -114,16 +115,16 @@ namespace PirateyGame.Screens
 
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
-                pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
+                pauseAlpha = Math.Min(pauseAlpha + ((1f / 32) * (float)gameTime.ElapsedGameTime.TotalMilliseconds), 1);
             else
-                pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
+                pauseAlpha = Math.Max(pauseAlpha - ((1f / 32) * (float)gameTime.ElapsedGameTime.TotalMilliseconds), 0);
         }
 
         /// <summary>
         /// Lets the game respond to player input. Unlike the Update method,
         /// this will only be called when the gameplay screen is active.
         /// </summary>
-        public override void HandleInput(Input input)
+        public override void HandleInput(GameTime gameTime, Input input)
         {
             if (input == null)
                 throw new ArgumentNullException("input");
@@ -143,7 +144,7 @@ namespace PirateyGame.Screens
             }
             else
             {
-                Player.HandleInput(input);
+                Player.HandleInput(gameTime, input);
             }
         }
 

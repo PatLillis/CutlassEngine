@@ -70,7 +70,7 @@ namespace PirateyGame.Screens
         /// Responds to user input, changing the selected entry and accepting
         /// or cancelling the menu.
         /// </summary>
-        public override void HandleInput(Input input)
+        public override void HandleInput(GameTime gameTime, Input input)
         {
             #region Up
             // Move to the previous menu entry?

@@ -21,8 +21,8 @@ namespace PirateyGame.SceneObjects
 
         private TexId _PlayerTest_Id;
 
-        const float MAX_PLAYER_VERTICAL_SPEED = 2f;
-        const float MAX_PLAYER_HORIZONTAL_SPEED = 2f;
+        const float MAX_PLAYER_VERTICAL_SPEED = 1f;
+        const float MAX_PLAYER_HORIZONTAL_SPEED = 1f;
 
         private bool _IsJumping = false;
 
@@ -129,6 +129,12 @@ namespace PirateyGame.SceneObjects
 
         #region ICutlassCollidable
 
+        public Vector2 PositionCorrection
+        {
+            get { return _PositionCorrection; }
+        }
+        private Vector2 _PositionCorrection;
+
         public CollisionSide Side
         {
             get { return CollisionSide.All; }
@@ -182,7 +188,7 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public void HandleInput(Input input)
+        public void HandleInput(GameTime gameTime, Input input)
         {
             KeyboardState keyboardState = input.CurrentKeyboardState;
             GamePadState gamePadState = input.CurrentGamePadState;
@@ -191,19 +197,25 @@ namespace PirateyGame.SceneObjects
             Vector2 movement = Vector2.Zero;
 
             if (keyboardState.IsKeyDown(Keys.Left))
-                _Velocity.X = Math.Max(_Velocity.X - 1.0f, -MAX_PLAYER_HORIZONTAL_SPEED);
+                _Velocity.X = Math.Max(_Velocity.X - (0.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds), -MAX_PLAYER_HORIZONTAL_SPEED);
 
             if (keyboardState.IsKeyDown(Keys.Right))
-                _Velocity.X = Math.Min(_Velocity.X + 1.0f, MAX_PLAYER_HORIZONTAL_SPEED);
+                _Velocity.X = Math.Min(_Velocity.X + (0.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds), MAX_PLAYER_HORIZONTAL_SPEED);
 
             if (keyboardState.IsKeyDown(Keys.Space) && !_IsJumping)
             {
                 _IsJumping = true;
-                _Velocity.Y = _Velocity.Y - 20.0f;
+                _Velocity.Y = _Velocity.Y - (7.0f);
             }
         }
 
-        public virtual void OnMoved()
+        public virtual void BeforeMove(GameTime gameTime)
+        {
+            _Position += _PositionCorrection;
+            _PositionCorrection = Vector2.Zero;
+        }
+
+        public virtual void AfterMove(GameTime gameTime)
         {
             if (Moved != null)
                 Moved(this, new Vector2EventArgs(Position));
@@ -212,24 +224,29 @@ namespace PirateyGame.SceneObjects
                 PlayerMoved(this, new BoundingRectangleEventArgs(CurrentFrameBoundingRect));
         }
 
-        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 adjustmentDirection)
+        public void CollisionDetected(CollisionContact contact)
         {
-            switch(collisionTarget.Category)
+            //get the separation and penetration separately, this is to stop penetration
+            //from causing the obejcts to ping apart
+            float separation = Math.Max(contact.Distance, 0.0f);
+            float penetration = Math.Min(contact.Distance, 0.0f);
+
+            //get relative normal velocity so object will stop exactly on surface.
+            float relativeNormalVelocity = 0.0f;
+
+            relativeNormalVelocity = VectorUtilities.DotProduct(Velocity, contact.Normal);
+
+            if (relativeNormalVelocity < 0)
             {
-                case CollisionCategory.Scenery:
-                    if (adjustmentDirection.X > 0)
-                        _Velocity.X += (intersection.Right - NextFrameBoundingRect.Left);
-                    else if (adjustmentDirection.X < 0)
-                        _Velocity.X += (intersection.Left - NextFrameBoundingRect.Right);
-                    else if (adjustmentDirection.Y > 0)
-                        _Velocity.Y += (intersection.Bottom - NextFrameBoundingRect.Top);
-                    else if (adjustmentDirection.Y < 0)
-                    {
-                        if (intersection.Width > 2.0f)
-                            _IsJumping = false;
-                        _Velocity.Y += (intersection.Top - NextFrameBoundingRect.Bottom);
-                    }
-                    break;
+                //remove normal velocity
+                Velocity -= contact.Normal * relativeNormalVelocity;
+            }
+
+            //is this ground?
+            if (contact.Normal.Y < 0.0f)
+            {
+                _IsJumping = false;
+                //StandingOn.Add(contact.B);
             }
         }
 
@@ -246,7 +263,7 @@ namespace PirateyGame.SceneObjects
 
         public void Update(GameTime gameTime)
         {
-            ((CutlassAnimatedTexture)TextureManager.GetTexture(_PlayerTest_Id)).Update(gameTime);
+            ((ICutlassUpdateable)TextureManager.GetTexture(_PlayerTest_Id)).Update(gameTime);
         }
 
         #endregion Update and Draw

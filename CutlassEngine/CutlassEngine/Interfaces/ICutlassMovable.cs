@@ -17,6 +17,8 @@ namespace Cutlass.Interfaces
         //Throws event with object's new position 
         event EventHandler<Vector2EventArgs> Moved;
 
-        void OnMoved();
+        void BeforeMove(GameTime gameTime);
+
+        void AfterMove(GameTime gameTime);
     }
 }

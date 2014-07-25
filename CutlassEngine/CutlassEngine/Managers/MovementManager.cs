@@ -11,7 +11,7 @@ namespace Cutlass.Managers
         public float Gravity;
         public float Friction;
 
-        public MovementManager(float gravity = 0.126f, float friction = 0.05f)
+        public MovementManager(float gravity = 0.03f, float friction = 0.02f)
         {
             Gravity = gravity;
             Friction = friction;
@@ -19,31 +19,34 @@ namespace Cutlass.Managers
 
         public void ApplyGravity(GameTime gameTime, IEnumerable<ICutlassMovable> objectsToMove)
         {
+            float timeSteppedGravity = Gravity * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
             foreach(ICutlassMovable movableObject in objectsToMove)
             {
                 movableObject.Velocity = new Vector2(movableObject.Velocity.X,
-                    movableObject.Velocity.Y + (Gravity * movableObject.GravityCoefficient));
+                    movableObject.Velocity.Y + (timeSteppedGravity * movableObject.GravityCoefficient));
             }
         }
 
         public void ApplyFriction(GameTime gameTime, IEnumerable<ICutlassMovable> objectsToMove)
         {
+            float timeSteppedFriction = Friction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
             foreach (ICutlassMovable movableObject in objectsToMove)
             {
-                float adjustedFriction = Friction * movableObject.FrictionCoefficient;
-
                 movableObject.Velocity = new Vector2(
-                    movableObject.Velocity.X * (1 - (2 * adjustedFriction)),
-                    movableObject.Velocity.Y * (1 - (adjustedFriction)));
+                    movableObject.Velocity.X * (1 - (2 * timeSteppedFriction)),
+                    movableObject.Velocity.Y * (1 - (timeSteppedFriction)));
             }
         }
 
-        public void ApplyMovement(IEnumerable<ICutlassMovable> objectsToMove)
+        public void ApplyMovement(GameTime gameTime, IEnumerable<ICutlassMovable> objectsToMove)
         {
             foreach (ICutlassMovable movableObject in objectsToMove)
             {
-                movableObject.Position += movableObject.Velocity;
-                movableObject.OnMoved();
+                movableObject.BeforeMove(gameTime);
+                movableObject.Position += movableObject.Velocity * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                movableObject.AfterMove(gameTime);
             }
         }
     }

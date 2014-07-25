@@ -103,10 +103,21 @@ namespace PirateyGame.SceneObjects
 
         #region ICutlassCollidable
 
+        public Vector2 Velocity
+        {
+            get { return Vector2.Zero; }
+        }
+
+        public Vector2 PositionCorrection
+        {
+            get { return Vector2.Zero; }
+        }
+
         public CollisionSide Side
         {
-            get { return CollisionSide.All; }
+            get { return _Side; }
         }
+        private CollisionSide _Side;
 
         public CollisionCategory Category
         {
@@ -115,7 +126,7 @@ namespace PirateyGame.SceneObjects
 
         public CollisionCategory CategoryMask
         {
-            get { return CollisionCategory.All; }
+            get { return CollisionCategory.Good | CollisionCategory.Bad; }
         }
 
         #endregion ICutlassCollidable
@@ -124,13 +135,14 @@ namespace PirateyGame.SceneObjects
 
         #region Initialization
 
-        public Scenery(Vector2 position, ICutlassTexture texture, bool animated = false)
+        public Scenery(Vector2 position, ICutlassTexture texture, bool animated = false, CollisionSide side = CollisionSide.All)
         {
             _Position = position;
             _SceneryObject_Id = TextureManager.AddTexture(texture);
             _Active = true;
             _IsVisible = true;
             _Animated = animated;
+            _Side = side;
         }
 
         public void LoadContent()
@@ -147,7 +159,7 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public void CollisionDetected(ICutlassCollidable collisionTarget, BoundingRectangle intersection, Vector2 adjustmentDirection)
+        public void CollisionDetected(CollisionContact contact)
         {
             //Console.WriteLine("Collided with Scenery!");
         }

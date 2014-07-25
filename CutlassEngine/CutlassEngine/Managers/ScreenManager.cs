@@ -148,7 +148,7 @@ namespace Cutlass.Managers
                     // give it a chance to handle input.
                     if (!otherScreenHasFocus)
                     {
-                        screen.HandleInput(CutlassEngine.Input);
+                        screen.HandleInput(gameTime, CutlassEngine.Input);
 
                         otherScreenHasFocus = true;
                     }

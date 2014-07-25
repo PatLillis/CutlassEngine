@@ -251,7 +251,7 @@ namespace Cutlass.GameComponents
         /// is only called when the screen is active, and not when some other
         /// screen has taken the focus.
         /// </summary>
-        public virtual void HandleInput(Input input)
+        public virtual void HandleInput(GameTime gameTime, Input input)
         { }
 
         /// <summary>
@@ -270,8 +270,6 @@ namespace Cutlass.GameComponents
 
         public void ChangeViewSettings(int newVirtualWidth)
         {
-            //_ScaleTransform = newScaleMatrix;
-
             Rectangle newViewArea = new Rectangle() { Width = newVirtualWidth, Height = ResolutionManager.VIRTUAL_HEIGHT };
 
             _VisibleArea = new BoundingRectangle(newViewArea);
