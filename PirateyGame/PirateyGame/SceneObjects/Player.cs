@@ -44,7 +44,7 @@ namespace PirateyGame.SceneObjects
             get { return _DrawOrder; }
             set { _DrawOrder = value; }
         }
-        private int _DrawOrder = 0;
+        private int _DrawOrder = 1;
 
         public bool ScreenPositionFixed
         {
@@ -229,8 +229,6 @@ namespace PirateyGame.SceneObjects
                     _Velocity.Y = _Velocity.Y - (7.0f);
                 }
             }
-
-            Console.WriteLine(_IsJumpingDown);
         }
 
         public virtual void BeforeMove(GameTime gameTime)
@@ -294,7 +292,7 @@ namespace PirateyGame.SceneObjects
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            CutlassAnimatedTexture texture = (CutlassAnimatedTexture)TextureManager.GetTexture(_PlayerTest_Id);
+            CutlassTexture texture = (CutlassTexture)TextureManager.GetTexture(_PlayerTest_Id);
 
             spriteBatch.Draw(texture.BaseTexture, Position, texture.AreaToRender, Color.White);
         }
@@ -303,7 +301,10 @@ namespace PirateyGame.SceneObjects
         {
             _WasOnGround = _IsOnGround;
 
-            ((ICutlassUpdateable)TextureManager.GetTexture(_PlayerTest_Id)).Update(gameTime);
+            IUpdateable texture = TextureManager.GetTexture(_PlayerTest_Id) as IUpdateable;
+
+            if (texture != null)
+                texture.Update(gameTime);
         }
 
         #endregion Update and Draw

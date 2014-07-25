@@ -2,7 +2,6 @@ CODE
 ====
 
 General:
--Side-specific collisions
 -AI/Enemies
 -Dialogue
 -Level Initialization
