@@ -11,8 +11,8 @@ namespace PirateyGame.SceneObjects
     {
         #region Fields
 
-        const int VERTICAL_EDGE_BUFFER = 50;
-        const int HORIZONTAL_EDGE_BUFFER = 50;
+        const int VERTICAL_EDGE_BUFFER = 100;
+        const int HORIZONTAL_EDGE_BUFFER = 200;
 
         #endregion Fields
 
