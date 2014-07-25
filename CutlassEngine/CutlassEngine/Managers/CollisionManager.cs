@@ -134,8 +134,8 @@ namespace Cutlass.Managers
 
                     if (CalculateCollision(gameTime, ref collisionContact) && !IsInternalEdge(collisionContact))
                     {
-                        first.CollisionDetected(collisionContact);
-                        second.CollisionDetected(new CollisionContact(collisionContact.B, collisionContact.A, -collisionContact.Normal, collisionContact.Distance));
+                        first.CollisionDetected(collisionContact.B, collisionContact.Normal, collisionContact.Distance);
+                        second.CollisionDetected(collisionContact.A, -collisionContact.Normal, collisionContact.Distance);
                     }
                 }
             }

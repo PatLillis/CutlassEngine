@@ -24,7 +24,7 @@ namespace PirateyGame.SceneObjects
         const float MAX_PLAYER_VERTICAL_SPEED = 1f;
         const float MAX_PLAYER_HORIZONTAL_SPEED = 1f;
 
-        private bool _IsJumping = false;
+        private bool _WasOnGround = false;
 
         #endregion Fields
 
@@ -112,6 +112,20 @@ namespace PirateyGame.SceneObjects
         }
         private float _Rotation;
 
+        public bool IsOnGround
+        {
+            get { return _IsOnGround; }
+            set { _IsOnGround = value; }
+        }
+        private bool _IsOnGround = false;
+
+        public bool IsJumpingDown
+        {
+            get { return _IsJumpingDown; }
+            set { _IsJumpingDown = value; }
+        }
+        private bool _IsJumpingDown = false;
+
         #region ICutlassMovable
 
         public Vector2 Velocity
@@ -193,8 +207,7 @@ namespace PirateyGame.SceneObjects
             KeyboardState keyboardState = input.CurrentKeyboardState;
             GamePadState gamePadState = input.CurrentGamePadState;
 
-            // Otherwise move the player vector.
-            Vector2 movement = Vector2.Zero;
+            _IsJumpingDown = false;
 
             if (keyboardState.IsKeyDown(GameSettingsManager.Default.LeftKey))
                 _Velocity.X = Math.Max(_Velocity.X - (0.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds), -MAX_PLAYER_HORIZONTAL_SPEED);
@@ -202,17 +215,38 @@ namespace PirateyGame.SceneObjects
             if (keyboardState.IsKeyDown(GameSettingsManager.Default.RightKey))
                 _Velocity.X = Math.Min(_Velocity.X + (0.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds), MAX_PLAYER_HORIZONTAL_SPEED);
 
-            if (keyboardState.IsKeyDown(GameSettingsManager.Default.JumpKey) && !_IsJumping)
+            if (keyboardState.IsKeyDown(GameSettingsManager.Default.JumpKey) && _IsOnGround)
             {
-                _IsJumping = true;
-                _Velocity.Y = _Velocity.Y - (7.0f);
+                _IsOnGround = false;
+
+                if (keyboardState.IsKeyDown(GameSettingsManager.Default.DownKey))
+                {
+                    _IsJumpingDown = true;
+                    _Velocity.Y += 1.0f;
+                }
+                else
+                {
+                    _Velocity.Y = _Velocity.Y - (7.0f);
+                }
             }
+
+            Console.WriteLine(_IsJumpingDown);
         }
 
         public virtual void BeforeMove(GameTime gameTime)
         {
-            _Position += _PositionCorrection;
-            _PositionCorrection = Vector2.Zero;
+            if (Velocity.Y == 0.0f &&
+                _WasOnGround)
+            {
+                _IsOnGround = true;
+            }
+            else
+            {
+                _IsOnGround = false;
+                //StandingOn.Clear();
+            }
+            //_Position += _PositionCorrection;
+            //_PositionCorrection = Vector2.Zero;
         }
 
         public virtual void AfterMove(GameTime gameTime)
@@ -224,28 +258,32 @@ namespace PirateyGame.SceneObjects
                 PlayerMoved(this, new BoundingRectangleEventArgs(CurrentFrameBoundingRect));
         }
 
-        public void CollisionDetected(CollisionContact contact)
+        public void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
         {
+            //Check for jumping through top-only collisions
+            if (collisionTarget.Side == CollisionSide.Top && normal.Y == -1 && _IsJumpingDown)
+                return;
+
             //get the separation and penetration separately, this is to stop penetration
             //from causing the obejcts to ping apart
-            float separation = Math.Max(contact.Distance, 0.0f);
-            float penetration = Math.Min(contact.Distance, 0.0f);
+            float separation = Math.Max(distance, 0.0f);
+            float penetration = Math.Min(distance, 0.0f);
 
             //get relative normal velocity so object will stop exactly on surface.
             float relativeNormalVelocity = 0.0f;
 
-            relativeNormalVelocity = VectorUtilities.DotProduct(Velocity, contact.Normal);
+            relativeNormalVelocity = VectorUtilities.DotProduct(Velocity, normal);
 
             if (relativeNormalVelocity < 0)
             {
                 //remove normal velocity
-                Velocity -= contact.Normal * relativeNormalVelocity;
+                Velocity -= normal * relativeNormalVelocity;
             }
 
             //is this ground?
-            if (contact.Normal.Y < 0.0f)
+            if (normal.Y < 0.0f)
             {
-                _IsJumping = false;
+                _WasOnGround = true;
                 //StandingOn.Add(contact.B);
             }
         }
@@ -263,6 +301,8 @@ namespace PirateyGame.SceneObjects
 
         public void Update(GameTime gameTime)
         {
+            _WasOnGround = _IsOnGround;
+
             ((ICutlassUpdateable)TextureManager.GetTexture(_PlayerTest_Id)).Update(gameTime);
         }
 

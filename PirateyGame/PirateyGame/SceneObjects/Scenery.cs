@@ -159,7 +159,7 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public void CollisionDetected(CollisionContact contact)
+        public void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
         {
             //Console.WriteLine("Collided with Scenery!");
         }

@@ -18,6 +18,6 @@ namespace Cutlass.Interfaces
         CollisionCategory Category { get; }
         CollisionSide Side { get; }
 
-        void CollisionDetected(CollisionContact collisionContact);
+        void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance);
     }
 }
