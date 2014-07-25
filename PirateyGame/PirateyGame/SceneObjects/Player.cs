@@ -21,8 +21,8 @@ namespace PirateyGame.SceneObjects
 
         private TexId _PlayerTest_Id;
 
-        const float MAX_PLAYER_VERTICAL_SPEED = 1f;
-        const float MAX_PLAYER_HORIZONTAL_SPEED = 1f;
+        const float MAX_PLAYER_VERTICAL_SPEED = 0.5f;
+        const float MAX_PLAYER_HORIZONTAL_SPEED = 0.5f;
 
         private bool _WasOnGround = false;
 

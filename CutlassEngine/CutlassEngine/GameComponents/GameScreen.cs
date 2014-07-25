@@ -266,16 +266,17 @@ namespace Cutlass.GameComponents
 
         #region Public Methods
 
-        public event EventHandler<RectangleEventArgs> ViewSettingsChanged;
+        public event EventHandler<BoundingRectangleEventArgs> ViewSettingsChanged;
 
         public void ChangeViewSettings(int newVirtualWidth)
         {
-            Rectangle newViewArea = new Rectangle() { Width = newVirtualWidth, Height = ResolutionManager.VIRTUAL_HEIGHT };
+            float widthDiff = newVirtualWidth - _VisibleArea.Width;
 
-            _VisibleArea = new BoundingRectangle(newViewArea);
+            _OffsetTransform = Matrix.CreateTranslation(new Vector3(widthDiff/2, 0.0f, 0.0f)) * _OffsetTransform;
+            _VisibleArea = new BoundingRectangle(_VisibleArea.Min + new Vector2(-widthDiff/2, 0), _VisibleArea.Max + new Vector2(widthDiff/2, 0));
 
             if (ViewSettingsChanged != null)
-                ViewSettingsChanged(this, new RectangleEventArgs(newViewArea));
+                ViewSettingsChanged(this, new BoundingRectangleEventArgs(_VisibleArea));
         }
 
         /// <summary>

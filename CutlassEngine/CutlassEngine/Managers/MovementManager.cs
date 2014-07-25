@@ -11,7 +11,7 @@ namespace Cutlass.Managers
         public float Gravity;
         public float Friction;
 
-        public MovementManager(float gravity = 0.02f, float friction = 0.015f)
+        public MovementManager(float gravity = 0.015f, float friction = 0.015f)
         {
             Gravity = gravity;
             Friction = friction;
