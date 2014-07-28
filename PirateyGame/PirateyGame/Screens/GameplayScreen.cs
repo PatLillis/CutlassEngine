@@ -77,10 +77,10 @@ namespace PirateyGame.Screens
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
 
-            Scenery.Add(new Scenery(new Vector2(300, 200), new CutlassTexture("Content/Textures/Sprites/planks-793-77")));
-            Scenery.Add(new Scenery(new Vector2(1000, 200), new CutlassTexture("Content/Textures/Sprites/planks-793-77")));
+            Scenery.Add(new Scenery(new Vector2(200, 200), new CutlassTexture("Content/Textures/Sprites/planks-800-80")));
+            Scenery.Add(new Scenery(new Vector2(120, -600), new CutlassTexture("Content/Textures/Sprites/planks-80-800")));
             Scenery.Add(new Scenery(new Vector2(0, 200), new CutlassTexture("Content/Textures/Sprites/topOnlyPlatform-200-100"), side: CollisionSide.Top));
-            Scenery.Add(new Scenery(new Vector2(-100, 500), new CutlassTexture("Content/Textures/Sprites/planks-793-77")));
+            Scenery.Add(new Scenery(new Vector2(-100, 500), new CutlassTexture("Content/Textures/Sprites/planks-800-80")));
 
             ObjectManager.AddObjects(Player, Camera);
             ObjectManager.AddObjects(Scenery.ToArray());
