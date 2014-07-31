@@ -13,8 +13,8 @@ namespace PirateyGame.SceneObjects
     {
         #region Fields
 
-        private TexId _SceneryObject_Id;
-        private bool _Animated;
+        protected TexId _SceneryObject_Id;
+        protected bool _Animated;
 
         #endregion Fields
 
@@ -27,20 +27,20 @@ namespace PirateyGame.SceneObjects
             get { return _Active; }
             set { _Active = value; }
         }
-        private bool _Active;
+        protected bool _Active;
 
         public bool IsLoaded
         {
             get { return _IsLoaded; }
         }
-        private bool _IsLoaded = false;
+        protected bool _IsLoaded = false;
 
         public int DrawOrder
         {
             get { return _DrawOrder; }
             set { _DrawOrder = value; }
         }
-        private int _DrawOrder = 0;
+        protected int _DrawOrder = 0;
 
         public bool ScreenPositionFixed
         {
@@ -51,31 +51,31 @@ namespace PirateyGame.SceneObjects
         {
             get { return _ReadyToRender; }
         }
-        private bool _ReadyToRender = false;
+        protected bool _ReadyToRender = false;
 
         public bool IsVisible
         {
             get { return _IsVisible; }
             set { _IsVisible = value; }
         }
-        private bool _IsVisible = true;
+        protected bool _IsVisible = true;
 
-        public int Width
+        public virtual float Width
         {
             get { return TextureManager.GetTexture(_SceneryObject_Id).Width; }
         }
 
-        public int Height
+        public virtual float Height
         {
             get { return TextureManager.GetTexture(_SceneryObject_Id).Height; }
         }
 
-        public BoundingRectangle CurrentFrameBoundingRect
+        public virtual BoundingRectangle CurrentFrameBoundingRect
         {
             get { return new BoundingRectangle(_Position.X, _Position.Y, Width, Height); }
         }
 
-        public BoundingRectangle NextFrameBoundingRect
+        public virtual BoundingRectangle NextFrameBoundingRect
         {
             get { return CurrentFrameBoundingRect; }
         }
@@ -85,46 +85,46 @@ namespace PirateyGame.SceneObjects
             get { return _Position; }
             set { _Position = value; }
         }
-        private Vector2 _Position;
+        protected Vector2 _Position;
 
         public Vector2 Scale
         {
             get { return _Scale; }
             set { _Scale = value; }
         }
-        private Vector2 _Scale;
+        protected Vector2 _Scale;
 
         public float Rotation
         {
             get { return _Rotation; }
             set { _Rotation = value; }
         }
-        private float _Rotation;
+        protected float _Rotation;
 
         #region ICutlassCollidable
 
-        public Vector2 Velocity
+        public virtual Vector2 Velocity
         {
             get { return Vector2.Zero; }
         }
 
-        public Vector2 PositionCorrection
+        public virtual Vector2 PositionCorrection
         {
             get { return Vector2.Zero; }
         }
 
-        public CollisionSide Side
+        public virtual CollisionSide Side
         {
             get { return _Side; }
         }
         private CollisionSide _Side;
 
-        public CollisionCategory Category
+        public virtual CollisionCategory Category
         {
             get { return CollisionCategory.Scenery; }
         }
 
-        public CollisionCategory CategoryMask
+        public virtual CollisionCategory CategoryMask
         {
             get { return CollisionCategory.Good | CollisionCategory.Bad; }
         }
@@ -135,22 +135,30 @@ namespace PirateyGame.SceneObjects
 
         #region Initialization
 
-        public Scenery(Vector2 position, ICutlassTexture texture, bool animated = false, CollisionSide side = CollisionSide.All)
+        public Scenery(Vector2 position, bool isVisible = true, ICutlassTexture texture = null, bool animated = false, CollisionSide side = CollisionSide.All)
         {
             _Position = position;
-            _SceneryObject_Id = TextureManager.AddTexture(texture);
+            _IsVisible = isVisible;
             _Active = true;
-            _IsVisible = true;
-            _Animated = animated;
-            _Side = side;
+
+            if (isVisible && texture != null)
+            {
+                _SceneryObject_Id = TextureManager.AddTexture(texture);
+                _Animated = animated;
+                _Side = side;
+            }
+            else
+            {
+                _Side = CollisionSide.All;
+            }
         }
 
-        public void LoadContent()
+        public virtual void LoadContent()
         {
             _IsLoaded = true;
         }
 
-        public void UnloadContent()
+        public virtual void UnloadContent()
         {
             _IsLoaded = false;
         }
@@ -159,25 +167,26 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
-        {
-            //Console.WriteLine("Collided with Scenery!");
-        }
+        public virtual void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
+        { }
 
         #endregion Public Methods
 
         #region Update and Draw
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            ICutlassTexture texture = TextureManager.GetTexture(_SceneryObject_Id);
+            if (_IsVisible)
+            {
+                ICutlassTexture texture = TextureManager.GetTexture(_SceneryObject_Id);
 
-            spriteBatch.Draw(texture.BaseTexture, Position, texture.AreaToRender, Color.White);
+                spriteBatch.Draw(texture.BaseTexture, Position, texture.AreaToRender, Color.White);
+            }
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
-            if (_Animated)
+            if (_Animated && _IsVisible)
                 ((ICutlassUpdateable)TextureManager.GetTexture(_SceneryObject_Id)).Update(gameTime);
         }
 

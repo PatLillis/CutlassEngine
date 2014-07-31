@@ -17,9 +17,9 @@ namespace Cutlass.Interfaces
 
         bool IsVisible { get; set; }
 
-        int Width { get; }
+        float Width { get; }
 
-        int Height { get; }
+        float Height { get; }
 
         BoundingRectangle CurrentFrameBoundingRect { get; }
 

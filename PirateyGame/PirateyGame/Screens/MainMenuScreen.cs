@@ -1,6 +1,7 @@
 ﻿using System;
 using Cutlass;
 using Cutlass.Managers;
+using PirateyGame.Levels;
 
 namespace PirateyGame.Screens
 {
@@ -42,7 +43,7 @@ namespace PirateyGame.Screens
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, EventArgs e)
         {
-            LoadingScreen.Load(true, new GameplayScreen());
+            LoadingScreen.Load(true, new TestLevel1());
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace PirateyGame.Screens
         {
             const string message = "Are you sure you want to exit this sample?";
 
-            MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen(message);
+            MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen(message, false, true);
 
             confirmExitMessageBox.Accepted += ConfirmExitMessageBoxAccepted;
 

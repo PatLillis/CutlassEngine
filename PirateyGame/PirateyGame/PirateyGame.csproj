@@ -80,10 +80,14 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Levels\LevelDirectory.cs" />
+    <Compile Include="Levels\TestLevel2.cs" />
+    <Compile Include="Levels\TestLevel1.cs" />
     <Compile Include="Palette.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneObjects\Camera.cs" />
+    <Compile Include="SceneObjects\LoadingZone.cs" />
     <Compile Include="SceneObjects\Player.cs" />
     <Compile Include="SceneObjects\Scenery.cs" />
     <Compile Include="Screens\BackgroundScreen.cs" />

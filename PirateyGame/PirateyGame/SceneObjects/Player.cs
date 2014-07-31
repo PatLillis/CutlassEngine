@@ -71,12 +71,12 @@ namespace PirateyGame.SceneObjects
         }
         private bool _IsVisible = false;
 
-        public int Width
+        public float Width
         {
             get { return TextureManager.GetTexture(_PlayerTest_Id).Width; }
         }
 
-        public int Height
+        public float Height
         {
             get { return TextureManager.GetTexture(_PlayerTest_Id).Height; }
         }

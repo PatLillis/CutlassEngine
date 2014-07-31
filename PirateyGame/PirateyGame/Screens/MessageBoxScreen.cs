@@ -16,7 +16,9 @@ namespace PirateyGame.Screens
     {
         #region Fields
 
-        TexId _Gradient_Id;
+        private TexId _Gradient_Id;
+
+        private bool _IncludeCancelOption = true;
 
         #endregion Fields
 
@@ -44,7 +46,7 @@ namespace PirateyGame.Screens
         /// usage text prompt.
         /// </summary>
         public MessageBoxScreen(string message)
-            : this(message, false)
+            : this(message, false, false)
         {
             _Gradient_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/gradient"));
         }
@@ -53,8 +55,10 @@ namespace PirateyGame.Screens
         /// Constructor lets the caller specify whether to include the standard
         /// "A=ok, B=cancel" usage text prompt.
         /// </summary>
-        public MessageBoxScreen(string message, bool includeUsageText)
+        public MessageBoxScreen(string message, bool includeUsageText, bool includeCancelOption)
         {
+            _IncludeCancelOption = includeCancelOption;
+
             string usageText = String.Empty;
 
             switch (CutlassEngine.CurrentPlatform)
@@ -68,12 +72,16 @@ namespace PirateyGame.Screens
                 case PlatformID.Win32S:
                     goto case PlatformID.Win32Windows;
                 case PlatformID.Win32Windows:
-                    usageText = "\nSpace, Enter = ok\nEsc = cancel";
+                    usageText = "\nSpace, Enter = OK";
+                    if (_IncludeCancelOption)
+                        usageText += "\nEsc = Cancel";
                     break;
                 case PlatformID.WinCE:
                     goto case PlatformID.Win32Windows;
                 case PlatformID.Xbox:
-                    usageText = "\nSA button = ok\nB button = cancel";
+                    usageText = "\nSA = OK";
+                    if (_IncludeCancelOption)
+                        usageText += "\nB = Cancel";
                     break;
                 default:
                     break;
@@ -112,7 +120,7 @@ namespace PirateyGame.Screens
 
                 ExitScreen();
             }
-            else if (input.MenuCancel)
+            else if (input.MenuCancel && _IncludeCancelOption)
             {
                 // Raise the cancelled event, then exit the message box.
                 if (Cancelled != null)

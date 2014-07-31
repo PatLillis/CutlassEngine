@@ -43,7 +43,7 @@ namespace PirateyGame.Screens
         {
             const string message = "Are you sure you want to quit this game?";
 
-            MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
+            MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message, false, true);
 
             confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
 

@@ -18,11 +18,13 @@ namespace PirateyGame.Screens
     /// placeholder to get the idea across: you'll probably want to
     /// put some more interesting gameplay in here!
     /// </summary>
-    class GameplayScreen : GameScreen
+    public class GameplayScreen : GameScreen
     {
         #region Fields
 
-        float pauseAlpha;
+        protected float _PauseAlpha;
+
+        protected Vector2 _PlayerInitialPosition = Vector2.Zero;
 
         #endregion
 
@@ -32,24 +34,19 @@ namespace PirateyGame.Screens
         {
             get { return _Player; }
         }
-        private Player _Player;
+        protected Player _Player;
 
         public Camera Camera
         {
             get { return _Camera; }
         }
-        private Camera _Camera;
+        protected Camera _Camera;
 
         public List<Scenery> Scenery
         {
-            get
-            {
-                if (_Scenery == null)
-                    _Scenery = new List<Scenery>();
-                return _Scenery;
-            }
+            get { return _Scenery; }
         }
-        private List<Scenery> _Scenery;
+        protected List<Scenery> _Scenery = new List<Scenery>();
 
         #endregion
 
@@ -72,18 +69,13 @@ namespace PirateyGame.Screens
         {
             base.LoadContent();
 
-            _Player = new Player(new CutlassTexture("Content/Textures/Sprites/hero-74-84"), new Vector2(400, 100));
+            _Player = new Player(new CutlassTexture("Content/Textures/Sprites/hero-74-84"), _PlayerInitialPosition);
             _Camera = new Camera(this, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
 
-            Scenery.Add(new Scenery(new Vector2(200, 200), new CutlassTexture("Content/Textures/Sprites/planks-800-80")));
-            Scenery.Add(new Scenery(new Vector2(120, -600), new CutlassTexture("Content/Textures/Sprites/planks-80-800")));
-            Scenery.Add(new Scenery(new Vector2(0, 200), new CutlassTexture("Content/Textures/Sprites/topOnlyPlatform-200-100"), side: CollisionSide.Top));
-            Scenery.Add(new Scenery(new Vector2(-100, 500), new CutlassTexture("Content/Textures/Sprites/planks-800-80")));
-
-            ObjectManager.AddObjects(Player, Camera);
-            ObjectManager.AddObjects(Scenery.ToArray());
+            ObjectManager.AddObjects(_Player, _Camera);
+            ObjectManager.AddObjects(_Scenery.ToArray());
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -116,9 +108,9 @@ namespace PirateyGame.Screens
 
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
-                pauseAlpha = Math.Min(pauseAlpha + ((1f / 32) * (float)gameTime.ElapsedGameTime.TotalMilliseconds), 1);
+                _PauseAlpha = Math.Min(_PauseAlpha + ((1f / 32) * (float)gameTime.ElapsedGameTime.TotalMilliseconds), 1);
             else
-                pauseAlpha = Math.Max(pauseAlpha - ((1f / 32) * (float)gameTime.ElapsedGameTime.TotalMilliseconds), 0);
+                _PauseAlpha = Math.Max(_PauseAlpha - ((1f / 32) * (float)gameTime.ElapsedGameTime.TotalMilliseconds), 0);
         }
 
         /// <summary>
@@ -160,9 +152,9 @@ namespace PirateyGame.Screens
             base.Draw(gameTime);
 
             // If the game is transitioning on or off, fade it out to black.
-            if (TransitionPosition > 0 || pauseAlpha > 0)
+            if (TransitionPosition > 0 || _PauseAlpha > 0)
             {
-                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
+                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, _PauseAlpha / 2);
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
