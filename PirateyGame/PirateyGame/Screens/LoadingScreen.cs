@@ -57,13 +57,14 @@ namespace PirateyGame.Screens
         public static void Load(bool loadingIsSlow, params GameScreen[] screensToLoad)
         {
             // Tell all the current screens to transition off.
-            foreach (GameScreen screen in ScreenManager.GetScreens())
-                screen.ExitScreen();
+            GameScreen[] screens = ScreenManager.GetScreens();
 
             // Create and activate the loading screen.
-            LoadingScreen loadingScreen = new LoadingScreen( loadingIsSlow, screensToLoad);
-
+            LoadingScreen loadingScreen = new LoadingScreen(loadingIsSlow, screensToLoad);
             ScreenManager.AddScreen(loadingScreen);
+
+            foreach (GameScreen screen in screens)
+                screen.ExitScreen();
         }
 
         #endregion
@@ -123,6 +124,9 @@ namespace PirateyGame.Screens
             // to bother drawing the message.
             if (_LoadingIsSlow)
             {
+                // Darken down any other screens that were drawn beneath the popup.
+                ScreenManager.FadeBackBufferToBlack(TransitionAlpha);
+
                 SpriteBatch spriteBatch = CutlassEngine.SpriteBatch;
                 SpriteFont font = FontManager.DefaultFont;
 
