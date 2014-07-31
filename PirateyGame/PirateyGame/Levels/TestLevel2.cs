@@ -14,13 +14,13 @@ namespace PirateyGame.Levels
         public TestLevel2()
             : base()
         {
-            _PlayerInitialPosition = new Vector2(400, 400);
+            _PlayerInitialPosition = new Vector2(400, 330);
         }
 
         public override void LoadContent()
         {
             _Scenery.Add(new Scenery(new Vector2(200, 200), texture: new CutlassTexture("Content/Textures/Sprites/planks-800-80")));
-            _Scenery.Add(new Scenery(new Vector2(-100, 500), texture: new CutlassTexture("Content/Textures/Sprites/planks-800-80")));
+            _Scenery.Add(new Scenery(new Vector2(-100, 450), texture: new CutlassTexture("Content/Textures/Sprites/planks-800-80")));
 
             base.LoadContent();
         }

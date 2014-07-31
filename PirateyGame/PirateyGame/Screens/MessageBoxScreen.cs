@@ -42,22 +42,13 @@ namespace PirateyGame.Screens
         #region Initialization
 
         /// <summary>
-        /// Constructor automatically excludes the standard "A=ok, B=cancel"
-        /// usage text prompt.
-        /// </summary>
-        public MessageBoxScreen(string message)
-            : this(message, false, false)
-        {
-            _Gradient_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/gradient"));
-        }
-
-        /// <summary>
         /// Constructor lets the caller specify whether to include the standard
         /// "A=ok, B=cancel" usage text prompt.
         /// </summary>
-        public MessageBoxScreen(string message, bool includeUsageText, bool includeCancelOption)
+        public MessageBoxScreen(string message, bool includeUsageText = false, bool includeCancelOption = false)
         {
             _IncludeCancelOption = includeCancelOption;
+            _Gradient_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/gradient"));
 
             string usageText = String.Empty;
 

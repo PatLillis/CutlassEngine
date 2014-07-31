@@ -107,13 +107,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Sprites\hero-74-84.png">
-      <Name>hero-74-84</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\Sprites\planks-80-800.png">
       <Name>planks-80-800</Name>
       <Importer>TextureImporter</Importer>
@@ -121,6 +114,13 @@
     </Compile>
     <Compile Include="Textures\Sprites\planks-800-80.png">
       <Name>planks-800-80</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Sprites\pirate-48-120.png">
+      <Name>pirate-48-120</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

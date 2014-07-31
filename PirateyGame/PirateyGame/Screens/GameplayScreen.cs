@@ -69,7 +69,7 @@ namespace PirateyGame.Screens
         {
             base.LoadContent();
 
-            _Player = new Player(new CutlassTexture("Content/Textures/Sprites/hero-74-84"), _PlayerInitialPosition);
+            _Player = new Player(new CutlassTexture("Content/Textures/Sprites/pirate-48-120"), _PlayerInitialPosition);
             _Camera = new Camera(this, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
