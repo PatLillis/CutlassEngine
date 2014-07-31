@@ -123,11 +123,11 @@ namespace Cutlass
             //Initialize Resolution settings.
             ResolutionManager.Initialize(this, _GraphicsDeviceManager);
 
-#if DEBUG
+//#if DEBUG
             //Disable vertical retrace to get highest framerates possible for
             //testing performance.
             _GraphicsDeviceManager.SynchronizeWithVerticalRetrace = false;
-#endif
+//#endif
             //Demand to update as fast as possible, do not use fixed time steps.
             this.IsFixedTimeStep = false;
 
@@ -167,18 +167,7 @@ namespace Cutlass
 
                 _GraphicsDeviceManager.PreferMultiSampling = true;
 
-                if (_GraphicsDeviceManager.PreferredBackBufferHeight == 720)
-                {
-#if !DEBUG
-                    presentParams.PresentationInterval = PresentInterval.One;
-#endif
-                }
-                else
-                {
-#if !DEBUG
-                    presentParams.PresentationInterval = PresentInterval.Two;
-#endif
-                }
+                presentParams.PresentationInterval = PresentInterval.Immediate;
             }
         }
 
