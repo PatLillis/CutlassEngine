@@ -8,7 +8,7 @@ using PirateyGame.Levels;
 
 namespace PirateyGame.SceneObjects
 {
-    public class LoadingZone : Scenery
+    public class LevelTransition : Scenery
     {
         #region Properties
 
@@ -35,7 +35,7 @@ namespace PirateyGame.SceneObjects
 
         #region Initialization
 
-        public LoadingZone(Vector2 position, float width, float height, LevelDirectory nextLevelId)
+        public LevelTransition(Vector2 position, float width, float height, LevelDirectory nextLevelId)
             : base(position, true)
         {
             Type screenType = typeof(GameplayScreen);
