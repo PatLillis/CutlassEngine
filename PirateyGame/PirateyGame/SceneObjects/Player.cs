@@ -258,8 +258,9 @@ namespace PirateyGame.SceneObjects
 
         public void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
         {
-            //Check for jumping through top-only collisions
-            if (collisionTarget.Side == CollisionSide.Top && normal.Y == -1 && _IsJumpingDown)
+            //Check for jumping through top-only collisions, or level-transition zones.
+            if ((collisionTarget.Side == CollisionSide.Top && normal.Y == -1 && _IsJumpingDown) ||
+                collisionTarget is LevelTransition)
                 return;
 
             //get the separation and penetration separately, this is to stop penetration
