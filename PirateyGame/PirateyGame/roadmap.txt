@@ -2,18 +2,19 @@ CODE
 ====
 
 General:
--AI/Enemies
--Dialogue
+- Fix collision-detection (two-way)
+- AI/Enemies
+- Dialogue
 
 Player:
--Attacking
--Picking up objects
--Dying
+- Attacking
+- Picking up objects
+- Dying
 
 GRAPHICS
 ========
 
--Player
--Weapons
--Scenery
--Enemies
+- Player
+- Weapons
+- Scenery
+- Enemies
