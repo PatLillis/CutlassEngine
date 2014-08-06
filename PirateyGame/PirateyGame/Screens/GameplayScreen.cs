@@ -25,6 +25,7 @@ namespace PirateyGame.Screens
         protected float _PauseAlpha;
 
         protected Vector2 _PlayerInitialPosition = Vector2.Zero;
+        protected Vector2 _CameraInitialPositionCenter = Vector2.Zero;
 
         #endregion
 
@@ -70,7 +71,7 @@ namespace PirateyGame.Screens
             base.LoadContent();
 
             _Player = new Player(new CutlassTexture("Content/Textures/Sprites/pirate-48-120"), _PlayerInitialPosition);
-            _Camera = new Camera(this, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT);
+            _Camera = new Camera(this, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT, _CameraInitialPositionCenter);
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
 

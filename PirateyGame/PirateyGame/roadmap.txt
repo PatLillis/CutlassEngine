@@ -2,9 +2,9 @@ CODE
 ====
 
 General:
-- Fix collision-detection (two-way)
 - AI/Enemies
 - Dialogue
+- Sound Effects
 
 Player:
 - Attacking

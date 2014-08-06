@@ -38,11 +38,12 @@ namespace PirateyGame.SceneObjects
 
         #region Initialization
 
-        public Camera(GameScreen viewScreen, float screenWidth, float screenHeight, float startingX = 0.0f, float startingY = 0.0f)
+        public Camera(GameScreen viewScreen, float screenWidth, float screenHeight, Vector2 startingCenter)
         {
             _Active = true;
             _ViewScreen = viewScreen;
-            _ViewScreen.VisibleArea = new BoundingRectangle(startingX, startingY, screenWidth, screenHeight);
+            Vector2 startingTopLeft = startingCenter - new Vector2(screenWidth / 2, screenHeight / 2);
+            _ViewScreen.VisibleArea = new BoundingRectangle(startingTopLeft.X, startingTopLeft.Y, screenWidth, screenHeight);
         }
 
         #endregion Initialization
