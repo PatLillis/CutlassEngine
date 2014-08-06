@@ -103,6 +103,11 @@ namespace PirateyGame.SceneObjects
 
         #region ICutlassCollidable
 
+        public virtual bool Stationary
+        {
+            get { return true; }
+        }
+
         public virtual Vector2 Velocity
         {
             get { return Vector2.Zero; }
@@ -167,7 +172,10 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public virtual void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
+        public virtual void CollisionDetected(ICutlassCollidable collisionTarget)
+        { }
+
+        public virtual void CollisionDetectedWithCorrection(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
         { }
 
         #endregion Public Methods

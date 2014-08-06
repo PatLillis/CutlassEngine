@@ -10,6 +10,8 @@ namespace Cutlass.Interfaces
         BoundingRectangle CurrentFrameBoundingRect { get; }
         BoundingRectangle NextFrameBoundingRect { get; }
 
+        bool Stationary { get; }
+
         Vector2 Position { get; }
         Vector2 Velocity { get; }
         Vector2 PositionCorrection { get; }
@@ -18,6 +20,7 @@ namespace Cutlass.Interfaces
         CollisionCategory Category { get; }
         CollisionSide Side { get; }
 
-        void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance);
+        void CollisionDetected(ICutlassCollidable collisionTarget);
+        void CollisionDetectedWithCorrection(ICutlassCollidable collisionTarget, Vector2 normal, float distance);
     }
 }

@@ -73,8 +73,10 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public override void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
+        public override void CollisionDetected(ICutlassCollidable collisionTarget)
         {
+            base.CollisionDetected(collisionTarget);
+
             MessageBoxScreen congratsMessageBox = new MessageBoxScreen("Congratulations!");
             congratsMessageBox.Accepted += ConfirmCongratsMessageBoxAccepted;
 

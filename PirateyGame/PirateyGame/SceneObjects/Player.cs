@@ -143,6 +143,11 @@ namespace PirateyGame.SceneObjects
 
         #region ICutlassCollidable
 
+        public bool Stationary
+        {
+            get { return false; }
+        }
+
         public Vector2 PositionCorrection
         {
             get { return _PositionCorrection; }
@@ -256,7 +261,10 @@ namespace PirateyGame.SceneObjects
                 PlayerMoved(this, new BoundingRectangleEventArgs(CurrentFrameBoundingRect));
         }
 
-        public void CollisionDetected(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
+        public void CollisionDetected(ICutlassCollidable collisionTarget)
+        { }
+
+        public void CollisionDetectedWithCorrection(ICutlassCollidable collisionTarget, Vector2 normal, float distance)
         {
             //Check for jumping through top-only collisions, or level-transition zones.
             if ((collisionTarget.Side == CollisionSide.Top && normal.Y == -1 && _IsJumpingDown) ||

@@ -130,26 +130,51 @@ namespace Cutlass.Managers
                 {
                     ICutlassCollidable second = collidableObjects[j];
 
-                    CollisionContact collisionContact = new CollisionContact() { A = first, B = second };
+                    bool collisionCategoriesOverlap = CheckCollisionCategories(first, second);
 
-                    if (CalculateCollision(gameTime, ref collisionContact) && !IsInternalEdge(collisionContact))
+                    //If both are stationary, or neither is stationary, detect collision but don't do anything about it.
+                    if (first.Stationary == second.Stationary)
                     {
-                        first.CollisionDetected(collisionContact.B, collisionContact.Normal, collisionContact.Distance);
-                        second.CollisionDetected(collisionContact.A, -collisionContact.Normal, collisionContact.Distance);
+                        if (collisionCategoriesOverlap && first.NextFrameBoundingRect.Intersects(second.NextFrameBoundingRect))
+                        {
+                            first.CollisionDetected(second);
+                            second.CollisionDetected(first);
+                        }
+                    }
+                    //If only one is stationary, detect collision and correct non-stationary object
+                    else
+                    {
+                        //contact.A is non-stationary object.
+                        CollisionContact collisionContact;
+
+                        if (first.Stationary)
+                            collisionContact = new CollisionContact() { A = second, B = first };
+                        else
+                            collisionContact = new CollisionContact() { A = first, B = second };
+
+                        if (collisionCategoriesOverlap && CalculateCollisionCorrection(gameTime, ref collisionContact) && !IsInternalEdge(collisionContact))
+                        {
+                            collisionContact.A.CollisionDetectedWithCorrection(collisionContact.B, collisionContact.Normal, collisionContact.Distance);
+                            collisionContact.B.CollisionDetected(collisionContact.A);
+                        }
                     }
                 }
             }
         }
 
-        private bool CalculateCollision(GameTime gameTime, ref CollisionContact contact)
+        private bool CheckCollisionCategories(ICutlassCollidable first, ICutlassCollidable second)
         {
-            ICutlassCollidable first = contact.A;
-            ICutlassCollidable second = contact.B;
-
             //No collision if their catgories don't overlap.
-            if ((first.Category & second.CategoryMask) == 0 ||
-                (second.Category & first.CategoryMask) == 0)
-                return false;
+            return ((first.Category & second.CategoryMask) != 0 &&
+                (second.Category & first.CategoryMask) != 0);
+        }
+
+        private bool CalculateCollisionCorrection(GameTime gameTime, ref CollisionContact contact)
+        {
+            //Non-stationary object
+            ICutlassCollidable first = contact.A;
+            //Stationary object
+            ICutlassCollidable second = contact.B;
 
             Vector2 halfExtents = new Vector2(second.CurrentFrameBoundingRect.Width / 2, second.CurrentFrameBoundingRect.Height / 2);
             BoundingRectangle firstPlusHalfExtents = new BoundingRectangle(first.CurrentFrameBoundingRect.Left - halfExtents.X,
