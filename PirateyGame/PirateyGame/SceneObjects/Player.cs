@@ -244,7 +244,7 @@ namespace PirateyGame.SceneObjects
 
             //Mouse Input
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-            _LookDirection = mousePosition - playerScreenPosition;
+            _LookDirection = mousePosition - (playerScreenPosition + new Vector2(Width / 2, Height / 2));
             _LookDirection.Normalize();
 
             if (_LookDirection.X >= 0)
