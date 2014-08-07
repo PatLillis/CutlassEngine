@@ -70,7 +70,7 @@ namespace PirateyGame.Screens
         {
             base.LoadContent();
 
-            _Player = new Player(new CutlassTexture("Content/Textures/Sprites/pirate-48-120"), _PlayerInitialPosition);
+            _Player = new Player(_PlayerInitialPosition);
             _Camera = new Camera(this, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT, _CameraInitialPositionCenter);
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;
@@ -138,7 +138,7 @@ namespace PirateyGame.Screens
             }
             else
             {
-                Player.HandleInput(gameTime, input);
+                Player.HandleInput(gameTime, input, _Player.Position - _VisibleArea.Min);
             }
         }
 

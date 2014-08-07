@@ -93,34 +93,40 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Sprites\playerTest-100-100-3.png">
+    <Compile Include="Sprites\cutlass-68-20.png">
+      <Name>cutlass-68-20</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\planks-80-800.png">
+      <Name>planks-80-800</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\planks-800-80.png">
+      <Name>planks-800-80</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\playerTest-100-100-3.png">
       <Name>playerTest-100-100-3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\Sprites\topOnlyPlatform-200-100.png">
+    <Compile Include="Sprites\topOnlyPlatform-200-100.png">
       <Name>topOnlyPlatform-200-100</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Sprites\planks-80-800.png">
-      <Name>planks-80-800</Name>
+    <Compile Include="Sprites\pirate-48-120-L.png">
+      <Name>pirate-48-120-L</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\Sprites\planks-800-80.png">
-      <Name>planks-800-80</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\Sprites\pirate-48-120.png">
-      <Name>pirate-48-120</Name>
+    <Compile Include="Sprites\pirate-48-120-R.png">
+      <Name>pirate-48-120-R</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

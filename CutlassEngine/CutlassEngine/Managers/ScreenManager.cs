@@ -20,20 +20,11 @@ namespace Cutlass.Managers
         #region Fields
 
         private static TexId _Blank_Id;
+        private static TexId _Cursor_Id;
 
         #endregion Fields
 
         #region Properties
-
-        /// <summary>
-        /// A default SpriteBatch shared by all the screens. This saves
-        /// each screen having to bother creating their own local instance.
-        /// </summary>
-        //public static SpriteBatch SpriteBatch
-        //{
-        //    get { return _SpriteBatch; }
-        //}
-        //private static SpriteBatch _SpriteBatch;
 
         /// <summary>
         /// If true, the manager prints out a list of all the screens
@@ -51,6 +42,8 @@ namespace Cutlass.Managers
         private static List<GameScreen> _Screens = new List<GameScreen>();
         /// <summary>"Stack" of screens that need to be updated.</summary>
         private static List<GameScreen> _ScreensToUpdate = new List<GameScreen>();
+
+        Vector2 _CursorPosition = Vector2.Zero;
 
         /// <summary>Has the ScreenManager been initialized</summary>
         public static bool IsInitialized
@@ -87,6 +80,7 @@ namespace Cutlass.Managers
             //_SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             _Blank_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/blank"));
+            _Cursor_Id = TextureManager.AddTexture(new CutlassTexture("Content/Textures/cursor"));
 
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in _Screens)
@@ -119,6 +113,8 @@ namespace Cutlass.Managers
         {
             // Read the keyboard and gamepad.
             CutlassEngine.Input.Update();
+
+            _CursorPosition = new Vector2(CutlassEngine.Input.CurrentMouseState.X, CutlassEngine.Input.CurrentMouseState.Y);
  
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating one screen adds or removes others.
@@ -191,6 +187,12 @@ namespace Cutlass.Managers
 
                 screen.Draw(gameTime);
             }
+
+            //Draw cursor
+            CutlassEngine.SpriteBatch.Begin();
+            CutlassEngine.SpriteBatch.Draw(TextureManager.GetTexture2D(_Cursor_Id), _CursorPosition, Color.White);
+            CutlassEngine.SpriteBatch.End();
+
         }
 
         #endregion

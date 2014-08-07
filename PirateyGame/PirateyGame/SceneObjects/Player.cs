@@ -19,12 +19,16 @@ namespace PirateyGame.SceneObjects
     {
         #region Fields
 
-        private TexId _PlayerTest_Id;
+        private TexId _Player_TexId_R;
+        private TexId _Player_TexId_L;
+        private TexId _CurrentTexture;
 
         const float MAX_PLAYER_VERTICAL_SPEED = 0.5f;
         const float MAX_PLAYER_HORIZONTAL_SPEED = 0.5f;
 
         private bool _WasOnGround = false;
+
+        private Vector2 _LookDirection = Vector2.UnitX;
 
         #endregion Fields
 
@@ -73,12 +77,12 @@ namespace PirateyGame.SceneObjects
 
         public float Width
         {
-            get { return TextureManager.GetTexture(_PlayerTest_Id).Width; }
+            get { return TextureManager.GetTexture(_CurrentTexture).Width; }
         }
 
         public float Height
         {
-            get { return TextureManager.GetTexture(_PlayerTest_Id).Height; }
+            get { return TextureManager.GetTexture(_CurrentTexture).Height; }
         }
 
         public BoundingRectangle CurrentFrameBoundingRect
@@ -183,13 +187,14 @@ namespace PirateyGame.SceneObjects
 
         #region Initialization
 
-        public Player(ICutlassTexture texture, Vector2 position, string fontKey = "")
+        public Player(Vector2 position)
         {
-            _PlayerTest_Id = TextureManager.AddTexture(texture);
+            _Player_TexId_R = TextureManager.AddTexture(new CutlassTexture("Content/Sprites/pirate-48-120-R"));
+            _Player_TexId_L = TextureManager.AddTexture(new CutlassTexture("Content/Sprites/pirate-48-120-L"));
+            _CurrentTexture = _Player_TexId_R;
+
             _Active = true;
-
             _Position = position;
-
             _IsVisible = true;
         }
 
@@ -207,11 +212,13 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public void HandleInput(GameTime gameTime, Input input)
+        public void HandleInput(GameTime gameTime, Input input, Vector2 playerScreenPosition)
         {
             KeyboardState keyboardState = input.CurrentKeyboardState;
+            MouseState mouseState = input.CurrentMouseState;
             GamePadState gamePadState = input.CurrentGamePadState;
 
+            //Keyboard Input
             _IsJumpingDown = false;
 
             if (keyboardState.IsKeyDown(GameSettingsManager.Default.LeftKey))
@@ -234,6 +241,16 @@ namespace PirateyGame.SceneObjects
                     _Velocity.Y = _Velocity.Y - (7.0f);
                 }
             }
+
+            //Mouse Input
+            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+            _LookDirection = mousePosition - playerScreenPosition;
+            _LookDirection.Normalize();
+
+            if (_LookDirection.X >= 0)
+                _CurrentTexture = _Player_TexId_R;
+            else
+                _CurrentTexture = _Player_TexId_L;
         }
 
         public virtual void BeforeMove(GameTime gameTime)
@@ -301,7 +318,7 @@ namespace PirateyGame.SceneObjects
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            CutlassTexture texture = (CutlassTexture)TextureManager.GetTexture(_PlayerTest_Id);
+            CutlassTexture texture = (CutlassTexture)TextureManager.GetTexture(_CurrentTexture);
 
             spriteBatch.Draw(texture.BaseTexture, Position, texture.AreaToRender, Color.White);
         }
@@ -310,7 +327,7 @@ namespace PirateyGame.SceneObjects
         {
             _WasOnGround = _IsOnGround;
 
-            IUpdateable texture = TextureManager.GetTexture(_PlayerTest_Id) as IUpdateable;
+            IUpdateable texture = TextureManager.GetTexture(_CurrentTexture) as IUpdateable;
 
             if (texture != null)
                 texture.Update(gameTime);
