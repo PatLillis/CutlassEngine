@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Cutlass.Interfaces;
 using Cutlass.Utilities;
+using Cutlass.GameComponents;
 
 namespace Cutlass.Assets
 {
@@ -30,8 +31,6 @@ namespace Cutlass.Assets
 
         #region Properties
 
-        public SceneObjectId SceneObjectId { get; set; }
-
         public override Rectangle AreaToRender
         {
             get
@@ -49,13 +48,6 @@ namespace Cutlass.Assets
         #endregion Properties
 
         #region Initialization
-
-        /// <summary>
-        /// Construct a new CutlassTexture.
-        /// </summary>
-        public CutlassAnimatedTexture()
-            : base()
-        { }
 
         /// <summary>
         /// Construct a new CutlassTexture.

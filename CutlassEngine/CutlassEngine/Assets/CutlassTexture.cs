@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Cutlass.Interfaces;
+using Cutlass.GameComponents;
+using Cutlass.Utilities;
 
 namespace Cutlass.Assets
 {
@@ -19,6 +21,8 @@ namespace Cutlass.Assets
             set { _Active = value; }
         }
         protected bool _Active;
+
+        public SceneObjectId SceneObjectId { get; set; }
 
         /// <summary>The file name of the asset.</summary>
         public string FileName
@@ -84,19 +88,11 @@ namespace Cutlass.Assets
         /// <summary>
         /// Construct a new CutlassTexture.
         /// </summary>
-        public CutlassTexture()
-        {
-            _Active = true;
-        }
-
-        /// <summary>
-        /// Construct a new CutlassTexture.
-        /// </summary>
         /// <param name="fileName">The asset file name.</param>
         public CutlassTexture(string fileName)
-            : this()
         {
             _FileName = fileName;
+            _Active = true;
         }
 
         /// <summary>

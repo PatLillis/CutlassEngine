@@ -72,7 +72,7 @@ namespace PirateyGame.SceneObjects
 
         public virtual BoundingRectangle CurrentFrameBoundingRect
         {
-            get { return new BoundingRectangle(_Position.X, _Position.Y, Width, Height); }
+            get { return new BoundingRectangle(_Position.X - Width / 2, _Position.Y - Height / 2, Width, Height); }
         }
 
         public virtual BoundingRectangle NextFrameBoundingRect
@@ -188,7 +188,7 @@ namespace PirateyGame.SceneObjects
             {
                 ICutlassTexture texture = TextureManager.GetTexture(_SceneryObject_Id);
 
-                spriteBatch.Draw(texture.BaseTexture, Position, texture.AreaToRender, Color.White);
+                spriteBatch.Draw(texture.BaseTexture, CurrentFrameBoundingRect.Min, texture.AreaToRender, Color.White);
             }
         }
 

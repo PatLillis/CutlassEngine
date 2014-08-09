@@ -70,7 +70,7 @@ namespace PirateyGame.Screens
         {
             base.LoadContent();
 
-            _Player = new Player(_PlayerInitialPosition);
+            _Player = new Player(this, _PlayerInitialPosition);
             _Camera = new Camera(this, ResolutionManager.VirtualWidth, ResolutionManager.VIRTUAL_HEIGHT, _CameraInitialPositionCenter);
 
             _Player.PlayerMoved += _Camera.UpdateCameraPosition;

@@ -86,10 +86,10 @@ namespace PirateyGame.SceneObjects
 #if DEBUG
         public override void Draw(GameTime gameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle((int)_Position.X, (int)_Position.Y, 1, (int)_Height + 1), Color.Red);
-            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle((int)_Position.X, (int)_Position.Y, (int)_Width + 1, 1), Color.Red);
-            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle((int)_Position.X + (int)_Width, (int)_Position.Y, 1, (int)_Height + 1), Color.Red);
-            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle((int)_Position.X, (int)_Position.Y + (int)_Height, (int)_Width + 1, 1), Color.Red);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle((int)CurrentFrameBoundingRect.Min.X, (int)CurrentFrameBoundingRect.Min.Y, 1, (int)_Height + 1), Color.Red);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle((int)CurrentFrameBoundingRect.Min.X, (int)CurrentFrameBoundingRect.Min.Y, (int)_Width + 1, 1), Color.Red);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle((int)CurrentFrameBoundingRect.Min.X + (int)_Width, (int)CurrentFrameBoundingRect.Min.Y, 1, (int)_Height + 1), Color.Red);
+            spriteBatch.Draw(TextureManager.PointTexture, new Rectangle((int)CurrentFrameBoundingRect.Min.X, (int)CurrentFrameBoundingRect.Min.Y + (int)_Height, (int)_Width + 1, 1), Color.Red);
         }
 #endif
         #endregion Public Methods
