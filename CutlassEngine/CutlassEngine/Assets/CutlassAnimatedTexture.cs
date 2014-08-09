@@ -12,6 +12,10 @@ namespace Cutlass.Assets
         private const int FramesPerSecond = 60;
         private const float MillisecondsPerFrame = 1000f / FramesPerSecond;
 
+        public int CurrentFrame
+        {
+            get { return _CurrentFrame; }
+        }
         private int _CurrentFrame = 0;
 
         private int _FrameLength = 1;
@@ -33,7 +37,7 @@ namespace Cutlass.Assets
             get
             {
                 if (_BaseTexture != null)
-                    return new Rectangle((_BaseTexture.Width / _NumberOfFrames) * _CurrentFrame,
+                    return new Rectangle(((_BaseTexture.Width / _NumberOfFrames) * _CurrentFrame),
                         0,
                         _BaseTexture.Width / _NumberOfFrames,
                         _BaseTexture.Height);

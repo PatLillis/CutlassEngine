@@ -8,6 +8,8 @@ using Cutlass.GameComponents;
 using Cutlass.Interfaces;
 using Cutlass.Managers;
 using Cutlass.Utilities;
+using PirateyGame.Items;
+using System.Collections.Generic;
 
 namespace PirateyGame.SceneObjects
 {
@@ -19,16 +21,24 @@ namespace PirateyGame.SceneObjects
     {
         #region Fields
 
-        private TexId _Player_TexId_R;
-        private TexId _Player_TexId_L;
+        private TexId _Player_TexId_Walking_R;
+        private TexId _Player_TexId_Walking_L;
+        private TexId _Player_TexId_Walking_Reverse_R;
+        private TexId _Player_TexId_Walking_Reverse_L;
+        private TexId _Player_TexId_Standing_R;
+        private TexId _Player_TexId_Standing_L;
+        private TexId _Player_TexId_Jumping_R;
+        private TexId _Player_TexId_Jumping_L;
         private TexId _CurrentTexture;
 
-        const float MAX_PLAYER_VERTICAL_SPEED = 0.5f;
-        const float MAX_PLAYER_HORIZONTAL_SPEED = 0.5f;
+        const float MAX_PLAYER_VERTICAL_SPEED = 0.3f;
+        const float MAX_PLAYER_HORIZONTAL_SPEED = 0.3f;
 
         private bool _WasOnGround = false;
 
         private Vector2 _LookDirection = Vector2.UnitX;
+        /// <summary>-1: L; 0: none; +1: R</summary>
+        private int _WalkDirection = 0;
 
         #endregion Fields
 
@@ -189,9 +199,15 @@ namespace PirateyGame.SceneObjects
 
         public Player(Vector2 position)
         {
-            _Player_TexId_R = TextureManager.AddTexture(new CutlassTexture("Content/Sprites/pirate-48-120-R"));
-            _Player_TexId_L = TextureManager.AddTexture(new CutlassTexture("Content/Sprites/pirate-48-120-L"));
-            _CurrentTexture = _Player_TexId_R;
+            _Player_TexId_Standing_R = TextureManager.AddTexture(new CutlassTexture("Content/Sprites/pirate-standing-48-120-R"));
+            _Player_TexId_Standing_L = TextureManager.AddTexture(new CutlassTexture("Content/Sprites/pirate-standing-48-120-L"));
+            _Player_TexId_Jumping_R = TextureManager.AddTexture(new CutlassTexture("Content/Sprites/pirate-jumping-48-120-R"));
+            _Player_TexId_Jumping_L = TextureManager.AddTexture(new CutlassTexture("Content/Sprites/pirate-jumping-48-120-L"));
+            _Player_TexId_Walking_R = TextureManager.AddTexture(new CutlassAnimatedTexture("Content/Sprites/pirate-walking-560-120-R", 10, 5));
+            _Player_TexId_Walking_L = TextureManager.AddTexture(new CutlassAnimatedTexture("Content/Sprites/pirate-walking-560-120-L", 10, 5));
+            _Player_TexId_Walking_Reverse_R = TextureManager.AddTexture(new CutlassAnimatedTexture("Content/Sprites/pirate-walking-reverse-560-120-R", 10, 5));
+            _Player_TexId_Walking_Reverse_L = TextureManager.AddTexture(new CutlassAnimatedTexture("Content/Sprites/pirate-walking-reverse-560-120-L", 10, 5));
+            _CurrentTexture = _Player_TexId_Walking_R;
 
             _Active = true;
             _Position = position;
@@ -220,12 +236,19 @@ namespace PirateyGame.SceneObjects
 
             //Keyboard Input
             _IsJumpingDown = false;
+            _WalkDirection = 0;
 
             if (keyboardState.IsKeyDown(GameSettingsManager.Default.LeftKey))
+            {
+                _WalkDirection = _WalkDirection - 1;
                 _Velocity.X = Math.Max(_Velocity.X - (0.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds), -MAX_PLAYER_HORIZONTAL_SPEED);
+            }
 
             if (keyboardState.IsKeyDown(GameSettingsManager.Default.RightKey))
+            {
+                _WalkDirection = _WalkDirection + 1;
                 _Velocity.X = Math.Min(_Velocity.X + (0.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds), MAX_PLAYER_HORIZONTAL_SPEED);
+            }
 
             if (keyboardState.IsKeyDown(GameSettingsManager.Default.JumpKey) && _IsOnGround)
             {
@@ -238,7 +261,7 @@ namespace PirateyGame.SceneObjects
                 }
                 else
                 {
-                    _Velocity.Y = _Velocity.Y - (7.0f);
+                    _Velocity.Y = _Velocity.Y - (6.0f);
                 }
             }
 
@@ -247,10 +270,62 @@ namespace PirateyGame.SceneObjects
             _LookDirection = mousePosition - (playerScreenPosition + new Vector2(Width / 2, Height / 2));
             _LookDirection.Normalize();
 
+            //Looking Right
             if (_LookDirection.X >= 0)
-                _CurrentTexture = _Player_TexId_R;
+            {
+                //On the ground
+                if (_IsOnGround)
+                {
+                    //Walking forward
+                    if (_WalkDirection > 0)
+                    {
+                        _CurrentTexture = _Player_TexId_Walking_R;
+                    }
+                    //Walking backward
+                    else if (_WalkDirection < 0)
+                    {
+                        _CurrentTexture = _Player_TexId_Walking_Reverse_R;
+                    }
+                    //Standing
+                    else
+                    {
+                        _CurrentTexture = _Player_TexId_Standing_R;
+                    }
+                }
+                //Jumping
+                else
+                {
+                    _CurrentTexture = _Player_TexId_Jumping_R;
+                }
+            }
+            //Looking Left
             else
-                _CurrentTexture = _Player_TexId_L;
+            {
+                //On the ground
+                if (_IsOnGround)
+                {
+                    //Walking forward
+                    if (_WalkDirection < 0)
+                    {
+                        _CurrentTexture = _Player_TexId_Walking_L;
+                    }
+                    //Walking backward
+                    else if (_WalkDirection > 0)
+                    {
+                        _CurrentTexture = _Player_TexId_Walking_Reverse_L;
+                    }
+                    //Standing
+                    else
+                    {
+                        _CurrentTexture = _Player_TexId_Standing_L;
+                    }
+                }
+                //Jumping
+                else
+                {
+                    _CurrentTexture = _Player_TexId_Jumping_L;
+                }
+            }
         }
 
         public virtual void BeforeMove(GameTime gameTime)
@@ -318,7 +393,7 @@ namespace PirateyGame.SceneObjects
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            CutlassTexture texture = (CutlassTexture)TextureManager.GetTexture(_CurrentTexture);
+            ICutlassTexture texture = (ICutlassTexture)TextureManager.GetTexture(_CurrentTexture);
 
             spriteBatch.Draw(texture.BaseTexture, Position, texture.AreaToRender, Color.White);
         }
@@ -327,7 +402,7 @@ namespace PirateyGame.SceneObjects
         {
             _WasOnGround = _IsOnGround;
 
-            IUpdateable texture = TextureManager.GetTexture(_CurrentTexture) as IUpdateable;
+            ICutlassUpdateable texture = TextureManager.GetTexture(_CurrentTexture) as ICutlassUpdateable;
 
             if (texture != null)
                 texture.Update(gameTime);

@@ -21,8 +21,8 @@ namespace PirateyGame.Levels
         public override void LoadContent()
         {
             _Scenery.Add(new Scenery(new Vector2(200, 200), texture: new CutlassTexture("Content/Sprites/planks-800-80")));
-            _Scenery.Add(new Scenery(new Vector2(120, -600), texture: new CutlassTexture("Content/Sprites/planks-80-800")));
-            _Scenery.Add(new Scenery(new Vector2(-100, 450), texture: new CutlassTexture("Content/Sprites/planks-800-80")));
+            //_Scenery.Add(new Scenery(new Vector2(120, -600), texture: new CutlassAnimatedTexture("Content/Sprites/planks-animated-240-800", 3), animated: true));
+            _Scenery.Add(new Scenery(new Vector2(-100, 440), texture: new CutlassTexture("Content/Sprites/planks-800-80")));
             _Scenery.Add(new LevelTransition(new Vector2(800, 100), 200, 200, LevelDirectory.TestLevel2));
             base.LoadContent();
         }
