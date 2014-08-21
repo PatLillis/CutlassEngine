@@ -8,12 +8,13 @@ namespace Cutlass.Utilities
         None = 0x0,
         Good = 0x1,
         Bad = 0x2,
-        AttackHigh = 0x4,
-        AttackMid = 0x8,
-        AttackLow = 0x16,
-        Scenery = 0x32,
-        Item = 0x64,
-        All = Good | Bad | AttackHigh | AttackMid | AttackLow | Scenery | Item
+        Attack = 0x4,
+        //AttackHigh = 0x4,
+        //AttackMid = 0x8,
+        //AttackLow = 0x16,
+        Scenery = 0x8,
+        Item = 0x16,
+        All = Good | Bad | Attack/*High | AttackMid | AttackLow*/ | Scenery | Item
     }
 
     [Flags]

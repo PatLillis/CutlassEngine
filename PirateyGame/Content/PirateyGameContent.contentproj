@@ -165,13 +165,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\pirate-jumping-48-120-L.png">
-      <Name>pirate-jumping-48-120-L</Name>
+    <Compile Include="Sprites\pirate-jumping-64-120-L.png">
+      <Name>pirate-jumping-64-120-L</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\pirate-jumping-48-120-R.png">
-      <Name>pirate-jumping-48-120-R</Name>
+    <Compile Include="Sprites\pirate-jumping-64-120-R.png">
+      <Name>pirate-jumping-64-120-R</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

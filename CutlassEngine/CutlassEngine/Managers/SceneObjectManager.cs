@@ -230,6 +230,11 @@ namespace Cutlass.Managers
             DrawableObjects.Remove(id);
         }
 
+        public void RemoveObject(ICutlassSceneObject objectToRemove)
+        {
+            RemoveObject(objectToRemove.SceneObjectId);
+        }
+
         public void RemoveObjects(params SceneObjectId[] list)
         {
             for (int i = 0; i < list.Length; i++)

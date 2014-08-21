@@ -87,5 +87,10 @@ namespace Cutlass.Utilities
         {
             return new Vector2(vector.Y, -vector.X);
         }
+
+        public static Vector2 FromPoint(Point point)
+        {
+            return new Vector2(point.X, point.Y);
+        }
     }
 }

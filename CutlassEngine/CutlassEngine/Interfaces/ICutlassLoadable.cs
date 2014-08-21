@@ -2,7 +2,7 @@
 
 namespace Cutlass.Interfaces
 {
-    public interface ICutlassLoadable
+    public interface ICutlassLoadable : ICutlassSceneObject
     {
         bool IsLoaded { get; }
 

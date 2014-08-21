@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace Cutlass.Interfaces
 {
-    public interface ICutlassCollidable
+    public interface ICutlassCollidable : ICutlassSceneObject
     {
         BoundingRectangle CurrentFrameBoundingRect { get; }
         BoundingRectangle NextFrameBoundingRect { get; }
