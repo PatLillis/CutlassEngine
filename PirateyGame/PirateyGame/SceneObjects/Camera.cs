@@ -74,6 +74,8 @@ namespace PirateyGame.SceneObjects
 
         #endregion Public Methods
 
+        #region Update
+
         /// <summary>
         /// Do any necessary updating to the Camera object
         /// </summary>
@@ -82,5 +84,7 @@ namespace PirateyGame.SceneObjects
         {
             //Update
         }
+
+        #endregion Update
     }
 }

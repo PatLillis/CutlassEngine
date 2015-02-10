@@ -1,19 +1,19 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using Cutlass.Interfaces;
+﻿using Cutlass.Interfaces;
 using Cutlass.Utilities;
+using Microsoft.Xna.Framework.Audio;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Cutlass.Assets
 {
     /// <summary>
-    /// "Default" implementation of ICutlassFont interface.
+    /// A sound effect, things like jumps, beeps, music, etc.
     /// </summary>
-    public class CutlassFont : ICutlassFont
+    public class CutlassSound : ICutlassSound
     {
         #region Properties
-
-        /// <summary>ID</summary>
-        public SceneObjectId SceneObjectId { get; set; }
 
         /// <summary>Once this is set to false, will be removed from Scene.</summary>
         public bool Active
@@ -23,7 +23,9 @@ namespace Cutlass.Assets
         }
         protected bool _Active;
 
-        /// <summary>The file name of the asset.</summary>
+        public SceneObjectId SceneObjectId { get; set; }
+
+        /// <summary>Filename of asset</summary>
         public string Filename
         {
             get { return _Filename; }
@@ -31,14 +33,19 @@ namespace Cutlass.Assets
         }
         protected string _Filename;
 
-        ///<summary>Gets the underlying font.</summary>
-        public SpriteFont Font
+        /// <summary>Underlying sound effect, essentially "global"</summary>
+        public SoundEffectInstance Instance
         {
-            get { return _Font; }
+            get
+            {
+                if (_SoundEffect != null)
+                    return _SoundEffect.CreateInstance();
+                else
+                    return null;
+            }
         }
-        protected SpriteFont _Font;
+        protected SoundEffect _SoundEffect;
 
-        ///<summary>Is the font ready to be rendered.</summary>
         public bool IsLoaded
         {
             get { return _IsLoaded; }
@@ -46,41 +53,39 @@ namespace Cutlass.Assets
         protected bool _IsLoaded = false;
 
         #endregion Properties
-
+        
         #region Initialization
 
         /// <summary>
-        /// Construct a new CutlassFont.
-        /// </summary>
-        public CutlassFont()
-        { }
-
-        /// <summary>
-        /// Construct a new CutlassFont.
+        /// Construct a new CutlassTexture.
         /// </summary>
         /// <param name="fileName">The asset file name.</param>
-        public CutlassFont(string fileName)
+        public CutlassSound(string fileName)
         {
             _Filename = fileName;
+            _Active = true;
         }
 
         /// <summary>
-        /// Load all font assets.
+        /// Load all texture assets.
         /// </summary>
         public void LoadContent()
         {
             if (!String.IsNullOrEmpty(_Filename))
             {
-                _Font = CutlassEngine.ContentManager.Load<SpriteFont>(_Filename);
+                _SoundEffect = CutlassEngine.ContentManager.Load<SoundEffect>(_Filename);
                 _IsLoaded = true;
             }
+
+            _IsLoaded = true;
         }
 
         /// <summary>
-        /// Unload font assets.
+        /// Unload texture assets.
         /// </summary>
         public void UnloadContent()
         {
+            _SoundEffect.Dispose();
             _IsLoaded = false;
         }
 

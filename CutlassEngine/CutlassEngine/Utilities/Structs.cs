@@ -28,6 +28,19 @@ namespace Cutlass.Utilities
         public static implicit operator int(FontId id) { return id.Id; }
     }
 
+    public struct SoundId
+    {
+        private int Id;
+
+        public static readonly SoundId Default = new SoundId(-1);
+
+        public SoundId(int id) { Id = id; }
+
+        public static implicit operator SoundId(int id) { return new SoundId(id); }
+
+        public static implicit operator int(SoundId id) { return id.Id; }
+    }
+
     public struct SceneObjectId
     {
         private int Id;

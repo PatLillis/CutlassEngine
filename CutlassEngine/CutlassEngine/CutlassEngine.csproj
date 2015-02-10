@@ -69,7 +69,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BoundingRect">
-      <HintPath>..\..\..\..\Visual Studio 2013\Projects\BoundingRect\BoundingRect\bin\Release\BoundingRect.dll</HintPath>
+      <HintPath>..\..\..\BoundingRect\BoundingRect\bin\Release\BoundingRect.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Assets\CutlassAnimatedTexture.cs" />
     <Compile Include="Assets\CutlassFont.cs" />
+    <Compile Include="Assets\CutlassSound.cs" />
     <Compile Include="GameComponents\FpsCounter.cs" />
     <Compile Include="GameComponents\GameScreen.cs" />
     <Compile Include="GameComponents\Input.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Interfaces\ICutlassFont.cs" />
     <Compile Include="Interfaces\ICutlassLoadable.cs" />
     <Compile Include="Interfaces\ICutlassSceneObject.cs" />
+    <Compile Include="Interfaces\ICutlassSound.cs" />
     <Compile Include="Interfaces\ICutlassTexture.cs" />
     <Compile Include="Interfaces\ICutlassUpdateable.cs" />
     <Compile Include="Interfaces\ICutlassMovable.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="Managers\ResolutionManager.cs" />
     <Compile Include="Managers\SceneObjectManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
+    <Compile Include="Managers\SoundManager.cs" />
     <Compile Include="Managers\TextureManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CutlassEngine.cs" />

@@ -64,7 +64,7 @@ namespace Cutlass.Managers
 
             foreach (ICutlassFont font in _Fonts.Values)
             {
-                if (!font.ReadyToRender)
+                if (!font.IsLoaded)
                 {
                     font.LoadContent();
                 }
@@ -81,7 +81,6 @@ namespace Cutlass.Managers
         /// Add a font of type ICutlassFont.
         /// </summary>
         /// <param name="newTexture"></param>
-        /// <param name="textureName"></param>
         public static FontId AddFont(ICutlassFont newFont)
         {
             FontId fontId;
@@ -158,7 +157,7 @@ namespace Cutlass.Managers
         /// <param name="defaultFont"></param>
         public static void SetDefaultFont(ICutlassFont defaultFont)
         {
-            if (!defaultFont.ReadyToRender)
+            if (!defaultFont.IsLoaded)
                 defaultFont.LoadContent();
 
             _DefaultFont = defaultFont.Font;

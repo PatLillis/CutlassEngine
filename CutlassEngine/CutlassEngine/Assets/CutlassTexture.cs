@@ -25,12 +25,12 @@ namespace Cutlass.Assets
         public SceneObjectId SceneObjectId { get; set; }
 
         /// <summary>The file name of the asset.</summary>
-        public string FileName
+        public string Filename
         {
-            get { return _FileName; }
-            set { _FileName = value; }
+            get { return _Filename; }
+            set { _Filename = value; }
         }
-        protected string _FileName;
+        protected string _Filename;
 
         ///<summary>Gets the underlying texture.</summary>
         public Texture2D BaseTexture
@@ -91,7 +91,7 @@ namespace Cutlass.Assets
         /// <param name="fileName">The asset file name.</param>
         public CutlassTexture(string fileName)
         {
-            _FileName = fileName;
+            _Filename = fileName;
             _Active = true;
         }
 
@@ -100,9 +100,9 @@ namespace Cutlass.Assets
         /// </summary>
         public void LoadContent()
         {
-            if (!String.IsNullOrEmpty(_FileName))
+            if (!String.IsNullOrEmpty(_Filename))
             {
-                _BaseTexture = CutlassEngine.ContentManager.Load<Texture2D>(_FileName);
+                _BaseTexture = CutlassEngine.ContentManager.Load<Texture2D>(_Filename);
                 _IsLoaded = true;
                 _ReadyToRender = true;
             }

@@ -10,7 +10,7 @@ namespace Cutlass.Interfaces
     public interface ICutlassTexture : ICutlassLoadable
     {
         /// <summary>Filename of asset</summary>
-        string FileName { get; set; }
+        string Filename { get; set; }
 
         /// <summary>Underlying texture</summary>
         Texture2D BaseTexture { get; }

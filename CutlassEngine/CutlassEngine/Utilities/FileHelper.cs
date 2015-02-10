@@ -68,11 +68,11 @@ namespace Cutlass.Utilities
         public static FileStream OpenFileForCurrentPlayer(string filename, FileMode mode, FileAccess access)
         {
             // Add the container path to our filename.
-            string fullFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
+            string fullFilename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
 
             // Opens or creates the requested file.
             return new FileStream(
-                fullFileName, mode, access, FileShare.ReadWrite);
+                fullFilename, mode, access, FileShare.ReadWrite);
         }
 
         /// <summary>

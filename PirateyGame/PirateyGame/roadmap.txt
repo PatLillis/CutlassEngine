@@ -5,10 +5,10 @@ General:
 - AI/Enemies
 - Dialogue
 - Sound Effects
+- Mouse selection on Menu
 
 Player:
 - Attacking/Combat
-	- A/D - move left/right
 	- L Mouse - attack
 	- R Mouse - block
 - Picking up objects

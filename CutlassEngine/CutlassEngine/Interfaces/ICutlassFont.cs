@@ -6,25 +6,12 @@ namespace Cutlass.Interfaces
     /// <summary>
     /// Interface for fonts used in the engine.
     /// </summary>
-    public interface ICutlassFont
+    public interface ICutlassFont : ICutlassLoadable
     {
         /// <summary>Filename of asset</summary>
-        string FileName { get; set; }
+        string Filename { get; set; }
 
         /// <summary>Underlying font</summary>
         SpriteFont Font { get; }
-
-        /// <summary>Has this asset been loaded</summary>
-        bool ReadyToRender { get;}
-
-        /// <summary>
-        /// Load the asset
-        /// </summary>
-        void LoadContent();
-
-        /// <summary>
-        /// Unload the asset
-        /// </summary>
-        void UnloadContent();
     }
 }

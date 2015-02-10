@@ -52,9 +52,9 @@ namespace Cutlass.Assets
         /// <summary>
         /// Construct a new CutlassTexture.
         /// </summary>
-        /// <param name="fileName">The asset file name.</param>
-        public CutlassAnimatedTexture(string fileName, int numFrames = 1, int frameLength = 1)
-            : base(fileName)
+        /// <param name="filename">The asset file name.</param>
+        public CutlassAnimatedTexture(string filename, int numFrames = 1, int frameLength = 1)
+            : base(filename)
         {
             _NumberOfFrames = numFrames;
             _FrameLength = frameLength;

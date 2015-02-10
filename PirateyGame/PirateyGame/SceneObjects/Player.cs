@@ -8,7 +8,7 @@ using Cutlass.GameComponents;
 using Cutlass.Interfaces;
 using Cutlass.Managers;
 using Cutlass.Utilities;
-using PirateyGame.Items;
+//using PirateyGame.Items;
 using System.Collections.Generic;
 using PirateyGame.Screens;
 
