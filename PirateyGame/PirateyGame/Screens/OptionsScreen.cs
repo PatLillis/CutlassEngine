@@ -171,7 +171,10 @@ namespace PirateyGame.Screens
         /// </summary>
         void SetMenuEntryText()
         {
-            _ResolutionMenuEntry.Text = "Screen Resolution: " + AvailableResolutions[_TemporaryResolution].Width + " x " + AvailableResolutions[_TemporaryResolution].Height;
+            if (_TemporaryResolution < AvailableResolutions.Count)
+            {
+                _ResolutionMenuEntry.Text = "Screen Resolution: " + AvailableResolutions[_TemporaryResolution].Width + " x " + AvailableResolutions[_TemporaryResolution].Height;
+            }
             _FullscreenEntry.Text = "Fullscreen: " + (GameSettingsManager.Default.IsFullscreen ? "Yes" : "No");
             _BorderlessEntry.Text = "Borderless: " + (GameSettingsManager.Default.IsBorderless ? "Yes" : "No");
             _MusicMenuEntry.Text = "Music Level: " + GameSettingsManager.Default.MusicVolume;

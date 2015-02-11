@@ -240,7 +240,7 @@ namespace PirateyGame.SceneObjects
 
         #region Public Methods
 
-        public void HandleInput(GameTime gameTime, Input input, Vector2 playerScreenPosition)
+        public void HandleInput(GameTime gameTime, Cutlass.GameComponents.Input input, Vector2 playerScreenPosition)
         {
             KeyboardState keyboardState = input.CurrentKeyboardState;
             MouseState mouseState = input.CurrentMouseState;

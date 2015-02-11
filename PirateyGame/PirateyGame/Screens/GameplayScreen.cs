@@ -118,7 +118,7 @@ namespace PirateyGame.Screens
         /// Lets the game respond to player input. Unlike the Update method,
         /// this will only be called when the gameplay screen is active.
         /// </summary>
-        public override void HandleInput(GameTime gameTime, Input input)
+        public override void HandleInput(GameTime gameTime, Cutlass.GameComponents.Input input)
         {
             if (input == null)
                 throw new ArgumentNullException("input");
