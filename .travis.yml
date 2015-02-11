@@ -3,5 +3,5 @@ solution: CutlassEngine.sln
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y libtaoframework-devil1.6-cil libtaoframework-openal1.1-cil libtaoframework-sdl1.2-cil libdevil1c2 libtaoframework-opengl3.0-cil libnunit2.4-cil monodevelop monodevelop-nunit
+  - sudo apt-get install -y libtaoframework-devil1.6-cil libtaoframework-openal1.1-cil libtaoframework-sdl1.2-cil libdevil1c2 libtaoframework-opengl3.0-cil monodevelop
   
