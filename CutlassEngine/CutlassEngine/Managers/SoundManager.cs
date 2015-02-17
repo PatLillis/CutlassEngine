@@ -44,7 +44,7 @@ namespace Cutlass.Managers
         { }
 
         /// <summary>
-        /// Create the font manager.
+        /// Create the sound manager.
         /// </summary>
         public override void Initialize()
         {
@@ -112,21 +112,6 @@ namespace Cutlass.Managers
         public static ICutlassSound GetSound(SoundId soundId)
         {
             return _Sounds.ElementAtOrDefault(soundId).Value;
-        }
-
-        /// <summary>
-        /// Get a SoundEffect object
-        /// </summary>
-        /// <param name="soundId"></param>
-        /// <returns></returns>
-        public static SoundEffectInstance GetSoundEffectInstance(SoundId soundId)
-        {
-            ICutlassSound sound = GetSound(soundId);
-
-            if (sound != null)
-                return sound.Instance;
-            else
-                return null;
         }
 
         #endregion Public Methods

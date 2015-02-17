@@ -87,6 +87,9 @@ namespace PirateyGame.Screens
             // timing mechanism that we have just finished a very long frame, and that
             // it should not try to catch up.
             CutlassEngine.Game.ResetElapsedTime();
+
+            SoundId backgroundMusic = SoundManager.AddSound(new CutlassSong("Content/Sounds/Music/Constance"));
+            SoundManager.GetSound(backgroundMusic).Play();
         }
 
         #endregion

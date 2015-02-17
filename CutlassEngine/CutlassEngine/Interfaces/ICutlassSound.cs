@@ -11,7 +11,14 @@ namespace Cutlass.Interfaces
         /// <summary>Filename of asset</summary>
         string Filename { get; set; }
 
-        /// <summary>Underlying sound effect, essentially "global"</summary>
-        SoundEffectInstance Instance { get; }
+        void Play();
+
+        void PlayFadeIn(float fadeTimeMilliseconds);
+
+        void Pause();
+
+        void Stop();
+
+        void StopFadeOut(float fadeTimeMilliseconds);
     }
 }

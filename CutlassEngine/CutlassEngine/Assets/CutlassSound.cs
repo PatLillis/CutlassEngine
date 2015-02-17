@@ -15,6 +15,9 @@ namespace Cutlass.Assets
     {
         #region Properties
 
+        SoundEffect _SoundEffect;
+        SoundEffectInstance _SoundEffectInstance;
+
         /// <summary>Once this is set to false, will be removed from Scene.</summary>
         public bool Active
         {
@@ -32,19 +35,6 @@ namespace Cutlass.Assets
             set { _Filename = value; }
         }
         protected string _Filename;
-
-        /// <summary>Underlying sound effect, essentially "global"</summary>
-        public SoundEffectInstance Instance
-        {
-            get
-            {
-                if (_SoundEffect != null)
-                    return _SoundEffect.CreateInstance();
-                else
-                    return null;
-            }
-        }
-        protected SoundEffect _SoundEffect;
 
         public bool IsLoaded
         {
@@ -74,6 +64,7 @@ namespace Cutlass.Assets
             if (!String.IsNullOrEmpty(_Filename))
             {
                 _SoundEffect = CutlassEngine.ContentManager.Load<SoundEffect>(_Filename);
+                _SoundEffectInstance = _SoundEffect.CreateInstance();
                 _IsLoaded = true;
             }
 
@@ -85,10 +76,49 @@ namespace Cutlass.Assets
         /// </summary>
         public void UnloadContent()
         {
+            _SoundEffectInstance.Dispose();
             _SoundEffect.Dispose();
             _IsLoaded = false;
         }
 
         #endregion Initialization
+
+        #region Public Methods
+
+        public void Play()
+        {
+            if (_SoundEffectInstance != null)
+            {
+                _SoundEffectInstance.Play();
+            }
+        }
+
+        public void PlayFadeIn(float fadeTimeMilliseconds)
+        {
+
+        }
+
+        public void Pause()
+        {
+            if (_SoundEffectInstance != null)
+            {
+                _SoundEffectInstance.Pause();
+            }
+        }
+
+        public void Stop()
+        {
+            if (_SoundEffectInstance != null)
+            {
+                _SoundEffectInstance.Stop();
+            }
+        }
+
+        public void StopFadeOut(float fadeTimeMilliseconds)
+        {
+
+        }
+
+        #endregion Public Methods
     }
 }

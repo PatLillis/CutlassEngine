@@ -103,6 +103,9 @@ namespace Cutlass
         /// <summary>Texture Manager component</summary>
         private static TextureManager _TextureManager = null;
 
+        /// <summary>Sound Manager component</summary>
+        private static SoundManager _SoundManager = null;
+
         #endregion
 
         #region Initialization
@@ -131,10 +134,6 @@ namespace Cutlass
             //Demand to update as fast as possible, do not use fixed time steps.
             this.IsFixedTimeStep = false;
 
-            //Init the screen manager component.
-            _ScreenManager = new ScreenManager(this);
-            Components.Add(_ScreenManager);
-
             //Init the Input component
             _Input = new Input(this);
             Components.Add(_Input);
@@ -146,6 +145,15 @@ namespace Cutlass
             //Init the Texture Manager component
             _TextureManager = new TextureManager(this);
             Components.Add(_TextureManager);
+
+            //Init the Sound Manager component
+            _SoundManager = new SoundManager(this);
+            Components.Add(_SoundManager);
+
+            //Init the screen manager component.
+            _ScreenManager = new ScreenManager(this);
+            Components.Add(_ScreenManager);
+
 #if DEBUG
             //Init the FpsCounter
             _FpsCounter = new FpsCounter(this);

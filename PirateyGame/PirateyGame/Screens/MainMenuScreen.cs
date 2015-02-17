@@ -2,6 +2,9 @@
 using Cutlass;
 using Cutlass.Managers;
 using PirateyGame.Levels;
+using Cutlass.Assets;
+using Cutlass.Utilities;
+using Microsoft.Xna.Framework.Media;
 
 namespace PirateyGame.Screens
 {
@@ -10,6 +13,12 @@ namespace PirateyGame.Screens
     /// </summary>
     class MainMenuScreen : ScrollMenuScreen
     {
+        #region Fields
+
+        SoundId _BackgroundMusic;
+
+        #endregion Fields
+
         #region Initialization
 
         /// <summary>
@@ -33,6 +42,14 @@ namespace PirateyGame.Screens
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
         }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            _BackgroundMusic = SoundManager.AddSound(new CutlassSong("Content/Sounds/Music/TellerOfTheTales"));
+            SoundManager.GetSound(_BackgroundMusic).PlayFadeIn(5000);
+        }
         
         #endregion
 
@@ -43,6 +60,8 @@ namespace PirateyGame.Screens
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, EventArgs e)
         {
+            SoundManager.GetSound(_BackgroundMusic).Stop();
+
             LoadingScreen.Load(true, new TestLevel1());
         }
 

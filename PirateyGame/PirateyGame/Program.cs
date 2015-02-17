@@ -2,6 +2,10 @@
 using Cutlass;
 using Cutlass.Managers;
 using PirateyGame.Screens;
+using Cutlass.Utilities;
+using Cutlass.Assets;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace PirateyGame
 {
@@ -42,6 +46,7 @@ namespace PirateyGame
             CutlassEngine.BackgroundColor = Palette.Black;
             ScreenManager.AddScreen(new BackgroundScreen());
             ScreenManager.AddScreen(new MainMenuScreen());
+
         }
     }
 }
